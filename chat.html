@@ -22,8 +22,45 @@
         </div>
       </header>
 
+      <section id="admin-panel" class="admin-panel" hidden>
+        <div id="admin-lock" class="admin-lock">
+          <label class="chat-field">
+            <span>Host PIN</span>
+            <input id="admin-pin" type="password" inputmode="numeric" maxlength="12" />
+          </label>
+          <div class="admin-lock-actions">
+            <button type="button" id="admin-cancel" class="admin-lock-btn">Cancel</button>
+            <button type="button" id="admin-unlock" class="chat-send">Unlock</button>
+          </div>
+        </div>
+        <div id="admin-tools" class="admin-tools" hidden>
+          <p class="admin-unlocked">Host tools unlocked. You can pin tips and remove posts.</p>
+          <label class="chat-field">
+            <span>Find messages (text)</span>
+            <input id="admin-search-text" type="search" placeholder="Search chat text…" />
+          </label>
+          <label class="chat-field">
+            <span>Find by date</span>
+            <input id="admin-search-date" type="date" />
+          </label>
+          <button type="button" id="admin-lock-btn" class="admin-lock-btn">
+            Log out of host tools
+          </button>
+        </div>
+      </section>
+
       <section class="chat-panel" aria-label="Group chat">
         <div id="chat-status" class="chat-status" role="status">Connecting…</div>
+
+        <div class="tips-block">
+          <h2>Tips</h2>
+          <p class="tips-help">
+            Helpful info pinned by hosts. Enter your name below to thumbs-up a tip.
+          </p>
+          <div id="tips-log" class="tips-log" aria-live="polite"></div>
+        </div>
+
+        <h2 class="chat-log-title">Chat</h2>
         <div id="chat-log" class="chat-log" aria-live="polite"></div>
 
         <form id="chat-form" class="chat-form">
@@ -53,6 +90,16 @@
           <button type="submit" class="chat-send">Send</button>
         </form>
       </section>
+
+      <button
+        type="button"
+        id="host-anchor"
+        class="host-anchor"
+        title="Host"
+        aria-label="Host access"
+      >
+        <img src="images/anchor.svg" alt="" />
+      </button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

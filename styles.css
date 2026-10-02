@@ -306,6 +306,12 @@ body {
   gap: 0.65rem;
 }
 
+.admin-panel[hidden],
+.admin-lock[hidden],
+.admin-tools[hidden] {
+  display: none !important;
+}
+
 .admin-panel-title,
 .chat-log-title,
 .tips-block h2 {

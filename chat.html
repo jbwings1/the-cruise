@@ -22,33 +22,6 @@
         </div>
       </header>
 
-      <section id="admin-panel" class="admin-panel" hidden>
-        <div id="admin-lock" class="admin-lock">
-          <label class="chat-field">
-            <span>Host PIN</span>
-            <input id="admin-pin" type="password" inputmode="numeric" maxlength="12" />
-          </label>
-          <div class="admin-lock-actions">
-            <button type="button" id="admin-cancel" class="admin-lock-btn">Cancel</button>
-            <button type="button" id="admin-unlock" class="chat-send">Unlock</button>
-          </div>
-        </div>
-        <div id="admin-tools" class="admin-tools" hidden>
-          <p class="admin-unlocked">Host tools unlocked. You can pin tips and remove posts.</p>
-          <label class="chat-field">
-            <span>Find messages (text)</span>
-            <input id="admin-search-text" type="search" placeholder="Search chat text…" />
-          </label>
-          <label class="chat-field">
-            <span>Find by date</span>
-            <input id="admin-search-date" type="date" />
-          </label>
-          <button type="button" id="admin-lock-btn" class="admin-lock-btn">
-            Log out of host tools
-          </button>
-        </div>
-      </section>
-
       <section class="chat-panel" aria-label="Group chat">
         <div id="chat-status" class="chat-status" role="status">Connecting…</div>
 
@@ -89,6 +62,33 @@
           </label>
           <button type="submit" class="chat-send">Send</button>
         </form>
+      </section>
+
+      <section id="admin-panel" class="admin-panel" hidden>
+        <div id="admin-lock" class="admin-lock">
+          <label class="chat-field">
+            <span>Host PIN</span>
+            <input id="admin-pin" type="password" inputmode="numeric" maxlength="12" />
+          </label>
+          <div class="admin-lock-actions">
+            <button type="button" id="admin-cancel" class="admin-lock-btn">Cancel</button>
+            <button type="button" id="admin-unlock" class="chat-send">Unlock</button>
+          </div>
+        </div>
+        <div id="admin-tools" class="admin-tools" hidden>
+          <p class="admin-unlocked">Host tools unlocked. You can pin tips and remove posts.</p>
+          <label class="chat-field">
+            <span>Find messages (text)</span>
+            <input id="admin-search-text" type="search" placeholder="Search chat text…" />
+          </label>
+          <label class="chat-field">
+            <span>Find by date</span>
+            <input id="admin-search-date" type="date" />
+          </label>
+          <button type="button" id="admin-lock-btn" class="admin-lock-btn">
+            Log out of host tools
+          </button>
+        </div>
       </section>
 
       <button

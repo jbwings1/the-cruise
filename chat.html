@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cruise Chat · Regan N Elaina's Wedding Cruise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-chat">
+    <div class="chat-shell">
+      <header class="chat-header">
+        <a class="chat-back" href="index.html">← Main page</a>
+        <div class="chat-heading">
+          <h1>Cruise Chat</h1>
+          <p>Ask questions or plan together. Pick a display name and jump in.</p>
+        </div>
+      </header>
+
+      <section class="chat-panel" aria-label="Group chat">
+        <div id="chat-status" class="chat-status" role="status">Connecting…</div>
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+
+        <form id="chat-form" class="chat-form">
+          <label class="chat-field chat-name-field">
+            <span>Display name</span>
+            <input
+              id="display-name"
+              name="displayName"
+              type="text"
+              maxlength="40"
+              autocomplete="nickname"
+              placeholder="Your name"
+              required
+            />
+          </label>
+          <label class="chat-field chat-message-field">
+            <span class="visually-hidden">Message</span>
+            <textarea
+              id="message-body"
+              name="body"
+              rows="2"
+              maxlength="1000"
+              placeholder="Say hello, ask a question, or share a plan…"
+              required
+            ></textarea>
+          </label>
+          <button type="submit" class="chat-send">Send</button>
+        </form>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="chat.js"></script>
+  </body>
+</html>

@@ -18,6 +18,13 @@ coverage/
 .env.*
 !.env.example
 
+# Personal / reference photos (not for public site)
+images/couple-*.jpg
+images/couple-*.webp
+images/face-check.jpg
+images/hub-ship-only.jpg
+images/hub-ship-angled.jpg
+
 # OS / editor
 .DS_Store
 Thumbs.db

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Regan N Elaina's Wedding Cruise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="hub">
+      <div class="hub-scrim" aria-hidden="true"></div>
+
+      <header class="hub-banner">
+        <svg
+          class="hub-arc"
+          viewBox="0 0 1000 180"
+          role="img"
+          aria-label="Regan N Elaina's Wedding Cruise"
+        >
+          <defs>
+            <path id="title-arc" d="M 60 145 Q 500 20 940 145" fill="none" />
+          </defs>
+          <text class="hub-arc-text">
+            <textPath href="#title-arc" startOffset="50%" text-anchor="middle">
+              Regan N Elaina's Wedding Cruise
+            </textPath>
+          </text>
+        </svg>
+        <p class="hub-sub">Symphony of the Seas · September 19 – 25, 2027</p>
+      </header>
+
+      <nav class="hub-links" aria-label="Cruise pages">
+        <a class="hub-link" id="chat-link" href="chat.html">
+          <img class="hub-link-logo" src="images/anchor.svg" alt="" />
+          <span>Cruise Chat</span>
+          <span id="chat-new-badge" class="hub-link-badge" hidden></span>
+        </a>
+        <a class="hub-link" href="agent.html">
+          <img class="hub-link-logo" src="images/anchor.svg" alt="" />
+          <span>Travel Agent</span>
+        </a>
+      </nav>
+
+      <p class="hub-footer">
+        This page is to help you get set up for the Cruise and celebrate with
+        them. Follow the links to get your questions answered.
+      </p>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="hub-chat-badge.js"></script>
+  </body>
+</html>

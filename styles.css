@@ -98,7 +98,7 @@ body {
   position: absolute;
   z-index: 1;
   left: clamp(1rem, 4vw, 3rem);
-  top: 52%;
+  top: 28%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
@@ -193,11 +193,11 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    /* Keep ship lower so links sit in sky above it */
-    background-position: center 78%;
+    /* Keep ship/water lower so links sit in the sky */
+    background-position: center 88%;
     background-size: cover;
     padding: 1rem 1rem 1.25rem;
-    gap: 0.55rem;
+    gap: 0.35rem;
   }
 
   .hub-banner {
@@ -230,9 +230,8 @@ body {
     transform: none;
     width: fit-content;
     max-width: 100%;
-    margin: 0.15rem 0 0;
-    gap: 0.55rem;
-    /* Keep links in the upper/mid area above the ship */
+    margin: 0.1rem 0 0;
+    gap: 0.5rem;
     flex-shrink: 0;
   }
 

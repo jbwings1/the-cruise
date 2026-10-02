@@ -430,6 +430,15 @@ body {
   line-height: 1.45;
 }
 
+.agent-instruction {
+  margin: 0.85rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid rgba(216, 240, 255, 0.55);
+  background: rgba(216, 240, 255, 0.08);
+  color: var(--ink) !important;
+  font-weight: 500;
+}
+
 .agent-card {
   padding: 1.25rem 1.35rem;
   border: 1px solid rgba(247, 251, 255, 0.18);
@@ -457,26 +466,40 @@ body {
   font-weight: 500;
 }
 
+.agent-agency a,
 .agent-phone a {
   color: var(--accent);
   text-decoration: none;
 }
 
+.agent-agency a:hover,
+.agent-agency a:focus-visible,
 .agent-phone a:hover,
 .agent-phone a:focus-visible {
   text-decoration: underline;
   outline: none;
 }
 
+.agent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
 .agent-call {
   display: inline-block;
-  margin-top: 1.25rem;
+  margin-top: 0;
   padding: 0.7rem 1.25rem;
   border: 1px solid rgba(247, 251, 255, 0.5);
   background: rgba(216, 240, 255, 0.16);
   color: var(--ink);
   font-weight: 600;
   text-decoration: none;
+}
+
+.agent-call-secondary {
+  background: transparent;
 }
 
 .agent-call:hover,
@@ -492,5 +515,52 @@ body {
 }
 
 .inner-note a {
+  color: var(--accent);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.faq-item {
+  border: 1px solid rgba(247, 251, 255, 0.18);
+  background: rgba(4, 20, 34, 0.55);
+  backdrop-filter: blur(8px);
+  padding: 0.15rem 0;
+}
+
+.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.85rem 1.1rem;
+  font-weight: 600;
+  font-size: 1.02rem;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary::after {
+  content: "+";
+  float: right;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.faq-item[open] summary::after {
+  content: "–";
+}
+
+.faq-item p {
+  margin: 0;
+  padding: 0 1.1rem 1rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.faq-item a {
   color: var(--accent);
 }

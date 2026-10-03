@@ -17,6 +17,32 @@
       <div class="hub-scrim" aria-hidden="true"></div>
 
       <header class="hub-banner">
+        <div
+          id="cruise-countdown"
+          class="hub-countdown"
+          data-sail="2027-09-19T16:00:00-04:00"
+          aria-live="polite"
+        >
+          <p class="hub-countdown-label">Countdown to sail day</p>
+          <div class="hub-countdown-grid">
+            <div class="hub-countdown-unit">
+              <span data-unit="days">0</span>
+              <small>Days</small>
+            </div>
+            <div class="hub-countdown-unit">
+              <span data-unit="hours">0</span>
+              <small>Hours</small>
+            </div>
+            <div class="hub-countdown-unit">
+              <span data-unit="minutes">0</span>
+              <small>Minutes</small>
+            </div>
+            <div class="hub-countdown-unit">
+              <span data-unit="seconds">0</span>
+              <small>Seconds</small>
+            </div>
+          </div>
+        </div>
         <svg
           class="hub-arc"
           viewBox="0 0 1000 180"
@@ -71,5 +97,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="hub-chat-badge.js"></script>
+    <script src="countdown.js"></script>
   </body>
 </html>

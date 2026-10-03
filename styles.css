@@ -788,6 +788,28 @@ body.is-admin .host-anchor {
   color: var(--accent);
 }
 
+.task-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.task-list li {
+  padding-left: 0.35rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.task-list strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.task-list a {
+  color: var(--accent);
+}
+
 .faq-list {
   display: flex;
   flex-direction: column;

@@ -26,15 +26,23 @@
         <div id="chat-status" class="chat-status" role="status">Connecting…</div>
 
         <div class="tips-block">
-          <h2>Tips</h2>
-          <p class="tips-help">
-            Helpful info pinned by hosts. Enter your name below to thumbs-up a tip.
-          </p>
-          <div id="tips-log" class="tips-log" aria-live="polite"></div>
+          <details id="tips-details" class="tips-details" open>
+            <summary class="tips-summary">
+              <span class="tips-summary-title">Tips</span>
+              <span id="tips-count" class="tips-count" aria-live="polite"></span>
+            </summary>
+            <p class="tips-help">
+              Host-pinned notes for the trip. Enter your display name below to
+              thumbs-up useful tips.
+            </p>
+            <div id="tips-log" class="tips-log" aria-live="polite"></div>
+          </details>
         </div>
 
-        <h2 class="chat-log-title">Chat</h2>
-        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        <div class="chat-main">
+          <h2 class="chat-log-title">Chat</h2>
+          <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        </div>
 
         <form id="chat-form" class="chat-form">
           <label class="chat-field chat-name-field">

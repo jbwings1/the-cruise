@@ -5,6 +5,8 @@
 
   const statusEl = document.getElementById("chat-status");
   const tipsEl = document.getElementById("tips-log");
+  const tipsCountEl = document.getElementById("tips-count");
+  const tipsDetailsEl = document.getElementById("tips-details");
   const logEl = document.getElementById("chat-log");
   const formEl = document.getElementById("chat-form");
   const nameInput = document.getElementById("display-name");
@@ -19,6 +21,7 @@
   const adminLockBtn = document.getElementById("admin-lock-btn");
   const searchText = document.getElementById("admin-search-text");
   const searchDate = document.getElementById("admin-search-date");
+  const TIPS_OPEN_KEY = "cruiseChatTipsOpen";
 
   // Host unlock lasts only while this page is open — leaving chat clears it.
   let adminUnlocked = false;
@@ -126,7 +129,6 @@
   function renderTips() {
     const tips = [...messages.values()]
       .filter((m) => m.is_tip)
-      .filter(matchesAdminFilter)
       .map((m) => ({
         ...m,
         likes: getLikes(m.id),
@@ -137,6 +139,12 @@
         }
         return new Date(b.created_at) - new Date(a.created_at);
       });
+
+    if (tipsCountEl) {
+      tipsCountEl.textContent = tips.length
+        ? `(${tips.length})`
+        : "(none yet)";
+    }
 
     if (!tips.length) {
       tipsEl.innerHTML =
@@ -167,13 +175,16 @@
                 data-action="like"
                 data-id="${tip.id}"
                 ${name ? "" : "disabled"}
+                aria-pressed="${liked ? "true" : "false"}"
                 title="${name ? "Thumbs up" : "Enter your name to like tips"}"
               >
-                👍 <span>${tip.likes.length}</span>
+                <span aria-hidden="true">👍</span>
+                <span>${tip.likes.length}</span>
               </button>
               ${
                 adminUnlocked
-                  ? `<button type="button" class="admin-btn" data-action="delete" data-id="${tip.id}">Remove tip</button>
+                  ? `<button type="button" class="admin-btn" data-action="unpin" data-id="${tip.id}">Unpin</button>
+                     <button type="button" class="admin-btn danger" data-action="delete" data-id="${tip.id}">Delete</button>
                      <details class="likers-details">
                        <summary>Who liked (${tip.likes.length})</summary>
                        <p>${
@@ -351,6 +362,27 @@
       msg.is_tip = true;
       renderAll();
     }
+    setStatus("Pinned to Tips.");
+  }
+
+  async function unpinTip(messageId) {
+    const pin = await requireAdminPin();
+    if (!pin) return;
+    const { error } = await supabase.rpc("unpin_chat_tip", {
+      message_id: messageId,
+      pin,
+    });
+    if (error) {
+      setStatus("Could not unpin tip.", true);
+      console.error(error);
+      return;
+    }
+    const msg = messages.get(messageId);
+    if (msg) {
+      msg.is_tip = false;
+      renderAll();
+    }
+    setStatus("Tip moved back to Chat.");
   }
 
   async function deleteMessage(messageId) {
@@ -449,12 +481,25 @@
     setStatus("Logged out of host tools.");
   });
 
-  searchText.addEventListener("input", renderAll);
-  searchDate.addEventListener("change", renderAll);
+  searchText.addEventListener("input", renderChat);
+  searchDate.addEventListener("change", renderChat);
+  nameInput.addEventListener("input", () => {
+    localStorage.setItem(NAME_KEY, currentName());
+    renderTips();
+  });
   nameInput.addEventListener("change", () => {
     localStorage.setItem(NAME_KEY, currentName());
     renderTips();
   });
+
+  if (tipsDetailsEl) {
+    const savedOpen = localStorage.getItem(TIPS_OPEN_KEY);
+    if (savedOpen === "0") tipsDetailsEl.open = false;
+    if (savedOpen === "1") tipsDetailsEl.open = true;
+    tipsDetailsEl.addEventListener("toggle", () => {
+      localStorage.setItem(TIPS_OPEN_KEY, tipsDetailsEl.open ? "1" : "0");
+    });
+  }
 
   document.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-action]");
@@ -462,6 +507,7 @@
     const id = btn.dataset.id;
     const action = btn.dataset.action;
     if (action === "pin") pinTip(id);
+    if (action === "unpin") unpinTip(id);
     if (action === "delete") deleteMessage(id);
     if (action === "like") toggleLike(id);
   });

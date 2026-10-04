@@ -243,7 +243,7 @@ body {
   justify-self: center;
   /* Same inset on both sides keeps the sentence on the page center
      and clear of the corner countdown. */
-  width: min(40rem, calc(100% - 28rem));
+  width: min(40rem, calc(100% - 31rem));
   margin: 0;
   padding-top: 1.5rem;
   font-family: var(--font-body);

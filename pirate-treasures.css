@@ -885,6 +885,30 @@ body.pirate-page {
   border: 1px solid rgba(230, 193, 90, 0.55);
 }
 
+.reveal-card {
+  padding: 0.85rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(230, 193, 90, 0.5);
+  background: rgba(230, 193, 90, 0.14);
+  text-align: center;
+}
+
+.reveal-wrong {
+  margin: 0 0 0.35rem;
+  color: #f0b4a8;
+  font-size: 0.95rem;
+}
+
+.reveal-correct {
+  margin: 0;
+  color: var(--pt-gold);
+  font-size: 1.05rem;
+}
+
+.reveal-correct strong {
+  color: var(--pt-ink);
+}
+
 .end-actions {
   display: grid;
   gap: 0.55rem;

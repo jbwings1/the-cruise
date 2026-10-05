@@ -322,13 +322,22 @@
   async function onAnswer(value, btn, question) {
     if (state.answeringLocked) return;
     lockAnswers();
-    ensureAudio();
+    try {
+      ensureAudio();
+    } catch {
+      /* ignore audio unlock failures */
+    }
 
     const correct = isCorrect(question, value);
     if (correct) {
       btn.classList.add("is-correct");
       feedbackEl.textContent = "Safe!";
-      playYay();
+      feedbackEl.classList.add("is-reveal");
+      try {
+        playYay();
+      } catch {
+        /* ignore */
+      }
       removeCorrectFromPool(question);
       await wait(700);
       state.roundIndex += 1;
@@ -340,24 +349,32 @@
       return;
     }
 
-    btn.classList.add("is-wrong");
     const correctLabel =
       question.type === "tf"
         ? question.answer
           ? "True"
           : "False"
         : question.answer;
-    answerGrid.querySelectorAll("button").forEach((answerBtn) => {
-      if (answerBtn.textContent === String(correctLabel)) {
-        answerBtn.classList.add("is-correct");
-      }
-    });
-    feedbackEl.textContent = `Correct answer: ${correctLabel}`;
-    feedbackEl.classList.add("is-reveal");
+
+    // Replace choices with a full reveal so the teaching beat can't be missed.
+    answerGrid.innerHTML = `
+      <div class="reveal-card">
+        <p class="reveal-wrong">Not quite.</p>
+        <p class="reveal-correct">Correct answer: <strong>${escapeHtml(
+          String(correctLabel)
+        )}</strong></p>
+      </div>
+    `;
+    feedbackEl.textContent = "";
+    feedbackEl.classList.remove("is-reveal");
     state.misses += 1;
-    playCreak();
+    try {
+      playCreak();
+    } catch {
+      /* ignore */
+    }
     setStep(state.misses);
-    await wait(1800);
+    await wait(2000);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();

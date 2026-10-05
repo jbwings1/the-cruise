@@ -412,12 +412,11 @@ body.pirate-page {
 
 .couple-pirate {
   position: absolute;
-  width: clamp(70px, 9.5vw, 104px);
-  height: clamp(110px, 16vw, 170px);
+  width: clamp(78px, 11vw, 120px);
+  height: clamp(120px, 17vw, 180px);
   z-index: 3;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.75));
-  /* Clip at the rail so they read as standing behind it */
-  clip-path: inset(0 0 38% 0);
+  /* Clip at the rail line so legs stay behind the railing */
+  clip-path: inset(0 0 42% 0);
 }
 
 .couple-pirate-art {
@@ -426,17 +425,20 @@ body.pirate-page {
   object-fit: contain;
   object-position: top center;
   display: block;
+  /* Black studio backdrop drops out against the night scene */
+  mix-blend-mode: lighten;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
 }
 
-/* Left and right of the plank opening, behind the deck rail */
+/* Flank the plank opening, standing behind the deck rail */
 .couple-pirate--bride {
-  left: 19%;
-  top: 14%;
+  left: 24%;
+  top: 12%;
 }
 
 .couple-pirate--groom {
-  left: 31%;
-  top: 13%;
+  left: 42%;
+  top: 18%;
 }
 
 .player-pirate {
@@ -992,13 +994,13 @@ body.pirate-page {
   }
 
   .couple-pirate--bride {
-    left: 14%;
-    top: 16%;
+    left: 18%;
+    top: 14%;
   }
 
   .couple-pirate--groom {
-    left: 26%;
-    top: 15%;
+    left: 38%;
+    top: 20%;
   }
 
   .player-pirate[data-step="0"] {

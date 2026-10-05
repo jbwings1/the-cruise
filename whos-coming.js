@@ -192,25 +192,22 @@
       .join(", ");
     const booked = BOOKED_LABELS[party.booked_through] || party.booked_through;
     const side = SIDE_LABELS[party.side] || party.side;
+    const bookedTag = pending
+      ? `<span class="coming-booked-tag">${escapeHtml(side)} · ${escapeHtml(booked)}</span>`
+      : `<span class="coming-booked-tag">${escapeHtml(booked)}</span>`;
 
-    let actions = "";
+    let hostButtons = "";
     if (adminUnlocked) {
       if (pending) {
-        actions = `
-          <div class="message-actions">
-            <span class="coming-booked-tag">${escapeHtml(side)} · ${escapeHtml(booked)}</span>
+        hostButtons = `
             <button type="button" class="admin-btn" data-action="approve" data-id="${party.id}">Approve</button>
             <button type="button" class="admin-btn" data-action="edit" data-id="${party.id}">Edit</button>
-            <button type="button" class="admin-btn danger" data-action="delete" data-id="${party.id}">Remove</button>
-          </div>`;
+            <button type="button" class="admin-btn danger" data-action="delete" data-id="${party.id}">Remove</button>`;
       } else {
-        actions = `
-          <div class="message-actions">
-            <span class="coming-booked-tag">${escapeHtml(booked)}</span>
+        hostButtons = `
             <button type="button" class="admin-btn" data-action="edit" data-id="${party.id}">Edit</button>
             <button type="button" class="admin-btn" data-action="pending" data-id="${party.id}">Move to pending</button>
-            <button type="button" class="admin-btn danger" data-action="delete" data-id="${party.id}">Remove</button>
-          </div>`;
+            <button type="button" class="admin-btn danger" data-action="delete" data-id="${party.id}">Remove</button>`;
       }
     }
 
@@ -225,7 +222,10 @@
               }</p>`
             : ""
         }
-        ${actions}
+        <div class="message-actions">
+          ${bookedTag}
+          ${hostButtons}
+        </div>
       </article>
     `;
   }

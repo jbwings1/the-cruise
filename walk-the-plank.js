@@ -283,6 +283,7 @@
     }`;
     questionText.textContent = q.prompt;
     feedbackEl.textContent = "";
+    feedbackEl.classList.remove("is-reveal");
     state.answeringLocked = false;
 
     let choices;
@@ -346,11 +347,12 @@
           ? "True"
           : "False"
         : question.answer;
-    feedbackEl.textContent = `Correct: ${correctLabel}`;
+    feedbackEl.textContent = `Correct answer: ${correctLabel}`;
+    feedbackEl.classList.add("is-reveal");
     state.misses += 1;
     playCreak();
     setStep(state.misses);
-    await wait(1100);
+    await wait(1600);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();

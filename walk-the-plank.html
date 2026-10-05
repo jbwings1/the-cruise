@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Walk the Plank · Regan N Elaina's Wedding Cruise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="pirate-treasures.css" />
+  </head>
+  <body class="pirate-page game-page">
+    <header class="game-topbar">
+      <h1 class="game-brand">Walk the Plank</h1>
+      <button type="button" id="quit-btn" class="game-quit">Quit</button>
+    </header>
+
+    <main class="game-main">
+      <div class="game-scene" aria-hidden="true">
+        <div class="game-sun"></div>
+        <div class="game-ocean"></div>
+        <div class="game-ship">
+          <div class="game-ship-rail"></div>
+        </div>
+        <div class="game-plank"></div>
+
+        <div class="couple-pirate couple-pirate--bride" id="bride-pirate"></div>
+        <div class="couple-pirate couple-pirate--groom" id="groom-pirate"></div>
+        <div class="player-pirate" id="player-pirate" data-step="0" hidden></div>
+
+        <div class="splash" id="splash" aria-hidden="true">
+          <span class="splash-drop" style="left: 30%; animation-delay: 0ms"></span>
+          <span class="splash-drop" style="left: 50%; animation-delay: 40ms"></span>
+          <span class="splash-drop" style="left: 70%; animation-delay: 80ms"></span>
+        </div>
+      </div>
+
+      <div class="game-hud">
+        <div class="gem-meter" aria-live="polite">
+          <div class="gem-chest" aria-hidden="true">
+            <div class="gem-chest-lid"></div>
+            <div class="gem-chest-body"></div>
+            <div class="gem-chest-gems" id="gem-pips">
+              <span class="gem-pip" data-slot="0"></span>
+              <span class="gem-pip" data-slot="1"></span>
+              <span class="gem-pip" data-slot="2"></span>
+            </div>
+          </div>
+          <span class="gem-count" id="gem-count">0</span>
+          <span class="pt-visually-hidden">gems</span>
+        </div>
+
+        <div class="progress-chip" id="progress-chip" hidden>0 / 10</div>
+
+        <section class="panel" id="start-panel">
+          <h2>Walk the Plank</h2>
+          <p class="panel-tagline">
+            How well do you know the bride and groom?
+          </p>
+          <ul class="rules-list">
+            <li>Answer 10 questions about the bride and groom</li>
+            <li>Correct answers keep you safe</li>
+            <li>Wrong answers move you out on the plank</li>
+            <li>Survive a round to earn a gem</li>
+            <li>Climb the top 10 leaderboard</li>
+          </ul>
+
+          <label class="field">
+            <span>Pirate name</span>
+            <input
+              id="pirate-name"
+              type="text"
+              maxlength="8"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="Letters only"
+              required
+            />
+          </label>
+
+          <div>
+            <span class="pt-visually-hidden">Choose your pirate</span>
+            <div class="pirate-picker" id="pirate-picker"></div>
+          </div>
+
+          <button type="button" class="btn-primary" id="play-btn" disabled>
+            Play
+          </button>
+        </section>
+
+        <section class="panel question-panel" id="question-panel" hidden>
+          <p class="question-text" id="question-text"></p>
+          <div class="answer-grid" id="answer-grid"></div>
+          <p class="feedback" id="feedback" aria-live="polite"></p>
+        </section>
+
+        <section class="panel" id="end-panel" hidden>
+          <h2 id="end-title">You survived!</h2>
+          <p class="panel-tagline" id="end-message"></p>
+          <div class="end-actions">
+            <button type="button" class="btn-primary" id="play-again-btn">
+              Play Again
+            </button>
+            <button type="button" class="game-quit" id="end-quit-btn">
+              Quit
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <aside class="leaderboard" id="leaderboard" aria-label="Top 10 pirates">
+      <h2>Top 10</h2>
+      <p class="leaderboard-empty" id="leaderboard-empty">No scores yet.</p>
+      <ol id="leaderboard-list"></ol>
+    </aside>
+
+    <button type="button" class="lb-tab" id="lb-tab" aria-expanded="false">
+      Top 10
+    </button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="plank-pirates.js"></script>
+    <script src="plank-leaderboard.js"></script>
+    <script src="walk-the-plank-questions.js"></script>
+    <script src="walk-the-plank.js"></script>
+  </body>
+</html>

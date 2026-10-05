@@ -26,12 +26,20 @@ npx --yes serve .
 - Submissions stay pending until a host approves with the host PIN
 - Public list shows Bride’s side / Groom’s side, group names, people, and a total count
 
+## Pirate treasures (in progress)
+
+- Captain’s cabin (direct link while building): [`pirates-cabin.html`](pirates-cabin.html)
+- Walk the Plank game: [`walk-the-plank.html`](walk-the-plank.html)
+- Edit quiz questions: [`walk-the-plank-questions.js`](walk-the-plank-questions.js)
+- Home-page treasure chest link is intentionally not wired yet
+
 ## Edit later
 
 - Hub background photo: [`images/hub-background.jpg`](images/hub-background.jpg)
 - Banner / date text: [`index.html`](index.html)
 - Wedding page URL: `CRUISE_WEDDING_PAGE_URL` in [`config.js`](config.js)
 - Supabase URL/key: [`config.js`](config.js)
+- Walk the Plank questions: [`walk-the-plank-questions.js`](walk-the-plank-questions.js)
 
 ## Repo
 

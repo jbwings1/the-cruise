@@ -6,6 +6,9 @@
   const brideListEl = document.getElementById("bride-list");
   const groomListEl = document.getElementById("groom-list");
   const formEl = document.getElementById("coming-form");
+  const formSection = document.getElementById("coming-form-section");
+  const addGroupToggle = document.getElementById("add-group-toggle");
+  const addGroupClose = document.getElementById("add-group-close");
   const groupNameEl = document.getElementById("group-name");
   const partySizeEl = document.getElementById("party-size");
   const guestFieldsEl = document.getElementById("guest-fields");
@@ -42,6 +45,27 @@
     bride: "Bride",
     groom: "Groom",
   };
+
+  function setAddFormOpen(open) {
+    formSection.hidden = !open;
+    addGroupToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    addGroupToggle.textContent = open ? "Hide add form" : "Add your group";
+    if (open) {
+      formSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      groupNameEl.focus({ preventScroll: true });
+    }
+  }
+
+  function toggleAddForm() {
+    setAddFormOpen(formSection.hidden);
+  }
+
+  addGroupToggle.addEventListener("click", toggleAddForm);
+  addGroupClose.addEventListener("click", () => setAddFormOpen(false));
+
+  if (window.location.hash === "#add") {
+    setAddFormOpen(true);
+  }
 
   if (!url || !anonKey || !window.supabase) {
     statusEl.textContent =
@@ -559,6 +583,7 @@
     formEl.reset();
     partySizeEl.value = "2";
     renderGuestFields();
+    setAddFormOpen(false);
     setStatus(
       "Submitted — a host will approve it before it appears on the list."
     );

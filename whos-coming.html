@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="page-inner page-coming">
-    <div class="inner-shell">
+    <div class="inner-shell inner-shell-wide">
       <header class="inner-header">
         <a class="chat-back" href="index.html">← Main page</a>
         <h1>Who's Coming</h1>
@@ -27,8 +27,19 @@
 
       <section class="agent-card coming-list-card" aria-label="Booked guests">
         <div class="coming-list-head">
-          <h2>Booked so far</h2>
-          <p id="coming-count" class="coming-count">0 people</p>
+          <div class="coming-list-titles">
+            <h2>Booked so far</h2>
+            <p id="coming-count" class="coming-count">0 people</p>
+          </div>
+          <button
+            type="button"
+            id="add-group-toggle"
+            class="coming-add-link"
+            aria-expanded="false"
+            aria-controls="coming-form-section"
+          >
+            Add your group
+          </button>
         </div>
 
         <div class="coming-sides">
@@ -43,8 +54,23 @@
         </div>
       </section>
 
-      <section class="agent-card coming-form-card" aria-label="Add your group">
-        <h2>Add your group</h2>
+      <section
+        id="coming-form-section"
+        class="agent-card coming-form-card"
+        aria-label="Add your group"
+        hidden
+      >
+        <div class="coming-form-head">
+          <h2 id="coming-form-title">Add your group</h2>
+          <button
+            type="button"
+            id="add-group-close"
+            class="coming-add-close"
+            aria-controls="coming-form-section"
+          >
+            Close
+          </button>
+        </div>
         <p class="coming-help">
           Choose Bride or Groom, name your group, list each person, then say how
           you booked. A host will approve it before it shows on the list.

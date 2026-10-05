@@ -19,10 +19,18 @@ npx --yes serve .
 - Live group messages via Supabase Realtime
 - Backend project: `the-cruise` on Supabase
 
+## Who's Coming
+
+- Hub link: **Who's Coming** → [`whos-coming.html`](whos-coming.html) (under Cruise Chat)
+- Guests pick Bride or Groom, name their group, list each person, and how they booked
+- Submissions stay pending until a host approves with the host PIN
+- Public list shows Bride’s side / Groom’s side, group names, people, and a total count
+
 ## Edit later
 
 - Hub background photo: [`images/hub-background.jpg`](images/hub-background.jpg)
 - Banner / date text: [`index.html`](index.html)
+- Wedding page URL: `CRUISE_WEDDING_PAGE_URL` in [`config.js`](config.js)
 - Supabase URL/key: [`config.js`](config.js)
 
 ## Repo

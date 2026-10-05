@@ -123,8 +123,49 @@ body {
   width: 100%;
   height: auto;
   overflow: visible;
+  margin-bottom: -1.35rem;
   filter: drop-shadow(0 2px 10px var(--shadow))
     drop-shadow(0 0 18px rgba(8, 28, 48, 0.35));
+}
+
+.hub-wedding-link {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  width: fit-content;
+  margin: -0.15rem auto 0.35rem;
+  padding: 0.15rem 0.5rem;
+  color: var(--ink);
+  text-decoration: none;
+  text-shadow: 0 1px 8px var(--shadow);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.hub-wedding-link:hover,
+.hub-wedding-link:focus-visible {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.hub-wedding-kicker {
+  font-family: var(--font-body);
+  font-size: clamp(0.78rem, 1.6vw, 0.95rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: rgba(216, 240, 255, 0.9);
+}
+
+.hub-wedding-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .hub-arc-text {
@@ -139,7 +180,7 @@ body {
 }
 
 .hub-sub {
-  margin: -0.55rem auto 0;
+  margin: 0.1rem auto 0;
   max-width: 36rem;
   font-family: var(--font-body);
   font-size: clamp(0.95rem, 2.2vw, 1.25rem);
@@ -1042,7 +1083,7 @@ body.is-admin .host-anchor {
 }
 
 .leave-modal[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .leave-modal-card {
@@ -1072,4 +1113,197 @@ body.is-admin .host-anchor {
   justify-content: flex-end;
   gap: 0.65rem;
   margin-top: 1.15rem;
+}
+
+/* Who's Coming */
+.coming-status {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(216, 240, 255, 0.85);
+}
+
+.coming-status.is-error {
+  color: #ffb4a8;
+}
+
+.coming-list-card h2,
+.coming-form-card h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.coming-list-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.coming-count {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgba(216, 240, 255, 0.9);
+}
+
+.coming-sides {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.coming-side h3 {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.coming-list,
+.coming-pending {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.coming-party {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(247, 251, 255, 0.12);
+  background: rgba(247, 251, 255, 0.04);
+}
+
+.coming-party-pending {
+  border-color: rgba(240, 195, 106, 0.35);
+  background: rgba(240, 195, 106, 0.08);
+}
+
+.coming-group-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.coming-party-names {
+  margin: 0.3rem 0 0;
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.coming-party-meta {
+  margin: 0.3rem 0 0;
+  font-size: 0.88rem;
+  color: rgba(216, 240, 255, 0.75);
+}
+
+.coming-booked-tag {
+  font-size: 0.82rem;
+  color: rgba(216, 240, 255, 0.8);
+}
+
+.coming-help {
+  margin: 0.45rem 0 0;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  font-size: 0.95rem;
+}
+
+.coming-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+
+.coming-form .chat-field select,
+.coming-edit-card .chat-field select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid rgba(247, 251, 255, 0.28);
+  background: rgba(4, 20, 34, 0.65);
+  color: var(--ink);
+  font: inherit;
+}
+
+.coming-form .chat-field select:focus,
+.coming-edit-card .chat-field select:focus {
+  outline: none;
+  border-color: rgba(216, 240, 255, 0.75);
+}
+
+.guest-fields {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.guest-row-label {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(216, 240, 255, 0.75);
+}
+
+.guest-name-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.coming-booked {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.coming-booked legend {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(216, 240, 255, 0.75);
+}
+
+.coming-radio {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  cursor: pointer;
+}
+
+.coming-radio input {
+  accent-color: #8ec8ea;
+}
+
+.coming-admin-title {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.coming-edit-card {
+  width: min(560px, 100%);
+  max-height: min(90vh, 900px);
+  overflow-y: auto;
+}
+
+@media (max-width: 560px) {
+  .guest-name-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .hub-arc {
+    margin-bottom: -0.85rem;
+  }
 }

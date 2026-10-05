@@ -1153,7 +1153,9 @@ body.is-admin .host-anchor {
 
 .coming-sides {
   display: grid;
-  gap: 1.25rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem 1.75rem;
+  align-items: start;
 }
 
 .coming-side h3 {
@@ -1305,5 +1307,9 @@ body.is-admin .host-anchor {
 @media (max-width: 720px) {
   .hub-arc {
     margin-bottom: -0.85rem;
+  }
+
+  .coming-sides {
+    grid-template-columns: 1fr;
   }
 }

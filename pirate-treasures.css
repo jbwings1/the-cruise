@@ -405,48 +405,17 @@ body.pirate-page {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 20% 40%;
+  object-position: center center;
   user-select: none;
   pointer-events: none;
-}
-
-.couple-pirate {
-  position: absolute;
-  width: clamp(96px, 13vw, 150px);
-  height: clamp(180px, 30vw, 300px);
-  z-index: 3;
-  /* Keep full figures, but hide boots below the painted rail */
-  clip-path: inset(0 0 18% 0);
-}
-
-.couple-pirate-art {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: bottom center;
-  display: block;
-  /* Black studio backdrop drops out against the night scene */
-  mix-blend-mode: lighten;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
-}
-
-/* Full-height figures flanking the plank, standing behind the rail */
-.couple-pirate--bride {
-  left: 14%;
-  top: 8%;
-}
-
-.couple-pirate--groom {
-  left: 44%;
-  top: 12%;
 }
 
 .player-pirate {
   position: absolute;
   width: clamp(56px, 7.5vw, 78px);
   height: clamp(78px, 11vw, 108px);
-  top: 30%;
-  left: 36%;
+  top: 46%;
+  left: 44%;
   z-index: 4;
   filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.65));
   transition:
@@ -464,18 +433,18 @@ body.pirate-page {
 }
 
 .player-pirate[data-step="0"] {
-  left: 36%;
-  top: 30%;
+  left: 44%;
+  top: 46%;
 }
 
 .player-pirate[data-step="1"] {
-  left: 48%;
-  top: 34%;
+  left: 54%;
+  top: 50%;
 }
 
 .player-pirate[data-step="2"] {
-  left: 60%;
-  top: 40%;
+  left: 64%;
+  top: 54%;
 }
 
 .player-pirate.is-falling {
@@ -484,8 +453,8 @@ body.pirate-page {
 
 .splash {
   position: absolute;
-  left: 62%;
-  top: 52%;
+  left: 66%;
+  top: 60%;
   width: 160px;
   height: 110px;
   pointer-events: none;
@@ -993,33 +962,23 @@ body.pirate-page {
     cursor: pointer;
   }
 
-  .couple-pirate--bride {
-    left: 8%;
-    top: 10%;
-  }
-
-  .couple-pirate--groom {
-    left: 40%;
-    top: 14%;
-  }
-
   .player-pirate[data-step="0"] {
-    left: 32%;
-    top: 31%;
+    left: 42%;
+    top: 48%;
   }
 
   .player-pirate[data-step="1"] {
-    left: 44%;
-    top: 35%;
+    left: 52%;
+    top: 52%;
   }
 
   .player-pirate[data-step="2"] {
-    left: 56%;
-    top: 42%;
+    left: 62%;
+    top: 56%;
   }
 
   .splash {
-    left: 58%;
-    top: 54%;
+    left: 64%;
+    top: 62%;
   }
 }

@@ -20,8 +20,6 @@
   const endQuitBtn = document.getElementById("end-quit-btn");
   const piratePicker = document.getElementById("pirate-picker");
   const playerPirate = document.getElementById("player-pirate");
-  const bridePirate = document.getElementById("bride-pirate");
-  const groomPirate = document.getElementById("groom-pirate");
   const questionText = document.getElementById("question-text");
   const answerGrid = document.getElementById("answer-grid");
   const feedbackEl = document.getElementById("feedback");
@@ -199,13 +197,6 @@
         `;
       })
       .join("");
-  }
-
-  function paintCouple() {
-    bridePirate.innerHTML =
-      '<img class="couple-pirate-art" src="images/pirate-bride.jpg" alt="Bride as a pirate" />';
-    groomPirate.innerHTML =
-      '<img class="couple-pirate-art" src="images/pirate-groom.jpg" alt="Groom as a pirate" />';
   }
 
   function paintPlayer() {
@@ -489,7 +480,6 @@
   });
 
   buildPiratePicker();
-  paintCouple();
   updatePlayEnabled();
   refreshLeaderboard();
 })();

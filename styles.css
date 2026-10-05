@@ -1083,7 +1083,7 @@ body.is-admin .host-anchor {
 }
 
 .leave-modal[hidden] {
-  display: none;
+  display: none !important;
 }
 
 .leave-modal-card {

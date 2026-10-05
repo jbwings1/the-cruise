@@ -202,12 +202,10 @@
   }
 
   function paintCouple() {
-    bridePirate.innerHTML = window.renderPirateSvg("gal2", {
-      title: "Bride pirate",
-    });
-    groomPirate.innerHTML = window.renderPirateSvg("guy2", {
-      title: "Groom pirate",
-    });
+    bridePirate.innerHTML =
+      '<img class="couple-pirate-art" src="images/pirate-bride.jpg" alt="Bride as a pirate" />';
+    groomPirate.innerHTML =
+      '<img class="couple-pirate-art" src="images/pirate-groom.jpg" alt="Groom as a pirate" />';
   }
 
   function paintPlayer() {

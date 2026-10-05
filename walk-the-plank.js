@@ -347,12 +347,17 @@
           ? "True"
           : "False"
         : question.answer;
+    answerGrid.querySelectorAll("button").forEach((answerBtn) => {
+      if (answerBtn.textContent === String(correctLabel)) {
+        answerBtn.classList.add("is-correct");
+      }
+    });
     feedbackEl.textContent = `Correct answer: ${correctLabel}`;
     feedbackEl.classList.add("is-reveal");
     state.misses += 1;
     playCreak();
     setStep(state.misses);
-    await wait(1600);
+    await wait(1800);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();

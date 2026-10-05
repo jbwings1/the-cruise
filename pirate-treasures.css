@@ -439,21 +439,41 @@ body.pirate-page {
 .game-ship {
   position: absolute;
   left: 0;
-  top: 28%;
-  width: 48%;
-  height: 42%;
-  background: linear-gradient(90deg, #2a1810 0%, #5c3a22 55%, #3a2414 100%);
-  clip-path: polygon(0 0, 88% 0, 100% 55%, 92% 100%, 0 100%);
-  box-shadow: inset -20px 0 40px rgba(0, 0, 0, 0.35);
+  top: 26%;
+  width: 50%;
+  height: 44%;
+  background:
+    linear-gradient(180deg, rgba(255, 200, 120, 0.08), transparent 30%),
+    linear-gradient(90deg, #24140c 0%, #6a4228 45%, #3a2414 100%);
+  clip-path: polygon(0 8%, 78% 0, 92% 18%, 100% 48%, 94% 100%, 0 100%);
+  box-shadow: inset -24px 0 46px rgba(0, 0, 0, 0.4);
+}
+
+.game-ship::after {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 18%;
+  top: 22%;
+  bottom: 18%;
+  border: 2px solid rgba(0, 0, 0, 0.18);
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0 18px,
+    rgba(0, 0, 0, 0.08) 18px 20px
+  );
+  pointer-events: none;
 }
 
 .game-ship-rail {
   position: absolute;
   left: 0;
-  right: 8%;
+  right: 10%;
   top: 0;
-  height: 10px;
-  background: linear-gradient(180deg, #8a5a32, #3a2414);
+  height: 12px;
+  background: linear-gradient(180deg, #a06a38, #5c3a22);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
 }
 
 .game-plank {
@@ -845,19 +865,24 @@ body.pirate-page {
 }
 
 .feedback {
-  margin: 0.65rem 0 0;
-  min-height: 1.4rem;
+  margin: 0 0 0.75rem;
+  min-height: 0;
   text-align: center;
   font-size: 1rem;
   font-weight: 600;
   color: var(--pt-gold);
 }
 
+.feedback:empty {
+  display: none;
+}
+
 .feedback.is-reveal {
-  padding: 0.45rem 0.6rem;
+  display: block;
+  padding: 0.5rem 0.7rem;
   border-radius: 6px;
-  background: rgba(230, 193, 90, 0.16);
-  border: 1px solid rgba(230, 193, 90, 0.45);
+  background: rgba(230, 193, 90, 0.2);
+  border: 1px solid rgba(230, 193, 90, 0.55);
 }
 
 .end-actions {

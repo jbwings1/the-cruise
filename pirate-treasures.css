@@ -432,13 +432,13 @@ body.pirate-page {
 
 /* Flank the plank opening, standing behind the deck rail */
 .couple-pirate--bride {
-  left: 23%;
-  top: 22%;
+  left: 18%;
+  top: 24%;
 }
 
 .couple-pirate--groom {
-  left: 41%;
-  top: 26%;
+  left: 48%;
+  top: 28%;
 }
 
 .player-pirate {
@@ -994,13 +994,13 @@ body.pirate-page {
   }
 
   .couple-pirate--bride {
-    left: 16%;
-    top: 24%;
+    left: 12%;
+    top: 26%;
   }
 
   .couple-pirate--groom {
-    left: 36%;
-    top: 28%;
+    left: 44%;
+    top: 30%;
   }
 
   .player-pirate[data-step="0"] {

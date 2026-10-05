@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Who's Coming · Regan N Elaina's Wedding Cruise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-inner page-coming">
+    <div class="inner-shell">
+      <header class="inner-header">
+        <a class="chat-back" href="index.html">← Main page</a>
+        <h1>Who's Coming</h1>
+        <p>
+          See who’s booked for Regan &amp; Elaina’s wedding cruise, and add
+          your group once you’re reserved.
+        </p>
+      </header>
+
+      <p id="coming-status" class="coming-status" role="status">Loading…</p>
+
+      <section class="agent-card coming-list-card" aria-label="Booked guests">
+        <div class="coming-list-head">
+          <h2>Booked so far</h2>
+          <p id="coming-count" class="coming-count">0 people</p>
+        </div>
+
+        <div class="coming-sides">
+          <section class="coming-side" aria-labelledby="bride-side-title">
+            <h3 id="bride-side-title">Bride’s side</h3>
+            <div id="bride-list" class="coming-list" aria-live="polite"></div>
+          </section>
+          <section class="coming-side" aria-labelledby="groom-side-title">
+            <h3 id="groom-side-title">Groom’s side</h3>
+            <div id="groom-list" class="coming-list" aria-live="polite"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="agent-card coming-form-card" aria-label="Add your group">
+        <h2>Add your group</h2>
+        <p class="coming-help">
+          Choose Bride or Groom, name your group, list each person, then say how
+          you booked. A host will approve it before it shows on the list.
+        </p>
+
+        <form id="coming-form" class="coming-form">
+          <fieldset class="coming-booked">
+            <legend>Side</legend>
+            <label class="coming-radio">
+              <input type="radio" name="side" value="bride" required />
+              <span>Bride</span>
+            </label>
+            <label class="coming-radio">
+              <input type="radio" name="side" value="groom" />
+              <span>Groom</span>
+            </label>
+          </fieldset>
+
+          <label class="chat-field">
+            <span>Group name</span>
+            <input
+              id="group-name"
+              name="groupName"
+              type="text"
+              maxlength="80"
+              autocomplete="organization"
+              placeholder="e.g. The Morgans"
+              required
+            />
+          </label>
+
+          <label class="chat-field">
+            <span>Party size</span>
+            <select id="party-size" name="partySize" required>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          </label>
+
+          <div id="guest-fields" class="guest-fields"></div>
+
+          <fieldset class="coming-booked">
+            <legend>How did you book?</legend>
+            <label class="coming-radio">
+              <input type="radio" name="bookedThrough" value="julia" required />
+              <span>Julia (travel agent)</span>
+            </label>
+            <label class="coming-radio">
+              <input type="radio" name="bookedThrough" value="royal" />
+              <span>Royal Caribbean direct</span>
+            </label>
+            <label class="coming-radio">
+              <input type="radio" name="bookedThrough" value="other" />
+              <span>Other</span>
+            </label>
+          </fieldset>
+
+          <button type="submit" class="chat-send" id="coming-submit">
+            Submit for approval
+          </button>
+        </form>
+      </section>
+
+      <section id="admin-panel" class="admin-panel" hidden>
+        <div id="admin-lock" class="admin-lock">
+          <label class="chat-field">
+            <span>Host PIN</span>
+            <input
+              id="admin-pin"
+              type="password"
+              inputmode="numeric"
+              maxlength="12"
+            />
+          </label>
+          <div class="admin-lock-actions">
+            <button type="button" id="admin-cancel" class="admin-lock-btn">
+              Cancel
+            </button>
+            <button type="button" id="admin-unlock" class="chat-send">
+              Unlock
+            </button>
+          </div>
+        </div>
+        <div id="admin-tools" class="admin-tools" hidden>
+          <p class="admin-unlocked">
+            Host tools unlocked. Approve pending groups, edit live listings, or
+            remove anyone who can no longer come.
+          </p>
+          <h3 class="coming-admin-title">Pending approval</h3>
+          <div id="pending-list" class="coming-pending" aria-live="polite"></div>
+          <button type="button" id="admin-lock-btn" class="admin-lock-btn">
+            Log out of host tools
+          </button>
+        </div>
+      </section>
+
+      <div id="edit-modal" class="leave-modal" hidden>
+        <div
+          class="leave-modal-card coming-edit-card"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="edit-modal-title"
+        >
+          <h2 id="edit-modal-title">Edit group</h2>
+          <form id="edit-form" class="coming-form">
+            <fieldset class="coming-booked">
+              <legend>Side</legend>
+              <label class="coming-radio">
+                <input type="radio" name="editSide" value="bride" required />
+                <span>Bride</span>
+              </label>
+              <label class="coming-radio">
+                <input type="radio" name="editSide" value="groom" />
+                <span>Groom</span>
+              </label>
+            </fieldset>
+
+            <label class="chat-field">
+              <span>Group name</span>
+              <input id="edit-group-name" type="text" maxlength="80" required />
+            </label>
+
+            <label class="chat-field">
+              <span>Party size</span>
+              <select id="edit-party-size" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+              </select>
+            </label>
+
+            <div id="edit-guest-fields" class="guest-fields"></div>
+
+            <fieldset class="coming-booked">
+              <legend>How booked</legend>
+              <label class="coming-radio">
+                <input type="radio" name="editBooked" value="julia" required />
+                <span>Julia (travel agent)</span>
+              </label>
+              <label class="coming-radio">
+                <input type="radio" name="editBooked" value="royal" />
+                <span>Royal Caribbean direct</span>
+              </label>
+              <label class="coming-radio">
+                <input type="radio" name="editBooked" value="other" />
+                <span>Other</span>
+              </label>
+            </fieldset>
+
+            <div class="leave-modal-actions">
+              <button type="button" id="edit-cancel" class="admin-lock-btn">
+                Cancel
+              </button>
+              <button type="submit" class="chat-send">Save changes</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <button
+        type="button"
+        id="host-anchor"
+        class="host-anchor"
+        title="Host"
+        aria-label="Host access"
+      >
+        <img src="images/anchor.svg" alt="" />
+      </button>
+
+      <p class="inner-note">
+        Questions? Ask in <a href="chat.html">Cruise Chat</a> or contact the
+        <a href="agent.html">travel agent</a>.
+      </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="whos-coming.js"></script>
+  </body>
+</html>

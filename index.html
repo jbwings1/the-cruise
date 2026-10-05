@@ -32,6 +32,16 @@
             </textPath>
           </text>
         </svg>
+        <a
+          id="wedding-page-link"
+          class="hub-wedding-link"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span class="hub-wedding-kicker">Jump to the wedding page</span>
+          <span class="hub-wedding-name">Our Wedding Day</span>
+        </a>
         <p class="hub-sub">Symphony of the Seas · September 19 – 25, 2027</p>
       </header>
 
@@ -59,6 +69,10 @@
             <img class="hub-link-logo" src="images/anchor.svg" alt="" />
             <span>Cruise Chat</span>
             <span id="chat-new-badge" class="hub-link-badge" hidden></span>
+          </a>
+          <a class="hub-link" href="whos-coming.html">
+            <img class="hub-link-logo" src="images/anchor.svg" alt="" />
+            <span>Who's Coming</span>
           </a>
         </nav>
       </div>
@@ -99,5 +113,22 @@
     <script src="config.js"></script>
     <script src="hub-chat-badge.js"></script>
     <script src="countdown.js"></script>
+    <script>
+      (() => {
+        const link = document.getElementById("wedding-page-link");
+        const weddingUrl = (window.CRUISE_WEDDING_PAGE_URL || "").trim();
+        if (!link) return;
+        if (weddingUrl) {
+          link.href = weddingUrl;
+        } else {
+          link.addEventListener("click", (event) => {
+            event.preventDefault();
+            window.alert(
+              "The Our Wedding Day link will open once the wedding page URL is added."
+            );
+          });
+        }
+      })();
+    </script>
   </body>
 </html>

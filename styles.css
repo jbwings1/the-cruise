@@ -1308,4 +1308,8 @@ body.is-admin .host-anchor {
   .hub-arc {
     margin-bottom: -0.85rem;
   }
+
+  .coming-sides {
+    grid-template-columns: 1fr;
+  }
 }

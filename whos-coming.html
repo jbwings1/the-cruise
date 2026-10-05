@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Who's Coming · Regan N Elaina's Wedding Cruise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="page-inner page-coming">
+    <div class="inner-shell">
+      <header class="inner-header">
+        <a class="chat-back" href="index.html">← Main page</a>
+        <h1>Who's Coming</h1>
+        <p>
+          See who’s booked for Regan &amp; Elaina’s wedding cruise, and add
+          your party once you’re reserved.
+        </p>
+      </header>
+
+      <p id="coming-status" class="coming-status" role="status">Loading…</p>
+
+      <section class="agent-card coming-list-card" aria-label="Booked guests">
+        <div class="coming-list-head">
+          <h2>Booked so far</h2>
+          <p id="coming-count" class="coming-count">0 people</p>
+        </div>
+        <div id="coming-list" class="coming-list" aria-live="polite"></div>
+      </section>
+
+      <section class="agent-card coming-form-card" aria-label="Add your party">
+        <h2>Add your party</h2>
+        <p class="coming-help">
+          Start with how many people are in your cabin party, then enter each
+          person’s first and last name, and who you booked through. Hosts will
+          approve it before it shows on the list.
+        </p>
+
+        <form id="coming-form" class="coming-form">
+          <label class="chat-field">
+            <span>Party size</span>
+            <select id="party-size" name="partySize" required>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+            </select>
+          </label>
+
+          <div id="guest-fields" class="guest-fields"></div>
+
+          <fieldset class="coming-booked">
+            <legend>Booked through</legend>
+            <label class="coming-radio">
+              <input type="radio" name="bookedThrough" value="julia" required />
+              <span>Julia (travel agent)</span>
+            </label>
+            <label class="coming-radio">
+              <input type="radio" name="bookedThrough" value="royal" />
+              <span>Royal Caribbean direct</span>
+            </label>
+            <label class="coming-radio">
+              <input type="radio" name="bookedThrough" value="other" />
+              <span>Other</span>
+            </label>
+          </fieldset>
+
+          <button type="submit" class="chat-send" id="coming-submit">
+            Submit for approval
+          </button>
+        </form>
+      </section>
+
+      <section id="admin-panel" class="admin-panel" hidden>
+        <div id="admin-lock" class="admin-lock">
+          <label class="chat-field">
+            <span>Host PIN</span>
+            <input
+              id="admin-pin"
+              type="password"
+              inputmode="numeric"
+              maxlength="12"
+            />
+          </label>
+          <div class="admin-lock-actions">
+            <button type="button" id="admin-cancel" class="admin-lock-btn">
+              Cancel
+            </button>
+            <button type="button" id="admin-unlock" class="chat-send">
+              Unlock
+            </button>
+          </div>
+        </div>
+        <div id="admin-tools" class="admin-tools" hidden>
+          <p class="admin-unlocked">
+            Host tools unlocked. Approve pending parties or remove anyone from
+            the public list.
+          </p>
+          <h3 class="coming-admin-title">Pending approval</h3>
+          <div id="pending-list" class="coming-pending" aria-live="polite"></div>
+          <button type="button" id="admin-lock-btn" class="admin-lock-btn">
+            Log out of host tools
+          </button>
+        </div>
+      </section>
+
+      <button
+        type="button"
+        id="host-anchor"
+        class="host-anchor"
+        title="Host"
+        aria-label="Host access"
+      >
+        <img src="images/anchor.svg" alt="" />
+      </button>
+
+      <p class="inner-note">
+        Questions? Ask in <a href="chat.html">Cruise Chat</a> or contact the
+        <a href="agent.html">travel agent</a>.
+      </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="whos-coming.js"></script>
+  </body>
+</html>

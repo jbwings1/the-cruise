@@ -19,6 +19,13 @@ npx --yes serve .
 - Live group messages via Supabase Realtime
 - Backend project: `the-cruise` on Supabase
 
+## Who's Coming
+
+- Hub link: **Who's Coming** → [`whos-coming.html`](whos-coming.html)
+- Guests submit party size, each person's first & last name, and how they booked
+- Submissions stay pending until a host approves with the host PIN
+- Public list shows approved names and a running people count
+
 ## Edit later
 
 - Hub background photo: [`images/hub-background.jpg`](images/hub-background.jpg)

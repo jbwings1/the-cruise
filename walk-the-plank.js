@@ -274,11 +274,16 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const PLANK_FEET = PLANK_FEET_DEFAULT.map((p) => ({ ...p }));
-  const SPLASH_AT = { x: 680, y: 620 };
+  const SPLASH_AT = { x: 720, y: 630 };
+  // 8-frame fall: tip → forward flip → head-first into the water.
+  const FALL_FRAME_MS = 115;
+  const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
+  const FALL_ROTS = [0, 28, 58, 95, 130, 165, 195, 220];
   const FEET_STORAGE_KEY = "plankFeetOverride.v1";
   const calibratePanel = document.getElementById("plank-calibrate");
   const calibrateCoords = document.getElementById("plank-calibrate-coords");
   const calibrateCopyBtn = document.getElementById("plank-calibrate-copy");
+  const calibrateFallBtn = document.getElementById("plank-calibrate-fall");
   const calibrateCloseBtn = document.getElementById("plank-calibrate-close");
   const movePirateBtn = document.getElementById("move-pirate-btn");
   const calibrateMode =
@@ -371,6 +376,61 @@
     playerPirate.style.height = `${h}px`;
     playerPirate.style.left = `${left}px`;
     playerPirate.style.top = `${top}px`;
+    playerPirate.style.transform = "translateX(-50%)";
+    playerPirate.style.opacity = "1";
+  }
+
+  function buildFallFrames() {
+    const tip = PLANK_FEET[2];
+    const startCx = tip.x;
+    const startCy = tip.y - PIRATE_SPRITE_H * (FEET_IN_SPRITE - 0.5);
+    const endCx = tip.x + 86;
+    const endCy = tip.y + 165;
+    return FALL_ROTS.map((rot, i) => {
+      const t = i / (FALL_ROTS.length - 1);
+      const e = t ** 1.55;
+      return {
+        cx: startCx + (endCx - startCx) * e + Math.sin(t * Math.PI) * 18,
+        cy: startCy + (endCy - startCy) * e,
+        rot,
+        opacity: i === FALL_ROTS.length - 1 ? 0.35 : 1,
+      };
+    });
+  }
+
+  function placeFallFrame(frame) {
+    if (!playerPirate) return;
+    const { scale, ox, oy } = coverLayout();
+    const w = PIRATE_SPRITE_W * scale;
+    const h = PIRATE_SPRITE_H * scale;
+    playerPirate.style.width = `${w}px`;
+    playerPirate.style.height = `${h}px`;
+    playerPirate.style.left = `${ox + frame.cx * scale}px`;
+    playerPirate.style.top = `${oy + frame.cy * scale}px`;
+    playerPirate.style.transform = `translate(-50%, -50%) rotate(${frame.rot}deg)`;
+    playerPirate.style.opacity = String(frame.opacity ?? 1);
+  }
+
+  async function playFallAnimation() {
+    const frames = buildFallFrames();
+    playerPirate.hidden = false;
+    playerPirate.classList.add("is-falling");
+    playerPirate.classList.remove("is-calibrating");
+    placeSplash();
+    for (let i = 0; i < frames.length; i += 1) {
+      placeFallFrame(frames[i]);
+      if (i === FALL_SPLASH_INDEX) {
+        splashEl.classList.add("is-active");
+        try {
+          playSplash();
+        } catch {
+          /* ignore */
+        }
+      }
+      await wait(FALL_FRAME_MS);
+    }
+    await wait(450);
+    playerPirate.style.opacity = "0";
   }
 
   function placeSplash() {
@@ -382,6 +442,7 @@
   }
 
   function syncPiratePlacement() {
+    if (playerPirate.classList.contains("is-falling")) return;
     const step = Number(playerPirate.dataset.step || 0);
     placeAtFeet(PLANK_FEET[Math.min(step, 2)]);
     placeSplash();
@@ -547,14 +608,10 @@
   async function onSplash() {
     questionPanel.hidden = true;
     progressChip.hidden = true;
-    // Fall from the tip; CSS animation carries them into the water.
+    // 8-frame fall from miss-2 tip into the water, head first.
     placeAtFeet(PLANK_FEET[2]);
-    placeSplash();
-    playerPirate.classList.add("is-falling");
-    await wait(450);
-    splashEl.classList.add("is-active");
-    playSplash();
-    await wait(1400);
+    await wait(280);
+    await playFallAnimation();
     splashEl.classList.remove("is-active");
     resetVisitGems();
     showPanel(endPanel);
@@ -566,6 +623,7 @@
       endMessage.textContent =
         "Splash! No more questions — come back later.";
     }
+    playerPirate.classList.remove("is-falling");
     paintPlayer();
   }
 
@@ -703,6 +761,19 @@
       } catch {
         calibrateCoords.textContent = text.replaceAll("\n", "  ");
       }
+    });
+
+    calibrateFallBtn?.addEventListener("click", async () => {
+      if (calibrateFallBtn.disabled) return;
+      calibrateFallBtn.disabled = true;
+      calibrateStep = 2;
+      applyCalibrateStep();
+      await wait(200);
+      await playFallAnimation();
+      splashEl.classList.remove("is-active");
+      playerPirate.classList.remove("is-falling");
+      applyCalibrateStep();
+      calibrateFallBtn.disabled = false;
     });
 
     window.addEventListener("keydown", (event) => {

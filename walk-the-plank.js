@@ -268,86 +268,16 @@
   const PIRATE_SPRITE_W = Math.round((PIRATE_SPRITE_H * 560) / 960);
   const FEET_IN_SPRITE = 942 / 960; // sole row in guy/gal PNGs
   // Feet on top walking surface (scene pixels on 1280×720 art).
-  const PLANK_FEET_DEFAULT = [
+  const PLANK_FEET = [
     { x: 386, y: 446 }, // start — on plank by the ship
     { x: 510, y: 466 }, // 1 miss — halfway out
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
-  const PLANK_FEET = PLANK_FEET_DEFAULT.map((p) => ({ ...p }));
   const SPLASH_AT = { x: 720, y: 630 };
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
   const FALL_ROTS = [0, 28, 58, 95, 130, 165, 195, 220];
-  const FEET_STORAGE_KEY = "plankFeetOverride.v1";
-  const calibratePanel = document.getElementById("plank-calibrate");
-  const calibrateCoords = document.getElementById("plank-calibrate-coords");
-  const calibrateCopyBtn = document.getElementById("plank-calibrate-copy");
-  const calibrateFallBtn = document.getElementById("plank-calibrate-fall");
-  const calibrateCloseBtn = document.getElementById("plank-calibrate-close");
-  const movePirateBtn = document.getElementById("move-pirate-btn");
-  const calibrateMode =
-    new URLSearchParams(window.location.search).has("calibrate") ||
-    window.location.hash === "#calibrate";
-  let calibrateStep = 2;
-  let calibrateOpen = false;
-
-  function loadFeetOverride() {
-    try {
-      const raw = localStorage.getItem(FEET_STORAGE_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw);
-      if (!Array.isArray(parsed) || parsed.length < 3) return;
-      parsed.slice(0, 3).forEach((p, i) => {
-        if (p && Number.isFinite(p.x) && Number.isFinite(p.y)) {
-          PLANK_FEET[i] = { x: Math.round(p.x), y: Math.round(p.y) };
-        }
-      });
-    } catch {
-      /* ignore bad local overrides */
-    }
-  }
-
-  function saveFeetOverride() {
-    try {
-      localStorage.setItem(FEET_STORAGE_KEY, JSON.stringify(PLANK_FEET));
-    } catch {
-      /* ignore quota / private mode */
-    }
-  }
-
-  function refreshCalibrateUi() {
-    if (!calibratePanel || !calibrateCoords) return;
-    const feet = PLANK_FEET[calibrateStep];
-    calibrateCoords.textContent = `step ${calibrateStep}:  x: ${feet.x},  y: ${feet.y}`;
-    calibratePanel.querySelectorAll("[data-cal-step]").forEach((btn) => {
-      btn.classList.toggle(
-        "is-active",
-        Number(btn.dataset.calStep) === calibrateStep
-      );
-    });
-  }
-
-  function applyCalibrateStep() {
-    playerPirate.hidden = false;
-    playerPirate.classList.add("is-calibrating");
-    playerPirate.classList.remove("is-falling");
-    playerPirate.dataset.step = String(calibrateStep);
-    placeAtFeet(PLANK_FEET[calibrateStep]);
-    placeSplash();
-    refreshCalibrateUi();
-  }
-
-  function nudgeFeet(dx, dy) {
-    const feet = PLANK_FEET[calibrateStep];
-    feet.x = Math.max(0, Math.min(SCENE_W, feet.x + dx));
-    feet.y = Math.max(0, Math.min(SCENE_H, feet.y + dy));
-    saveFeetOverride();
-    placeAtFeet(feet);
-    refreshCalibrateUi();
-  }
-
-  loadFeetOverride();
 
   function coverLayout() {
     const scene = playerPirate.parentElement;
@@ -415,7 +345,6 @@
     const frames = buildFallFrames();
     playerPirate.hidden = false;
     playerPirate.classList.add("is-falling");
-    playerPirate.classList.remove("is-calibrating");
     placeSplash();
     for (let i = 0; i < frames.length; i += 1) {
       placeFallFrame(frames[i]);
@@ -687,110 +616,4 @@
   buildPiratePicker();
   updatePlayEnabled();
   refreshLeaderboard();
-
-  let panelBeforeCalibrate = "start";
-
-  function openCalibrate() {
-    if (!calibratePanel) return;
-    calibrateOpen = true;
-    calibratePanel.hidden = false;
-    if (movePirateBtn) movePirateBtn.setAttribute("aria-pressed", "true");
-    // Clear the center game panels so the plank positions are visible.
-    if (!startPanel.hidden) panelBeforeCalibrate = "start";
-    else if (!questionPanel.hidden) panelBeforeCalibrate = "question";
-    else if (!endPanel.hidden) panelBeforeCalibrate = "end";
-    else panelBeforeCalibrate = "start";
-    startPanel.hidden = true;
-    questionPanel.hidden = true;
-    endPanel.hidden = true;
-    if (progressChip) progressChip.hidden = true;
-    paintPlayer();
-    applyCalibrateStep();
-  }
-
-  function closeCalibrate() {
-    if (!calibratePanel) return;
-    calibrateOpen = false;
-    calibratePanel.hidden = true;
-    playerPirate.classList.remove("is-calibrating");
-    if (movePirateBtn) movePirateBtn.setAttribute("aria-pressed", "false");
-    if (panelBeforeCalibrate === "question") {
-      showPanel(questionPanel);
-      syncPiratePlacement();
-    } else if (panelBeforeCalibrate === "end") {
-      showPanel(endPanel);
-      playerPirate.hidden = true;
-    } else {
-      showPanel(startPanel);
-      playerPirate.hidden = true;
-    }
-  }
-
-  if (calibratePanel) {
-    movePirateBtn?.addEventListener("click", () => {
-      if (calibrateOpen) closeCalibrate();
-      else openCalibrate();
-    });
-    calibrateCloseBtn?.addEventListener("click", closeCalibrate);
-
-    calibratePanel.addEventListener("click", (event) => {
-      const stepBtn = event.target.closest("[data-cal-step]");
-      if (stepBtn) {
-        calibrateStep = Number(stepBtn.dataset.calStep);
-        applyCalibrateStep();
-        return;
-      }
-      const nudgeBtn = event.target.closest("[data-nudge]");
-      if (nudgeBtn) {
-        const [dx, dy] = nudgeBtn.dataset.nudge.split(",").map(Number);
-        const step = event.shiftKey ? 1 : 4;
-        nudgeFeet(dx * step, dy * step);
-      }
-    });
-
-    calibrateCopyBtn?.addEventListener("click", async () => {
-      const text = PLANK_FEET.map(
-        (p, i) => `  { x: ${p.x}, y: ${p.y} }, // step ${i}`
-      ).join("\n");
-      try {
-        await navigator.clipboard.writeText(text);
-        calibrateCopyBtn.textContent = "Copied!";
-        setTimeout(() => {
-          calibrateCopyBtn.textContent = "Copy coordinates";
-        }, 1200);
-      } catch {
-        calibrateCoords.textContent = text.replaceAll("\n", "  ");
-      }
-    });
-
-    calibrateFallBtn?.addEventListener("click", async () => {
-      if (calibrateFallBtn.disabled) return;
-      calibrateFallBtn.disabled = true;
-      calibrateStep = 2;
-      applyCalibrateStep();
-      await wait(200);
-      await playFallAnimation();
-      splashEl.classList.remove("is-active");
-      playerPirate.classList.remove("is-falling");
-      applyCalibrateStep();
-      calibrateFallBtn.disabled = false;
-    });
-
-    window.addEventListener("keydown", (event) => {
-      if (!calibrateOpen) return;
-      const map = {
-        ArrowLeft: [-1, 0],
-        ArrowRight: [1, 0],
-        ArrowUp: [0, -1],
-        ArrowDown: [0, 1],
-      };
-      const delta = map[event.key];
-      if (!delta) return;
-      event.preventDefault();
-      const step = event.shiftKey ? 1 : 4;
-      nudgeFeet(delta[0] * step, delta[1] * step);
-    });
-
-    if (calibrateMode) openCalibrate();
-  }
 })();

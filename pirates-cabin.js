@@ -96,4 +96,9 @@
 
   leftBtn?.addEventListener("click", () => nudge(reduceMotion ? -0.1 : -0.16));
   rightBtn?.addEventListener("click", () => nudge(reduceMotion ? 0.1 : 0.16));
+
+  // Keep sword clicks from being swallowed by look-drag gesture logic.
+  document.getElementById("plank-hotspot")?.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
 })();

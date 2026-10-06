@@ -94,27 +94,27 @@ body.pirate-page {
 
 .cabin-hotspot-sword {
   position: absolute;
-  left: 66.2%;
-  top: 34%;
-  width: 4.6%;
-  height: 54%;
+  left: 68.4%;
+  top: 36%;
+  width: 5.8%;
+  height: 58%;
   transform: translate(-50%, -50%);
   text-decoration: none;
   color: var(--cabin-ink);
   display: block;
   border: 0;
   background: transparent;
-  z-index: 2;
+  z-index: 4;
   cursor: pointer;
 }
 
 .cabin-sword-glow {
   position: absolute;
-  left: 50%;
-  top: 46%;
-  width: 160%;
-  height: 88%;
-  transform: translate(-50%, -50%) rotate(-8deg);
+  left: 48%;
+  top: 44%;
+  width: 170%;
+  height: 92%;
+  transform: translate(-50%, -50%) rotate(-10deg);
   border-radius: 48% / 42%;
   background:
     radial-gradient(
@@ -155,21 +155,20 @@ body.pirate-page {
 
 .cabin-hotspot-copy {
   position: absolute;
-  left: 50%;
-  top: 100%;
-  transform: translate(-50%, 0.2rem);
+  left: 108%;
+  top: 58%;
+  transform: translate(0, -50%);
   display: grid;
   gap: 0.12rem;
-  justify-items: center;
-  min-width: 7.5rem;
-  text-align: center;
-  pointer-events: none;
+  justify-items: start;
+  min-width: 7.2rem;
+  text-align: left;
   transition: transform 180ms ease, filter 180ms ease;
 }
 
 .cabin-hotspot-sword:hover .cabin-hotspot-copy,
 .cabin-hotspot-sword:focus-visible .cabin-hotspot-copy {
-  transform: translate(-50%, 0);
+  transform: translate(0.15rem, -50%);
   filter: drop-shadow(0 4px 12px rgba(230, 193, 90, 0.4));
 }
 
@@ -344,12 +343,13 @@ body.pirate-page {
   }
 
   .cabin-hotspot-sword {
-    width: 7.5%;
-    height: 52%;
+    width: 9%;
+    height: 56%;
   }
 
   .cabin-hotspot-copy {
-    min-width: 6.5rem;
+    left: 102%;
+    min-width: 6.2rem;
   }
 }
 

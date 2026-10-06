@@ -276,7 +276,7 @@
   const PLANK_FEET = PLANK_FEET_DEFAULT.map((p) => ({ ...p }));
   const SPLASH_AT = { x: 720, y: 630 };
   // 8-frame fall: tip → forward flip → head-first into the water.
-  const FALL_FRAME_MS = 115;
+  const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
   const FALL_ROTS = [0, 28, 58, 95, 130, 165, 195, 220];
   const FEET_STORAGE_KEY = "plankFeetOverride.v1";

@@ -458,10 +458,9 @@ body.pirate-page {
   top: 40.1%;
 }
 
-/* 3rd miss: fall off the tip into the water */
+/* 3rd miss: 8-frame fall posed in JS (no CSS keyframe path) */
 .player-pirate.is-falling {
-  transition: none;
-  animation: plank-fall 1.35s ease-in forwards;
+  transition: none !important;
 }
 
 .splash {
@@ -604,6 +603,7 @@ body.pirate-page {
 
 .plank-calibrate-copy {
   width: 100%;
+  margin-top: 0.35rem;
 }
 
 .player-pirate.is-calibrating {
@@ -1046,20 +1046,6 @@ body.pirate-page {
   }
   to {
     transform: translateY(20px);
-  }
-}
-
-@keyframes plank-fall {
-  0% {
-    transform: translateX(-50%) rotate(0deg);
-    opacity: 1;
-  }
-  35% {
-    transform: translateX(-40%) translateY(12%) rotate(18deg);
-  }
-  100% {
-    transform: translateX(-25%) translateY(42%) rotate(70deg);
-    opacity: 0;
   }
 }
 

@@ -271,7 +271,7 @@
   const PLANK_FEET_DEFAULT = [
     { x: 386, y: 446 }, // start — on plank by the ship
     { x: 510, y: 466 }, // 1 miss — halfway out
-    { x: 545, y: 470 }, // 2 misses — near tip
+    { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const PLANK_FEET = PLANK_FEET_DEFAULT.map((p) => ({ ...p }));
   const SPLASH_AT = { x: 680, y: 620 };

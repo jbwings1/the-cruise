@@ -263,7 +263,8 @@
   // Mapped through object-fit:cover so the pirate stays on the painted plank.
   const SCENE_W = 1280;
   const SCENE_H = 720;
-  const PIRATE_SPRITE_H = 150; // px at scene native size
+  // ~10% taller than bride/groom painted scale (~185px → 205px)
+  const PIRATE_SPRITE_H = 205; // px at scene native size
   const PIRATE_SPRITE_W = Math.round((PIRATE_SPRITE_H * 560) / 960);
   const FEET_IN_SPRITE = 942 / 960; // sole row in guy/gal PNGs
   const PLANK_FEET = [

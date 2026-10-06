@@ -414,7 +414,7 @@ body.pirate-page {
   position: absolute;
   /* Sized/placed in JS to match object-fit:cover scene coords.
      Fallbacks below assume a 16:9 scene with feet on the painted plank. */
-  width: 6.8%;
+  width: 9.3%;
   aspect-ratio: 560 / 960;
   height: auto;
   z-index: 4;
@@ -439,23 +439,23 @@ body.pirate-page {
   background: transparent;
 }
 
-/* Fallback % if JS placement hasn't run yet (1280×720 scene) */
+/* Fallback % if JS placement hasn't run yet (1280×720 scene, 205px pirate) */
 /* 0 misses: on the plank next to the ship */
 .player-pirate[data-step="0"] {
   left: 35.2%;
-  top: 43.8%;
+  top: 36.3%;
 }
 
 /* 1 miss: halfway out on the plank */
 .player-pirate[data-step="1"] {
   left: 44.1%;
-  top: 44.6%;
+  top: 37.1%;
 }
 
 /* 2 misses: at the end of the plank */
 .player-pirate[data-step="2"] {
   left: 52.3%;
-  top: 45.6%;
+  top: 38.1%;
 }
 
 /* 3rd miss: fall off the tip into the water */
@@ -1000,17 +1000,17 @@ body.pirate-page {
   /* Same plank feet as desktop; JS cover-mapping handles crop */
   .player-pirate[data-step="0"] {
     left: 35.2%;
-    top: 43.8%;
+    top: 36.3%;
   }
 
   .player-pirate[data-step="1"] {
     left: 44.1%;
-    top: 44.6%;
+    top: 37.1%;
   }
 
   .player-pirate[data-step="2"] {
     left: 52.3%;
-    top: 45.6%;
+    top: 38.1%;
   }
 
   .splash {

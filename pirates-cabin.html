@@ -10,20 +10,34 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=23" />
   </head>
   <body class="pirate-page cabin-page">
     <main class="cabin-stage" aria-label="Captain’s cabin">
+      <header class="cabin-brand">
+        <p class="cabin-brand-mark">Captain’s Cabin</p>
+        <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
+      </header>
+
       <div class="cabin-window" aria-hidden="true">
-        <div class="cabin-ocean-line"></div>
+        <div class="cabin-sky"></div>
+        <div class="cabin-sun"></div>
+        <div class="cabin-sea"></div>
+        <div class="cabin-window-mullion cabin-window-mullion-v"></div>
+        <div class="cabin-window-mullion cabin-window-mullion-h"></div>
       </div>
 
-      <a class="cabin-sword" href="walk-the-plank.html" aria-label="Walk the Plank game">
-        <span class="cabin-sword-blade" aria-hidden="true"></span>
-        <span class="cabin-sword-guard" aria-hidden="true"></span>
-        <span class="cabin-sword-grip" aria-hidden="true"></span>
-        <span class="cabin-sword-pommel" aria-hidden="true"></span>
-        <span class="cabin-sword-label">Walk the Plank</span>
+      <a class="cabin-sword" href="walk-the-plank.html">
+        <span class="cabin-sword-art" aria-hidden="true">
+          <span class="cabin-sword-blade"></span>
+          <span class="cabin-sword-guard"></span>
+          <span class="cabin-sword-grip"></span>
+          <span class="cabin-sword-pommel"></span>
+        </span>
+        <span class="cabin-sword-copy">
+          <span class="cabin-sword-label">Walk the Plank</span>
+          <span class="cabin-sword-hint">Play for gems</span>
+        </span>
       </a>
 
       <div class="cabin-shelf" aria-hidden="true">
@@ -35,24 +49,31 @@
         </div>
       </div>
 
-      <div class="cabin-desk" aria-hidden="true"></div>
+      <div class="cabin-lantern" aria-hidden="true">
+        <span class="cabin-lantern-glow"></span>
+        <span class="cabin-lantern-body"></span>
+      </div>
 
-      <div id="champion-statue" class="cabin-statue" hidden>
-        <div id="champion-figure" class="cabin-statue-figure"></div>
+      <div class="cabin-desk" aria-hidden="true">
+        <div class="cabin-map"></div>
+      </div>
+
+      <div id="champion-statue" class="cabin-statue is-empty">
+        <div id="champion-figure" class="cabin-statue-figure" aria-hidden="true"></div>
         <div class="cabin-statue-base"></div>
         <p class="cabin-statue-meta">
-          <strong id="champion-name">—</strong>
-          <span id="champion-gems">0 gems</span>
+          <strong id="champion-name">No champion yet</strong>
+          <span id="champion-gems">Walk the plank to claim the pedestal</span>
         </p>
       </div>
     </main>
 
-    <a class="cabin-exit" href="index.html">Exit</a>
+    <a class="cabin-exit" href="index.html">Exit to cruise hub</a>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="plank-pirates.js"></script>
     <script src="plank-leaderboard.js"></script>
-    <script src="pirates-cabin.js"></script>
+    <script src="pirates-cabin.js?v=2"></script>
   </body>
 </html>

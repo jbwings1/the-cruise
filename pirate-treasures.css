@@ -443,19 +443,19 @@ body.pirate-page {
 /* 0 misses: on the plank next to the ship */
 .player-pirate[data-step="0"] {
   left: 35.2%;
-  top: 38.2%;
+  top: 36.3%;
 }
 
 /* 1 miss: halfway out on the plank */
 .player-pirate[data-step="1"] {
   left: 41.4%;
-  top: 39%;
+  top: 37.1%;
 }
 
 /* 2 misses: at the end of the plank */
 .player-pirate[data-step="2"] {
-  left: 45.3%;
-  top: 39.9%;
+  left: 44.9%;
+  top: 37.6%;
 }
 
 /* 3rd miss: fall off the tip into the water */
@@ -1000,17 +1000,17 @@ body.pirate-page {
   /* Same plank feet as desktop; JS cover-mapping handles crop */
   .player-pirate[data-step="0"] {
     left: 35.2%;
-    top: 38.2%;
+    top: 36.3%;
   }
 
   .player-pirate[data-step="1"] {
     left: 41.4%;
-    top: 39%;
+    top: 37.1%;
   }
 
   .player-pirate[data-step="2"] {
-    left: 45.3%;
-    top: 39.9%;
+    left: 44.9%;
+    top: 37.6%;
   }
 
   .splash {

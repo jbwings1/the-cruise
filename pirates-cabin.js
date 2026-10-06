@@ -1,15 +1,18 @@
 (() => {
   const lookEl = document.getElementById("cabin-look");
   const worldEl = document.getElementById("cabin-world");
+  const sceneEl = document.getElementById("cabin-scene");
   const panoEl = document.getElementById("cabin-pano");
   const leftBtn = document.getElementById("cabin-turn-left");
   const rightBtn = document.getElementById("cabin-turn-right");
+  const hotspot = document.getElementById("plank-hotspot");
   if (!lookEl || !worldEl || !panoEl) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let look = 0.42; // start near the stern desk / windows
+  let look = 0.68; // start facing the cutlass wall
   let maxOffset = 0;
   let dragging = false;
+  let dragMoved = false;
   let dragStartX = 0;
   let dragStartLook = 0;
   let pointerId = null;
@@ -20,9 +23,12 @@
 
   function measure() {
     const viewW = lookEl.clientWidth;
-    const worldW = panoEl.getBoundingClientRect().width || panoEl.naturalWidth;
-    worldEl.style.width = `${worldW}px`;
-    maxOffset = Math.max(0, worldW - viewW);
+    const sceneW =
+      (sceneEl && sceneEl.getBoundingClientRect().width) ||
+      panoEl.getBoundingClientRect().width ||
+      panoEl.naturalWidth;
+    worldEl.style.width = `${sceneW}px`;
+    maxOffset = Math.max(0, sceneW - viewW);
     apply();
   }
 
@@ -46,6 +52,7 @@
   lookEl.addEventListener("pointerdown", (e) => {
     if (e.target.closest("a, button")) return;
     dragging = true;
+    dragMoved = false;
     pointerId = e.pointerId;
     dragStartX = e.clientX;
     dragStartLook = look;
@@ -56,6 +63,7 @@
   lookEl.addEventListener("pointermove", (e) => {
     if (!dragging || e.pointerId !== pointerId) return;
     const dx = e.clientX - dragStartX;
+    if (Math.abs(dx) > 3) dragMoved = true;
     const span = maxOffset || lookEl.clientWidth;
     look = dragStartLook - dx / span;
     apply();
@@ -96,4 +104,10 @@
 
   leftBtn?.addEventListener("click", () => nudge(reduceMotion ? -0.1 : -0.16));
   rightBtn?.addEventListener("click", () => nudge(reduceMotion ? 0.1 : 0.16));
+
+  // Ensure sword click always navigates even if a parent gesture interferes.
+  hotspot?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (dragMoved) return;
+  });
 })();

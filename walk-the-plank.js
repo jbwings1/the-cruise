@@ -259,13 +259,81 @@
     state.pool = state.pool.filter((q) => q._id !== question._id);
   }
 
-  // Plank positions via CSS [data-step]:
+  // Feet anchors on the locked 1280×720 scene (images/plank-ship-scene.jpg).
+  // Mapped through object-fit:cover so the pirate stays on the painted plank.
+  const SCENE_W = 1280;
+  const SCENE_H = 720;
+  const PIRATE_SPRITE_H = 150; // px at scene native size
+  const PIRATE_SPRITE_W = Math.round((PIRATE_SPRITE_H * 560) / 960);
+  const FEET_IN_SPRITE = 942 / 960; // sole row in guy/gal PNGs
+  const PLANK_FEET = [
+    { x: 450, y: 462 }, // start — on plank by the ship
+    { x: 565, y: 468 }, // 1 miss — halfway out
+    { x: 670, y: 475 }, // 2 misses — tip of the plank
+  ];
+  const SPLASH_AT = { x: 730, y: 620 };
+
+  function coverLayout() {
+    const scene = playerPirate.parentElement;
+    const img = scene.querySelector(".game-scene-art");
+    const rect = scene.getBoundingClientRect();
+    const nw = img?.naturalWidth || SCENE_W;
+    const nh = img?.naturalHeight || SCENE_H;
+    const scale = Math.max(rect.width / nw, rect.height / nh);
+    const dw = nw * scale;
+    const dh = nh * scale;
+    return {
+      scale,
+      ox: (rect.width - dw) / 2,
+      oy: (rect.height - dh) / 2,
+    };
+  }
+
+  function placeAtFeet(feet) {
+    if (!playerPirate || playerPirate.hidden) return;
+    const { scale, ox, oy } = coverLayout();
+    const w = PIRATE_SPRITE_W * scale;
+    const h = PIRATE_SPRITE_H * scale;
+    const left = ox + feet.x * scale;
+    const top = oy + feet.y * scale - h * FEET_IN_SPRITE;
+    playerPirate.style.width = `${w}px`;
+    playerPirate.style.height = `${h}px`;
+    playerPirate.style.left = `${left}px`;
+    playerPirate.style.top = `${top}px`;
+  }
+
+  function placeSplash() {
+    if (!splashEl) return;
+    const { scale, ox, oy } = coverLayout();
+    splashEl.style.left = `${ox + SPLASH_AT.x * scale}px`;
+    splashEl.style.top = `${oy + SPLASH_AT.y * scale}px`;
+    splashEl.style.transform = "translate(-50%, -50%)";
+  }
+
+  function syncPiratePlacement() {
+    const step = Number(playerPirate.dataset.step || 0);
+    placeAtFeet(PLANK_FEET[Math.min(step, 2)]);
+    placeSplash();
+  }
+
+  // Plank positions:
   // 0 = start on plank by the ship
   // 1 = first miss, halfway out
   // 2 = second miss, end of the plank
   // third miss triggers fall/splash (is-falling)
   function setStep(misses) {
-    playerPirate.dataset.step = String(Math.min(misses, 2));
+    const step = Math.min(misses, 2);
+    playerPirate.dataset.step = String(step);
+    // Standing positions only; 3rd miss falls from the tip via onSplash.
+    placeAtFeet(PLANK_FEET[step]);
+    placeSplash();
+  }
+
+  window.addEventListener("resize", syncPiratePlacement);
+  const sceneArt = document.querySelector(".game-scene-art");
+  if (sceneArt) {
+    if (sceneArt.complete) syncPiratePlacement();
+    else sceneArt.addEventListener("load", syncPiratePlacement);
   }
 
   function renderQuestion() {
@@ -408,6 +476,9 @@
   async function onSplash() {
     questionPanel.hidden = true;
     progressChip.hidden = true;
+    // Fall from the tip; CSS animation carries them into the water.
+    placeAtFeet(PLANK_FEET[2]);
+    placeSplash();
     playerPirate.classList.add("is-falling");
     await wait(450);
     splashEl.classList.add("is-active");

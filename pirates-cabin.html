@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Captain’s Cabin · Regan N Elaina's Wedding Cruise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="pirate-treasures.css" />
+  </head>
+  <body class="pirate-page cabin-page">
+    <main class="cabin-stage" aria-label="Captain’s cabin">
+      <div class="cabin-window" aria-hidden="true">
+        <div class="cabin-ocean-line"></div>
+      </div>
+
+      <a class="cabin-sword" href="walk-the-plank.html" aria-label="Walk the Plank game">
+        <span class="cabin-sword-blade" aria-hidden="true"></span>
+        <span class="cabin-sword-guard" aria-hidden="true"></span>
+        <span class="cabin-sword-grip" aria-hidden="true"></span>
+        <span class="cabin-sword-pommel" aria-hidden="true"></span>
+        <span class="cabin-sword-label">Walk the Plank</span>
+      </a>
+
+      <div class="cabin-shelf" aria-hidden="true">
+        <div class="cabin-shelf-books">
+          <span class="cabin-book"></span>
+          <span class="cabin-book"></span>
+          <span class="cabin-book"></span>
+          <span class="cabin-book"></span>
+        </div>
+      </div>
+
+      <div class="cabin-desk" aria-hidden="true"></div>
+
+      <div id="champion-statue" class="cabin-statue" hidden>
+        <div id="champion-figure" class="cabin-statue-figure"></div>
+        <div class="cabin-statue-base"></div>
+        <p class="cabin-statue-meta">
+          <strong id="champion-name">—</strong>
+          <span id="champion-gems">0 gems</span>
+        </p>
+      </div>
+    </main>
+
+    <a class="cabin-exit" href="index.html">Exit</a>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="plank-pirates.js"></script>
+    <script src="plank-leaderboard.js"></script>
+    <script src="pirates-cabin.js"></script>
+  </body>
+</html>

@@ -50,628 +50,275 @@ body.pirate-page {
   border: 0;
 }
 
-/* ——— Captain’s cabin ——— */
+/* ——— Captain’s cabin (look-around) ——— */
 .cabin-page {
-  --cabin-plank: #4a2e1a;
-  --cabin-plank-dark: #352010;
-  --cabin-beam: #2a1810;
-  --cabin-brass: #c9a24a;
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  background:
-    radial-gradient(ellipse 70% 45% at 72% 12%, rgba(240, 165, 74, 0.22), transparent 58%),
-    radial-gradient(ellipse 55% 40% at 18% 8%, rgba(196, 92, 42, 0.18), transparent 52%),
-    linear-gradient(180deg, #1a1410 0%, #3a2418 38%, var(--pt-wood-deep) 100%);
+  --cabin-ink: #f4e8d4;
+  --cabin-gold: #e6c15a;
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #0a0705;
+  touch-action: none;
+  user-select: none;
 }
 
-.cabin-stage {
-  position: relative;
-  flex: 1;
-  margin: clamp(0.65rem, 2vw, 1.35rem);
-  border: 12px solid transparent;
-  border-image: linear-gradient(160deg, #8a5a32, #3a2414 42%, #6a4228 78%, #2a1810) 1;
-  box-shadow:
-    inset 0 0 100px rgba(0, 0, 0, 0.5),
-    inset 0 -40px 60px rgba(230, 160, 70, 0.06),
-    0 14px 44px rgba(0, 0, 0, 0.45);
-  background:
-    radial-gradient(ellipse 55% 40% at 78% 42%, rgba(230, 170, 70, 0.12), transparent 60%),
-    linear-gradient(180deg, rgba(20, 12, 8, 0.35), rgba(58, 36, 20, 0.2) 45%, rgba(20, 12, 8, 0.45)),
-    repeating-linear-gradient(
-      90deg,
-      var(--cabin-plank) 0px,
-      var(--cabin-plank) 34px,
-      var(--cabin-plank-dark) 34px,
-      var(--cabin-plank-dark) 68px
-    );
+.cabin-look {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
-  min-height: min(78vh, 720px);
+  cursor: grab;
+}
+
+.cabin-look.is-dragging {
+  cursor: grabbing;
+}
+
+.cabin-world {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  will-change: transform;
+}
+
+.cabin-pano {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.cabin-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  text-decoration: none;
+  color: var(--cabin-ink);
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  min-width: 7.5rem;
+  padding: 0.35rem 0.5rem 0.55rem;
+  border: 0;
+  background: transparent;
+  transition: transform 200ms ease, filter 200ms ease;
+  z-index: 2;
+}
+
+.cabin-hotspot:hover,
+.cabin-hotspot:focus-visible {
+  transform: translate(-50%, -54%) scale(1.04);
+  filter: drop-shadow(0 6px 18px rgba(230, 193, 90, 0.45));
+  outline: none;
+}
+
+.cabin-hotspot-ring {
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 50%;
+  border: 2px solid rgba(230, 193, 90, 0.85);
+  box-shadow:
+    0 0 0 6px rgba(10, 7, 5, 0.28),
+    inset 0 0 18px rgba(230, 193, 90, 0.2);
+  background: radial-gradient(circle at 40% 35%, rgba(255, 220, 140, 0.28), rgba(20, 12, 8, 0.15) 70%);
+  animation: cabin-hotspot-pulse 2.4s ease-in-out infinite;
+}
+
+.cabin-hotspot-label {
+  font-family: var(--pt-font-display);
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  letter-spacing: 0.03em;
+  color: var(--cabin-gold);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  text-align: center;
+  line-height: 1.1;
+}
+
+.cabin-hotspot-hint {
+  font-family: var(--pt-font-ui);
+  font-size: 0.78rem;
+  color: rgba(244, 232, 212, 0.82);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.cabin-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(0.75rem, 2vw, 1.25rem) clamp(0.85rem, 2.5vw, 1.5rem);
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8, 5, 3, 0.55), transparent 85%);
 }
 
 .cabin-brand {
-  position: absolute;
-  top: clamp(0.85rem, 2.5vw, 1.4rem);
-  left: clamp(0.9rem, 3vw, 1.75rem);
-  right: clamp(0.9rem, 3vw, 1.75rem);
-  z-index: 4;
-  text-align: center;
   pointer-events: none;
-  animation: cabin-brand-in 700ms ease-out both;
 }
 
 .cabin-brand-mark {
   margin: 0;
   font-family: var(--pt-font-display);
-  font-size: clamp(2.1rem, 6.5vw, 3.4rem);
+  font-size: clamp(1.7rem, 4.5vw, 2.6rem);
   letter-spacing: 0.03em;
   line-height: 1.05;
-  color: var(--pt-ink);
-  text-shadow:
-    0 2px 0 rgba(42, 24, 16, 0.85),
-    0 8px 22px rgba(0, 0, 0, 0.45);
+  color: var(--cabin-ink);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
 }
 
 .cabin-brand-line {
-  margin: 0.35rem 0 0;
+  margin: 0.25rem 0 0;
   font-family: var(--pt-font-body);
-  font-size: clamp(0.82rem, 2vw, 1rem);
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
   font-style: italic;
-  color: var(--pt-gold);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
-}
-
-.cabin-window {
-  position: absolute;
-  top: 14%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(48%, 340px);
-  aspect-ratio: 1.35 / 1;
-  border: 10px solid var(--cabin-beam);
-  border-radius: 6px;
-  box-shadow:
-    inset 0 0 36px rgba(0, 0, 0, 0.4),
-    0 0 0 3px #5c3a22,
-    0 10px 28px rgba(0, 0, 0, 0.4),
-    0 0 48px rgba(240, 165, 74, 0.18);
-  overflow: hidden;
-  z-index: 1;
-}
-
-.cabin-sky {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 50% 35% at 68% 28%, rgba(255, 220, 160, 0.35), transparent 55%),
-    linear-gradient(
-      180deg,
-      #1a2438 0%,
-      #3a2a38 28%,
-      #c45c2a 58%,
-      #f0a54a 78%,
-      #6a8aaa 100%
-    );
-}
-
-.cabin-sun {
-  position: absolute;
-  left: 58%;
-  top: 42%;
-  width: 22%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, #fff2c8, #f0a54a 55%, rgba(196, 92, 42, 0.2) 75%, transparent 78%);
-  box-shadow: 0 0 28px rgba(240, 165, 74, 0.55);
-  animation: cabin-sun-pulse 5.5s ease-in-out infinite;
-}
-
-.cabin-sea {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 38%;
-  background:
-    linear-gradient(180deg, rgba(22, 58, 74, 0.15), transparent 28%),
-    linear-gradient(180deg, #1a4a5c 0%, #0f2e3c 55%, #0b2230 100%);
-  box-shadow: inset 0 8px 14px rgba(10, 30, 40, 0.35);
-}
-
-.cabin-sea::before,
-.cabin-sea::after {
-  content: "";
-  position: absolute;
-  left: -10%;
-  right: -10%;
-  height: 3px;
-  background: rgba(180, 210, 220, 0.22);
-  border-radius: 50%;
-  animation: cabin-wave 4.8s ease-in-out infinite;
-}
-
-.cabin-sea::before {
-  top: 28%;
-}
-
-.cabin-sea::after {
-  top: 52%;
-  opacity: 0.65;
-  animation-delay: -2.2s;
-  animation-duration: 5.6s;
-}
-
-.cabin-window-mullion {
-  position: absolute;
-  background: linear-gradient(180deg, #3a2414, #1a1008);
-  z-index: 2;
-  box-shadow: 0 0 0 1px rgba(90, 58, 30, 0.55);
-}
-
-.cabin-window-mullion-v {
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 7px;
-  transform: translateX(-50%);
-}
-
-.cabin-window-mullion-h {
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 7px;
-  transform: translateY(-50%);
-}
-
-.cabin-shelf {
-  position: absolute;
-  top: 36%;
-  right: 5%;
-  width: min(26%, 190px);
-  height: 12px;
-  background: linear-gradient(180deg, #9a6a3a, #5c3a22 70%, #3a2414);
-  box-shadow: 0 7px 0 #1a1008, 0 10px 16px rgba(0, 0, 0, 0.35);
-  border-radius: 2px;
-  z-index: 2;
-}
-
-.cabin-shelf-books {
-  position: absolute;
-  bottom: 12px;
-  left: 8%;
-  right: 8%;
-  height: 58px;
-  display: flex;
-  align-items: flex-end;
-  gap: 5px;
-}
-
-.cabin-book {
-  flex: 1;
-  height: 100%;
-  border-radius: 2px 2px 0 0;
-  background: linear-gradient(90deg, #6b2f2f, #8a3d3d);
-  box-shadow: inset -3px 0 0 rgba(0, 0, 0, 0.28), 1px 0 0 rgba(255, 220, 160, 0.08);
-}
-
-.cabin-book:nth-child(2) {
-  height: 88%;
-  background: linear-gradient(90deg, #2a4058, #3d628a);
-}
-
-.cabin-book:nth-child(3) {
-  height: 96%;
-  background: linear-gradient(90deg, #2a4a34, #3d7a4a);
-}
-
-.cabin-book:nth-child(4) {
-  height: 84%;
-  background: linear-gradient(90deg, #6b5a2f, #8a7a3d);
-}
-
-.cabin-lantern {
-  position: absolute;
-  top: 34%;
-  right: calc(5% + min(26%, 190px) * 0.35);
-  width: 36px;
-  height: 56px;
-  z-index: 3;
-  transform: translateX(50%);
-}
-
-.cabin-lantern-glow {
-  position: absolute;
-  left: 50%;
-  top: 42%;
-  width: 120px;
-  height: 120px;
-  transform: translate(-50%, -40%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(240, 180, 70, 0.38), rgba(240, 140, 40, 0.12) 42%, transparent 68%);
-  animation: cabin-lantern-flicker 2.8s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.cabin-lantern-body {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 22px;
-  height: 38px;
-  transform: translateX(-50%);
-  background:
-    linear-gradient(180deg, #8a6a2a 0 4px, transparent 4px),
-    linear-gradient(90deg, #3a2a14, #6a4a22 40%, #2a1a10);
-  border: 2px solid #8a6a2a;
-  border-radius: 3px 3px 6px 6px;
-  box-shadow: inset 0 0 10px rgba(240, 180, 70, 0.45);
-}
-
-.cabin-lantern-body::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: -10px;
-  width: 3px;
-  height: 10px;
-  background: #5c3a22;
-  transform: translateX(-50%);
-}
-
-.cabin-lantern-body::after {
-  content: "";
-  position: absolute;
-  inset: 5px 4px 8px;
-  background: radial-gradient(ellipse at 50% 40%, #ffe08a, #e08a28 70%);
-  border-radius: 2px;
-  animation: cabin-lantern-flicker 2.8s ease-in-out infinite;
-}
-
-.cabin-desk {
-  position: absolute;
-  left: 5%;
-  right: 5%;
-  bottom: 6%;
-  height: 24%;
-  background:
-    linear-gradient(180deg, rgba(255, 200, 120, 0.08), transparent 28%),
-    linear-gradient(180deg, #7a4a28 0%, #5a3418 38%, #3a2414 100%);
-  border-radius: 5px 5px 0 0;
-  box-shadow:
-    0 -5px 0 #2a1810,
-    inset 0 14px 24px rgba(255, 200, 120, 0.07),
-    0 12px 28px rgba(0, 0, 0, 0.35);
-  z-index: 2;
-}
-
-.cabin-desk::before {
-  content: "";
-  position: absolute;
-  left: 4%;
-  right: 4%;
-  top: 16%;
-  height: 2px;
-  background: rgba(0, 0, 0, 0.28);
-}
-
-.cabin-desk::after {
-  content: "";
-  position: absolute;
-  left: 8%;
-  right: 8%;
-  bottom: 18%;
-  height: 38%;
-  border-radius: 2px;
-  background: linear-gradient(180deg, #2a1810, #1a1008);
-  box-shadow: inset 0 2px 0 rgba(140, 90, 40, 0.25);
-  opacity: 0.85;
-}
-
-.cabin-map {
-  position: absolute;
-  left: 58%;
-  top: 10%;
-  width: min(28%, 160px);
-  aspect-ratio: 1.4 / 1;
-  transform: rotate(-6deg);
-  background:
-    radial-gradient(circle at 30% 40%, rgba(140, 90, 40, 0.25), transparent 40%),
-    radial-gradient(circle at 70% 60%, rgba(60, 90, 70, 0.2), transparent 35%),
-    linear-gradient(145deg, #e8d2a8, #c9a876 55%, #b08a58);
-  border: 1px solid rgba(90, 58, 30, 0.45);
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.35);
-  z-index: 3;
-}
-
-.cabin-map::before {
-  content: "";
-  position: absolute;
-  inset: 12%;
-  border: 1px dashed rgba(90, 58, 30, 0.35);
-  border-radius: 2px;
-}
-
-.cabin-map::after {
-  content: "";
-  position: absolute;
-  left: 22%;
-  top: 30%;
-  width: 48%;
-  height: 38%;
-  border: 1.5px solid rgba(90, 40, 24, 0.45);
-  border-radius: 40% 60% 45% 55%;
-  transform: rotate(-12deg);
-}
-
-.cabin-statue {
-  position: absolute;
-  left: 12%;
-  bottom: calc(6% + 24% - 2px);
-  width: min(140px, 26vw);
-  text-align: center;
-  z-index: 3;
-  animation: statue-settle 900ms ease-out both;
-}
-
-.cabin-statue-figure {
-  width: 80px;
-  height: 108px;
-  margin: 0 auto;
-  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.45));
-}
-
-.cabin-statue.is-empty .cabin-statue-figure {
-  width: 54px;
-  height: 72px;
-  border-radius: 40% 40% 28% 28%;
-  background:
-    linear-gradient(180deg, rgba(230, 193, 90, 0.12), transparent 70%),
-    linear-gradient(180deg, #5a4630 0%, #3a2a1a 100%);
-  box-shadow: inset 0 0 0 1px rgba(230, 193, 90, 0.18);
-  filter: none;
-  opacity: 0.72;
-}
-
-.cabin-statue-base {
-  margin: 0.2rem auto 0;
-  width: 78%;
-  height: 12px;
-  background: linear-gradient(180deg, #9a7a3a, #5a3a18 55%, #2a1a0c);
-  border-radius: 2px;
-  box-shadow: 0 3px 0 #1a1008, inset 0 1px 0 rgba(255, 220, 140, 0.25);
-}
-
-.cabin-statue-meta {
-  margin: 0.4rem 0 0;
-  font-family: var(--pt-font-body);
-  font-size: 0.78rem;
-  line-height: 1.3;
-  color: var(--pt-gold);
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
-}
-
-.cabin-statue-meta strong {
-  display: block;
-  font-family: var(--pt-font-display);
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: var(--pt-ink);
-}
-
-.cabin-statue.is-empty .cabin-statue-meta strong {
-  color: var(--pt-ink-dim);
-}
-
-.cabin-sword {
-  position: absolute;
-  top: 30%;
-  left: 5%;
-  width: min(118px, 22vw);
-  text-decoration: none;
-  color: inherit;
-  display: grid;
-  justify-items: center;
-  gap: 0.45rem;
-  z-index: 4;
-  transition: transform 220ms ease, filter 220ms ease;
-  cursor: pointer;
-}
-
-.cabin-sword:hover,
-.cabin-sword:focus-visible {
-  transform: translateY(-5px) scale(1.03);
-  filter: drop-shadow(0 8px 16px rgba(230, 193, 90, 0.45));
-  outline: none;
-}
-
-.cabin-sword-art {
-  display: grid;
-  justify-items: center;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
-}
-
-.cabin-sword-blade {
-  width: 26px;
-  height: 112px;
-  background: linear-gradient(90deg, #8a949e, #e8eef4 45%, #6a7480);
-  clip-path: polygon(50% 0, 84% 14%, 76% 100%, 24% 100%, 16% 14%);
-}
-
-.cabin-sword-guard {
-  width: 56px;
-  height: 11px;
-  margin-top: -3px;
-  background: linear-gradient(90deg, #8a6a2a, #e6c15a, #8a6a2a);
-  border-radius: 3px;
-}
-
-.cabin-sword-grip {
-  width: 14px;
-  height: 34px;
-  background: repeating-linear-gradient(
-    180deg,
-    #5c3a22 0 6px,
-    #3a2414 6px 10px
-  );
-  border-radius: 2px;
-}
-
-.cabin-sword-pommel {
-  width: 18px;
-  height: 18px;
-  margin-top: 2px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #f0d78a, #8a6a2a);
-}
-
-.cabin-sword-copy {
-  display: grid;
-  gap: 0.15rem;
-  text-align: center;
-}
-
-.cabin-sword-label {
-  font-family: var(--pt-font-display);
-  font-size: clamp(1rem, 2.5vw, 1.35rem);
-  letter-spacing: 0.04em;
-  color: var(--pt-gold);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-  line-height: 1.1;
-}
-
-.cabin-sword-hint {
-  font-family: var(--pt-font-ui);
-  font-size: 0.78rem;
-  color: var(--pt-ink-dim);
-  letter-spacing: 0.02em;
+  color: var(--cabin-gold);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
 }
 
 .cabin-exit {
-  display: block;
-  width: fit-content;
-  margin: 0 auto 1.15rem;
-  padding: 0.55rem 1.25rem;
-  border: 1px solid rgba(230, 193, 90, 0.35);
-  background: rgba(58, 36, 20, 0.8);
-  color: var(--pt-ink-dim);
+  pointer-events: auto;
+  align-self: flex-start;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(230, 193, 90, 0.4);
+  background: rgba(20, 12, 8, 0.55);
+  color: rgba(244, 232, 212, 0.88);
   font-family: var(--pt-font-ui);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   text-decoration: none;
   border-radius: 4px;
+  backdrop-filter: blur(4px);
 }
 
 .cabin-exit:hover,
 .cabin-exit:focus-visible {
-  color: var(--pt-ink);
-  border-color: var(--pt-gold);
+  color: var(--cabin-ink);
+  border-color: var(--cabin-gold);
+  outline: none;
 }
 
-@keyframes statue-settle {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.cabin-turn {
+  position: absolute;
+  top: 50%;
+  z-index: 5;
+  transform: translateY(-50%);
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(230, 193, 90, 0.45);
+  border-radius: 50%;
+  background: rgba(14, 9, 6, 0.55);
+  color: var(--cabin-gold);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease;
 }
 
-@keyframes cabin-brand-in {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.cabin-turn:hover,
+.cabin-turn:focus-visible {
+  background: rgba(30, 18, 10, 0.75);
+  border-color: var(--cabin-gold);
+  outline: none;
 }
 
-@keyframes cabin-sun-pulse {
+.cabin-turn:disabled {
+  opacity: 0.28;
+  cursor: default;
+}
+
+.cabin-turn-left {
+  left: 0.75rem;
+}
+
+.cabin-turn-right {
+  right: 0.75rem;
+}
+
+.cabin-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 1.1rem;
+  z-index: 5;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0.4rem 0.85rem;
+  border-radius: 4px;
+  background: rgba(10, 7, 5, 0.45);
+  color: rgba(244, 232, 212, 0.8);
+  font-family: var(--pt-font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  backdrop-filter: blur(3px);
+  animation: cabin-hint-fade 5s ease forwards;
+}
+
+.cabin-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.28));
+}
+
+@keyframes cabin-hotspot-pulse {
   0%,
   100% {
-    transform: scale(1);
-    opacity: 0.95;
+    box-shadow:
+      0 0 0 6px rgba(10, 7, 5, 0.28),
+      inset 0 0 18px rgba(230, 193, 90, 0.2);
   }
   50% {
-    transform: scale(1.06);
-    opacity: 1;
+    box-shadow:
+      0 0 0 10px rgba(10, 7, 5, 0.12),
+      inset 0 0 22px rgba(230, 193, 90, 0.32);
   }
 }
 
-@keyframes cabin-wave {
+@keyframes cabin-hint-fade {
   0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(3%);
-  }
-}
-
-@keyframes cabin-lantern-flicker {
-  0%,
-  100% {
-    opacity: 0.85;
-    filter: brightness(1);
-  }
-  40% {
-    opacity: 1;
-    filter: brightness(1.08);
-  }
   70% {
-    opacity: 0.78;
-    filter: brightness(0.94);
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
 @media (max-width: 700px) {
-  .cabin-stage {
-    min-height: min(84vh, 680px);
+  .cabin-turn {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.35rem;
   }
 
-  .cabin-window {
-    top: 18%;
-    width: min(62%, 260px);
+  .cabin-hotspot {
+    min-width: 6.5rem;
   }
 
-  .cabin-sword {
-    top: 42%;
-    left: 3%;
-    width: min(100px, 28vw);
+  .cabin-hotspot-ring {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cabin-hotspot-ring,
+  .cabin-hint {
+    animation: none;
   }
 
-  .cabin-sword-blade {
-    height: 88px;
-  }
-
-  .cabin-shelf {
-    top: 42%;
-    width: min(34%, 140px);
-  }
-
-  .cabin-lantern {
-    top: 40%;
-    width: 30px;
-    height: 48px;
-  }
-
-  .cabin-statue {
-    left: 8%;
-    width: min(120px, 34vw);
-  }
-
-  .cabin-statue-figure {
-    width: 64px;
-    height: 88px;
-  }
-
-  .cabin-map {
-    left: 52%;
-    width: min(34%, 120px);
+  .cabin-world {
+    transition: none;
   }
 }
 

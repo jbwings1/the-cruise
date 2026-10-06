@@ -10,70 +10,65 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=24" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=25" />
   </head>
   <body class="pirate-page cabin-page">
-    <main class="cabin-stage" aria-label="Captain’s cabin">
-      <header class="cabin-brand">
+    <header class="cabin-hud">
+      <div class="cabin-brand">
         <p class="cabin-brand-mark">Captain’s Cabin</p>
         <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
-      </header>
-
-      <div class="cabin-window" aria-hidden="true">
-        <div class="cabin-sky"></div>
-        <div class="cabin-sun"></div>
-        <div class="cabin-sea"></div>
-        <div class="cabin-window-mullion cabin-window-mullion-v"></div>
-        <div class="cabin-window-mullion cabin-window-mullion-h"></div>
       </div>
+      <a class="cabin-exit" href="index.html">Exit to cruise hub</a>
+    </header>
 
-      <a class="cabin-sword" href="walk-the-plank.html">
-        <span class="cabin-sword-art" aria-hidden="true">
-          <span class="cabin-sword-blade"></span>
-          <span class="cabin-sword-guard"></span>
-          <span class="cabin-sword-grip"></span>
-          <span class="cabin-sword-pommel"></span>
-        </span>
-        <span class="cabin-sword-copy">
-          <span class="cabin-sword-label">Walk the Plank</span>
-          <span class="cabin-sword-hint">Play for gems</span>
-        </span>
-      </a>
-
-      <div class="cabin-shelf" aria-hidden="true">
-        <div class="cabin-shelf-books">
-          <span class="cabin-book"></span>
-          <span class="cabin-book"></span>
-          <span class="cabin-book"></span>
-          <span class="cabin-book"></span>
-        </div>
+    <div
+      class="cabin-look"
+      id="cabin-look"
+      role="region"
+      aria-label="Captain’s cabin. Drag or use arrows to look around."
+      tabindex="0"
+    >
+      <div class="cabin-world" id="cabin-world">
+        <img
+          class="cabin-pano"
+          id="cabin-pano"
+          src="images/cabin-panorama.jpg"
+          alt="Painterly view of the empty captain’s cabin overlooking a sunset sea"
+          draggable="false"
+        />
+        <a
+          class="cabin-hotspot"
+          id="plank-hotspot"
+          href="walk-the-plank.html"
+          style="left: 61.2%; top: 42%"
+        >
+          <span class="cabin-hotspot-ring" aria-hidden="true"></span>
+          <span class="cabin-hotspot-label">Walk the Plank</span>
+          <span class="cabin-hotspot-hint">Play for gems</span>
+        </a>
       </div>
+      <div class="cabin-vignette" aria-hidden="true"></div>
+    </div>
 
-      <div class="cabin-lantern" aria-hidden="true">
-        <span class="cabin-lantern-glow"></span>
-        <span class="cabin-lantern-body"></span>
-      </div>
+    <button
+      type="button"
+      class="cabin-turn cabin-turn-left"
+      id="cabin-turn-left"
+      aria-label="Look left"
+    >
+      ‹
+    </button>
+    <button
+      type="button"
+      class="cabin-turn cabin-turn-right"
+      id="cabin-turn-right"
+      aria-label="Look right"
+    >
+      ›
+    </button>
 
-      <div class="cabin-desk" aria-hidden="true">
-        <div class="cabin-map"></div>
-      </div>
+    <p class="cabin-hint" id="cabin-hint">Drag · arrows · or buttons to look around</p>
 
-      <div id="champion-statue" class="cabin-statue is-empty">
-        <div id="champion-figure" class="cabin-statue-figure" aria-hidden="true"></div>
-        <div class="cabin-statue-base"></div>
-        <p class="cabin-statue-meta">
-          <strong id="champion-name">No champion yet</strong>
-          <span id="champion-gems">Walk the plank to claim the pedestal</span>
-        </p>
-      </div>
-    </main>
-
-    <a class="cabin-exit" href="index.html">Exit to cruise hub</a>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="config.js"></script>
-    <script src="plank-pirates.js"></script>
-    <script src="plank-leaderboard.js"></script>
-    <script src="pirates-cabin.js?v=2"></script>
+    <script src="pirates-cabin.js?v=3"></script>
   </body>
 </html>

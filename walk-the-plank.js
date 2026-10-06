@@ -270,9 +270,9 @@
   const PLANK_FEET = [
     { x: 450, y: 462 }, // start — on plank by the ship
     { x: 565, y: 468 }, // 1 miss — halfway out
-    { x: 665, y: 474 }, // 2 misses — tip of the plank
+    { x: 695, y: 476 }, // 2 misses — tip of the plank
   ];
-  const SPLASH_AT = { x: 720, y: 620 };
+  const SPLASH_AT = { x: 745, y: 620 };
 
   function coverLayout() {
     const scene = playerPirate.parentElement;

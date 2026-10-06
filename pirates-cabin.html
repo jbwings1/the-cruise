@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=27" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=32" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -29,26 +29,27 @@
       tabindex="0"
     >
       <div class="cabin-world" id="cabin-world">
-        <img
-          class="cabin-pano"
-          id="cabin-pano"
-          src="images/cabin-panorama.jpg"
-          alt="Painterly view of the empty captain’s cabin overlooking a sunset sea"
-          draggable="false"
-        />
-        <a
-          class="cabin-hotspot cabin-hotspot-sword"
-          id="plank-hotspot"
-          href="walk-the-plank.html"
-          aria-label="Walk the Plank — click the sword to play"
-          style="left: 68.4%; top: 36%"
-        >
-          <span class="cabin-sword-glow" aria-hidden="true"></span>
-          <span class="cabin-hotspot-copy">
-            <span class="cabin-hotspot-label">Walk the Plank</span>
-            <span class="cabin-hotspot-hint">Click the sword</span>
-          </span>
-        </a>
+        <div class="cabin-scene" id="cabin-scene">
+          <img
+            class="cabin-pano"
+            id="cabin-pano"
+            src="images/cabin-panorama.jpg"
+            alt="Painterly view of the empty captain’s cabin overlooking a sunset sea"
+            draggable="false"
+          />
+          <a
+            class="cabin-hotspot cabin-hotspot-sword"
+            id="plank-hotspot"
+            href="walk-the-plank.html"
+            aria-label="Walk the Plank — click the sword to play"
+          >
+            <span class="cabin-sword-glow" aria-hidden="true"></span>
+            <span class="cabin-hotspot-copy">
+              <span class="cabin-hotspot-label">Walk the Plank</span>
+              <span class="cabin-hotspot-hint">Click the sword</span>
+            </span>
+          </a>
+        </div>
       </div>
       <div class="cabin-vignette" aria-hidden="true"></div>
     </div>
@@ -72,6 +73,6 @@
 
     <p class="cabin-hint" id="cabin-hint">Drag · arrows · or buttons to look around</p>
 
-    <script src="pirates-cabin.js?v=4"></script>
+    <script src="pirates-cabin.js?v=6"></script>
   </body>
 </html>

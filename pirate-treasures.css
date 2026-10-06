@@ -491,19 +491,58 @@ body.pirate-page {
   box-shadow: 0 0 16px rgba(200, 230, 245, 0.65);
 }
 
+.game-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.game-move-pirate {
+  appearance: none;
+  border: 1px solid rgba(230, 193, 90, 0.55);
+  background: rgba(230, 193, 90, 0.18);
+  color: #ffe7a0;
+  font-family: var(--pt-font-display, Georgia, serif);
+  font-size: 0.95rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 .plank-calibrate {
-  position: absolute;
+  position: fixed;
   right: 0.75rem;
   bottom: 0.75rem;
-  z-index: 12;
-  width: min(280px, calc(100% - 1.5rem));
+  z-index: 40;
+  width: min(300px, calc(100% - 1.5rem));
   padding: 0.75rem 0.85rem;
-  background: rgba(12, 10, 16, 0.92);
-  border: 1px solid rgba(230, 193, 90, 0.45);
+  background: rgba(12, 10, 16, 0.95);
+  border: 1px solid rgba(230, 193, 90, 0.55);
   border-radius: 10px;
   color: #f3e7c8;
   font-family: Georgia, "Times New Roman", serif;
   pointer-events: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.plank-calibrate-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.plank-calibrate-close {
+  appearance: none;
+  border: 1px solid rgba(230, 193, 90, 0.35);
+  background: transparent;
+  color: #f3e7c8;
+  border-radius: 6px;
+  padding: 0.2rem 0.45rem;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
 }
 
 .plank-calibrate[hidden] {
@@ -511,7 +550,7 @@ body.pirate-page {
 }
 
 .plank-calibrate-title {
-  margin: 0 0 0.25rem;
+  margin: 0;
   font-size: 1.05rem;
   color: #e6c15a;
 }

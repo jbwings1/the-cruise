@@ -10,12 +10,17 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=16" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=17" />
   </head>
   <body class="pirate-page game-page">
     <header class="game-topbar">
       <h1 class="game-brand">Walk the Plank</h1>
-      <button type="button" id="quit-btn" class="game-quit">Quit</button>
+      <div class="game-topbar-actions">
+        <button type="button" id="move-pirate-btn" class="game-move-pirate">
+          Move pirate
+        </button>
+        <button type="button" id="quit-btn" class="game-quit">Quit</button>
+      </div>
     </header>
 
     <main class="game-main">
@@ -34,29 +39,6 @@
           <span class="splash-drop" style="left: 50%; animation-delay: 40ms"></span>
           <span class="splash-drop" style="left: 70%; animation-delay: 80ms"></span>
         </div>
-      </div>
-
-      <div class="plank-calibrate" id="plank-calibrate" hidden>
-        <p class="plank-calibrate-title">Move the pirate</p>
-        <p class="plank-calibrate-help">
-          ← → along the plank (left = toward ship)&nbsp;&nbsp;↑ ↓ across the plank
-        </p>
-        <div class="plank-calibrate-steps">
-          <button type="button" data-cal-step="0">Start</button>
-          <button type="button" data-cal-step="1">Miss 1</button>
-          <button type="button" data-cal-step="2" class="is-active">Miss 2</button>
-        </div>
-        <div class="plank-calibrate-pad">
-          <button type="button" data-nudge="0,-1" title="Up">↑</button>
-          <button type="button" data-nudge="-1,0" title="Left">←</button>
-          <button type="button" data-nudge="1,0" title="Right">→</button>
-          <button type="button" data-nudge="0,1" title="Down">↓</button>
-        </div>
-        <p class="plank-calibrate-coords" id="plank-calibrate-coords">x: —, y: —</p>
-        <p class="plank-calibrate-fine">Hold Shift for 1px steps. Arrow keys work too.</p>
-        <button type="button" class="plank-calibrate-copy" id="plank-calibrate-copy">
-          Copy coordinates
-        </button>
       </div>
 
       <div class="game-hud">
@@ -143,11 +125,39 @@
       Top 10
     </button>
 
+    <div class="plank-calibrate" id="plank-calibrate" hidden>
+      <div class="plank-calibrate-header">
+        <p class="plank-calibrate-title">Move the pirate</p>
+        <button type="button" id="plank-calibrate-close" class="plank-calibrate-close">
+          Close
+        </button>
+      </div>
+      <p class="plank-calibrate-help">
+        ← → along the plank (left = toward ship)&nbsp;&nbsp;↑ ↓ across the plank
+      </p>
+      <div class="plank-calibrate-steps">
+        <button type="button" data-cal-step="0">Start</button>
+        <button type="button" data-cal-step="1">Miss 1</button>
+        <button type="button" data-cal-step="2" class="is-active">Miss 2</button>
+      </div>
+      <div class="plank-calibrate-pad">
+        <button type="button" data-nudge="0,-1" title="Up">↑</button>
+        <button type="button" data-nudge="-1,0" title="Left">←</button>
+        <button type="button" data-nudge="1,0" title="Right">→</button>
+        <button type="button" data-nudge="0,1" title="Down">↓</button>
+      </div>
+      <p class="plank-calibrate-coords" id="plank-calibrate-coords">x: —, y: —</p>
+      <p class="plank-calibrate-fine">Hold Shift for 1px steps. Arrow keys work too.</p>
+      <button type="button" class="plank-calibrate-copy" id="plank-calibrate-copy">
+        Copy coordinates
+      </button>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="config.js"></script>
     <script src="plank-pirates.js"></script>
     <script src="plank-leaderboard.js"></script>
     <script src="walk-the-plank-questions.js"></script>
-    <script src="walk-the-plank.js?v=6"></script>
+    <script src="walk-the-plank.js?v=7"></script>
   </body>
 </html>

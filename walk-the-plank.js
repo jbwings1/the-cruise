@@ -279,10 +279,13 @@
   const calibratePanel = document.getElementById("plank-calibrate");
   const calibrateCoords = document.getElementById("plank-calibrate-coords");
   const calibrateCopyBtn = document.getElementById("plank-calibrate-copy");
+  const calibrateCloseBtn = document.getElementById("plank-calibrate-close");
+  const movePirateBtn = document.getElementById("move-pirate-btn");
   const calibrateMode =
     new URLSearchParams(window.location.search).has("calibrate") ||
     window.location.hash === "#calibrate";
   let calibrateStep = 2;
+  let calibrateOpen = false;
 
   function loadFeetOverride() {
     try {
@@ -626,4 +629,81 @@
   buildPiratePicker();
   updatePlayEnabled();
   refreshLeaderboard();
+
+  function openCalibrate() {
+    if (!calibratePanel) return;
+    calibrateOpen = true;
+    calibratePanel.hidden = false;
+    if (movePirateBtn) movePirateBtn.setAttribute("aria-pressed", "true");
+    paintPlayer();
+    applyCalibrateStep();
+  }
+
+  function closeCalibrate() {
+    if (!calibratePanel) return;
+    calibrateOpen = false;
+    calibratePanel.hidden = true;
+    playerPirate.classList.remove("is-calibrating");
+    if (movePirateBtn) movePirateBtn.setAttribute("aria-pressed", "false");
+    if (startPanel && !startPanel.hidden) {
+      playerPirate.hidden = true;
+    } else {
+      syncPiratePlacement();
+    }
+  }
+
+  if (calibratePanel) {
+    movePirateBtn?.addEventListener("click", () => {
+      if (calibrateOpen) closeCalibrate();
+      else openCalibrate();
+    });
+    calibrateCloseBtn?.addEventListener("click", closeCalibrate);
+
+    calibratePanel.addEventListener("click", (event) => {
+      const stepBtn = event.target.closest("[data-cal-step]");
+      if (stepBtn) {
+        calibrateStep = Number(stepBtn.dataset.calStep);
+        applyCalibrateStep();
+        return;
+      }
+      const nudgeBtn = event.target.closest("[data-nudge]");
+      if (nudgeBtn) {
+        const [dx, dy] = nudgeBtn.dataset.nudge.split(",").map(Number);
+        const step = event.shiftKey ? 1 : 4;
+        nudgeFeet(dx * step, dy * step);
+      }
+    });
+
+    calibrateCopyBtn?.addEventListener("click", async () => {
+      const text = PLANK_FEET.map(
+        (p, i) => `  { x: ${p.x}, y: ${p.y} }, // step ${i}`
+      ).join("\n");
+      try {
+        await navigator.clipboard.writeText(text);
+        calibrateCopyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          calibrateCopyBtn.textContent = "Copy coordinates";
+        }, 1200);
+      } catch {
+        calibrateCoords.textContent = text.replaceAll("\n", "  ");
+      }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (!calibrateOpen) return;
+      const map = {
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+      };
+      const delta = map[event.key];
+      if (!delta) return;
+      event.preventDefault();
+      const step = event.shiftKey ? 1 : 4;
+      nudgeFeet(delta[0] * step, delta[1] * step);
+    });
+
+    if (calibrateMode) openCalibrate();
+  }
 })();

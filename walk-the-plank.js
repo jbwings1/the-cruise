@@ -269,7 +269,7 @@
   const FEET_IN_SPRITE = 942 / 960; // sole row in guy/gal PNGs
   // Feet on top walking surface (scene pixels on 1280×720 art).
   const PLANK_FEET_DEFAULT = [
-    { x: 450, y: 462 }, // start — on plank by the ship
+    { x: 386, y: 446 }, // start — on plank by the ship
     { x: 510, y: 466 }, // 1 miss — halfway out
     { x: 545, y: 470 }, // 2 misses — near tip
   ];

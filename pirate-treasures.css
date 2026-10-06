@@ -491,6 +491,88 @@ body.pirate-page {
   box-shadow: 0 0 16px rgba(200, 230, 245, 0.65);
 }
 
+.plank-calibrate {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 12;
+  width: min(280px, calc(100% - 1.5rem));
+  padding: 0.75rem 0.85rem;
+  background: rgba(12, 10, 16, 0.92);
+  border: 1px solid rgba(230, 193, 90, 0.45);
+  border-radius: 10px;
+  color: #f3e7c8;
+  font-family: Georgia, "Times New Roman", serif;
+  pointer-events: auto;
+}
+
+.plank-calibrate[hidden] {
+  display: none !important;
+}
+
+.plank-calibrate-title {
+  margin: 0 0 0.25rem;
+  font-size: 1.05rem;
+  color: #e6c15a;
+}
+
+.plank-calibrate-help,
+.plank-calibrate-fine,
+.plank-calibrate-coords {
+  margin: 0 0 0.55rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  opacity: 0.9;
+}
+
+.plank-calibrate-coords {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  color: #9fe3c0;
+}
+
+.plank-calibrate-steps,
+.plank-calibrate-pad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
+}
+
+.plank-calibrate-steps button,
+.plank-calibrate-pad button,
+.plank-calibrate-copy {
+  appearance: none;
+  border: 1px solid rgba(230, 193, 90, 0.4);
+  background: rgba(40, 28, 16, 0.95);
+  color: #f3e7c8;
+  border-radius: 6px;
+  padding: 0.35rem 0.55rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+.plank-calibrate-steps button.is-active {
+  background: rgba(230, 193, 90, 0.25);
+  border-color: #e6c15a;
+  color: #ffe7a0;
+}
+
+.plank-calibrate-pad button {
+  min-width: 2.4rem;
+  font-size: 1.1rem;
+}
+
+.plank-calibrate-copy {
+  width: 100%;
+}
+
+.player-pirate.is-calibrating {
+  transition: none;
+  outline: 1px dashed rgba(255, 220, 90, 0.7);
+  outline-offset: 2px;
+}
+
 .game-hud {
   position: absolute;
   inset: 0;

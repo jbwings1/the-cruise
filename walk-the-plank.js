@@ -267,13 +267,79 @@
   const PIRATE_SPRITE_H = 205; // px at scene native size
   const PIRATE_SPRITE_W = Math.round((PIRATE_SPRITE_H * 560) / 960);
   const FEET_IN_SPRITE = 942 / 960; // sole row in guy/gal PNGs
-  // Feet on top walking surface. Miss-2 left boot must stay before the tip.
-  const PLANK_FEET = [
+  // Feet on top walking surface (scene pixels on 1280×720 art).
+  const PLANK_FEET_DEFAULT = [
     { x: 450, y: 462 }, // start — on plank by the ship
     { x: 510, y: 466 }, // 1 miss — halfway out
-    { x: 545, y: 470 }, // 2 misses — near tip, both boots on the boards
+    { x: 545, y: 470 }, // 2 misses — near tip
   ];
+  const PLANK_FEET = PLANK_FEET_DEFAULT.map((p) => ({ ...p }));
   const SPLASH_AT = { x: 680, y: 620 };
+  const FEET_STORAGE_KEY = "plankFeetOverride.v1";
+  const calibratePanel = document.getElementById("plank-calibrate");
+  const calibrateCoords = document.getElementById("plank-calibrate-coords");
+  const calibrateCopyBtn = document.getElementById("plank-calibrate-copy");
+  const calibrateMode =
+    new URLSearchParams(window.location.search).has("calibrate") ||
+    window.location.hash === "#calibrate";
+  let calibrateStep = 2;
+
+  function loadFeetOverride() {
+    try {
+      const raw = localStorage.getItem(FEET_STORAGE_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed) || parsed.length < 3) return;
+      parsed.slice(0, 3).forEach((p, i) => {
+        if (p && Number.isFinite(p.x) && Number.isFinite(p.y)) {
+          PLANK_FEET[i] = { x: Math.round(p.x), y: Math.round(p.y) };
+        }
+      });
+    } catch {
+      /* ignore bad local overrides */
+    }
+  }
+
+  function saveFeetOverride() {
+    try {
+      localStorage.setItem(FEET_STORAGE_KEY, JSON.stringify(PLANK_FEET));
+    } catch {
+      /* ignore quota / private mode */
+    }
+  }
+
+  function refreshCalibrateUi() {
+    if (!calibratePanel || !calibrateCoords) return;
+    const feet = PLANK_FEET[calibrateStep];
+    calibrateCoords.textContent = `step ${calibrateStep}:  x: ${feet.x},  y: ${feet.y}`;
+    calibratePanel.querySelectorAll("[data-cal-step]").forEach((btn) => {
+      btn.classList.toggle(
+        "is-active",
+        Number(btn.dataset.calStep) === calibrateStep
+      );
+    });
+  }
+
+  function applyCalibrateStep() {
+    playerPirate.hidden = false;
+    playerPirate.classList.add("is-calibrating");
+    playerPirate.classList.remove("is-falling");
+    playerPirate.dataset.step = String(calibrateStep);
+    placeAtFeet(PLANK_FEET[calibrateStep]);
+    placeSplash();
+    refreshCalibrateUi();
+  }
+
+  function nudgeFeet(dx, dy) {
+    const feet = PLANK_FEET[calibrateStep];
+    feet.x = Math.max(0, Math.min(SCENE_W, feet.x + dx));
+    feet.y = Math.max(0, Math.min(SCENE_H, feet.y + dy));
+    saveFeetOverride();
+    placeAtFeet(feet);
+    refreshCalibrateUi();
+  }
+
+  loadFeetOverride();
 
   function coverLayout() {
     const scene = playerPirate.parentElement;

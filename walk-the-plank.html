@@ -36,6 +36,29 @@
         </div>
       </div>
 
+      <div class="plank-calibrate" id="plank-calibrate" hidden>
+        <p class="plank-calibrate-title">Move the pirate</p>
+        <p class="plank-calibrate-help">
+          ← → along the plank (left = toward ship)&nbsp;&nbsp;↑ ↓ across the plank
+        </p>
+        <div class="plank-calibrate-steps">
+          <button type="button" data-cal-step="0">Start</button>
+          <button type="button" data-cal-step="1">Miss 1</button>
+          <button type="button" data-cal-step="2" class="is-active">Miss 2</button>
+        </div>
+        <div class="plank-calibrate-pad">
+          <button type="button" data-nudge="0,-1" title="Up">↑</button>
+          <button type="button" data-nudge="-1,0" title="Left">←</button>
+          <button type="button" data-nudge="1,0" title="Right">→</button>
+          <button type="button" data-nudge="0,1" title="Down">↓</button>
+        </div>
+        <p class="plank-calibrate-coords" id="plank-calibrate-coords">x: —, y: —</p>
+        <p class="plank-calibrate-fine">Hold Shift for 1px steps. Arrow keys work too.</p>
+        <button type="button" class="plank-calibrate-copy" id="plank-calibrate-copy">
+          Copy coordinates
+        </button>
+      </div>
+
       <div class="game-hud">
         <div class="gem-meter" aria-live="polite">
           <div class="gem-chest" aria-hidden="true">
@@ -125,6 +148,6 @@
     <script src="plank-pirates.js"></script>
     <script src="plank-leaderboard.js"></script>
     <script src="walk-the-plank-questions.js"></script>
-    <script src="walk-the-plank.js?v=5"></script>
+    <script src="walk-the-plank.js?v=6"></script>
   </body>
 </html>

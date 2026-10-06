@@ -991,17 +991,17 @@ body.pirate-page {
 
   .player-pirate[data-step="0"] {
     left: 42%;
-    top: 48%;
+    top: 42%;
   }
 
   .player-pirate[data-step="1"] {
     left: 52%;
-    top: 52%;
+    top: 46%;
   }
 
   .player-pirate[data-step="2"] {
     left: 62%;
-    top: 56%;
+    top: 50%;
   }
 
   .splash {

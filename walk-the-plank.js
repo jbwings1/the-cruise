@@ -630,11 +630,22 @@
   updatePlayEnabled();
   refreshLeaderboard();
 
+  let panelBeforeCalibrate = "start";
+
   function openCalibrate() {
     if (!calibratePanel) return;
     calibrateOpen = true;
     calibratePanel.hidden = false;
     if (movePirateBtn) movePirateBtn.setAttribute("aria-pressed", "true");
+    // Clear the center game panels so the plank positions are visible.
+    if (!startPanel.hidden) panelBeforeCalibrate = "start";
+    else if (!questionPanel.hidden) panelBeforeCalibrate = "question";
+    else if (!endPanel.hidden) panelBeforeCalibrate = "end";
+    else panelBeforeCalibrate = "start";
+    startPanel.hidden = true;
+    questionPanel.hidden = true;
+    endPanel.hidden = true;
+    if (progressChip) progressChip.hidden = true;
     paintPlayer();
     applyCalibrateStep();
   }
@@ -645,10 +656,15 @@
     calibratePanel.hidden = true;
     playerPirate.classList.remove("is-calibrating");
     if (movePirateBtn) movePirateBtn.setAttribute("aria-pressed", "false");
-    if (startPanel && !startPanel.hidden) {
+    if (panelBeforeCalibrate === "question") {
+      showPanel(questionPanel);
+      syncPiratePlacement();
+    } else if (panelBeforeCalibrate === "end") {
+      showPanel(endPanel);
       playerPirate.hidden = true;
     } else {
-      syncPiratePlacement();
+      showPanel(startPanel);
+      playerPirate.hidden = true;
     }
   }
 

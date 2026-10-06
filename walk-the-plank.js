@@ -267,13 +267,13 @@
   const PIRATE_SPRITE_H = 205; // px at scene native size
   const PIRATE_SPRITE_W = Math.round((PIRATE_SPRITE_H * 560) / 960);
   const FEET_IN_SPRITE = 942 / 960; // sole row in guy/gal PNGs
-  // Feet on top walking surface of the plank (not hanging off the front face).
+  // Feet on top walking surface. Miss-2 left boot must stay before the tip.
   const PLANK_FEET = [
     { x: 450, y: 462 }, // start — on plank by the ship
-    { x: 530, y: 468 }, // 1 miss — halfway out
-    { x: 575, y: 472 }, // 2 misses — near tip, both feet on top of boards
+    { x: 510, y: 466 }, // 1 miss — halfway out
+    { x: 545, y: 470 }, // 2 misses — near tip, both boots on the boards
   ];
-  const SPLASH_AT = { x: 700, y: 620 };
+  const SPLASH_AT = { x: 680, y: 620 };
 
   function coverLayout() {
     const scene = playerPirate.parentElement;

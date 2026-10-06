@@ -448,14 +448,14 @@ body.pirate-page {
 
 /* 1 miss: halfway out on the plank */
 .player-pirate[data-step="1"] {
-  left: 41.4%;
-  top: 37.1%;
+  left: 39.8%;
+  top: 36.8%;
 }
 
 /* 2 misses: at the end of the plank */
 .player-pirate[data-step="2"] {
-  left: 44.9%;
-  top: 37.6%;
+  left: 42.6%;
+  top: 37.4%;
 }
 
 /* 3rd miss: fall off the tip into the water */
@@ -1004,13 +1004,13 @@ body.pirate-page {
   }
 
   .player-pirate[data-step="1"] {
-    left: 41.4%;
-    top: 37.1%;
+    left: 39.8%;
+    top: 36.8%;
   }
 
   .player-pirate[data-step="2"] {
-    left: 44.9%;
-    top: 37.6%;
+    left: 42.6%;
+    top: 37.4%;
   }
 
   .splash {

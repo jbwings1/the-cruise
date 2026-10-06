@@ -259,6 +259,11 @@
     state.pool = state.pool.filter((q) => q._id !== question._id);
   }
 
+  // Plank positions via CSS [data-step]:
+  // 0 = start on plank by the ship
+  // 1 = first miss, halfway out
+  // 2 = second miss, end of the plank
+  // third miss triggers fall/splash (is-falling)
   function setStep(misses) {
     playerPirate.dataset.step = String(Math.min(misses, 2));
   }

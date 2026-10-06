@@ -412,10 +412,9 @@ body.pirate-page {
 
 .player-pirate {
   position: absolute;
+  /* Full-body sprite; left/top place feet on the painted plank */
   width: clamp(72px, 9.5vw, 110px);
   height: clamp(124px, 16.5vw, 188px);
-  top: 42%;
-  left: 44%;
   z-index: 4;
   filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7));
   transition:
@@ -423,7 +422,7 @@ body.pirate-page {
     top 700ms ease,
     transform 700ms ease,
     opacity 500ms ease;
-  transform: translateX(-40%);
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -437,29 +436,33 @@ body.pirate-page {
   background: transparent;
 }
 
+/* 0 misses: on the plank next to the ship */
 .player-pirate[data-step="0"] {
-  left: 44%;
-  top: 40%;
+  left: 40.5%;
+  top: 28%;
 }
 
+/* 1 miss: halfway out on the plank */
 .player-pirate[data-step="1"] {
-  left: 54%;
-  top: 44%;
+  left: 50%;
+  top: 28.5%;
 }
 
+/* 2 misses: at the end of the plank */
 .player-pirate[data-step="2"] {
-  left: 64%;
-  top: 48%;
+  left: 62.5%;
+  top: 29%;
 }
 
+/* 3rd miss: fall off the tip into the water */
 .player-pirate.is-falling {
   animation: plank-fall 1.35s ease-in forwards;
 }
 
 .splash {
   position: absolute;
-  left: 66%;
-  top: 60%;
+  left: 64%;
+  top: 68%;
   width: 160px;
   height: 110px;
   pointer-events: none;
@@ -922,14 +925,14 @@ body.pirate-page {
 
 @keyframes plank-fall {
   0% {
-    transform: translateX(-30%) rotate(0deg);
+    transform: translateX(-50%) rotate(0deg);
     opacity: 1;
   }
   35% {
-    transform: translateX(-10%) translateY(20px) rotate(18deg);
+    transform: translateX(-35%) translateY(28px) rotate(18deg);
   }
   100% {
-    transform: translateX(10%) translateY(180px) rotate(70deg);
+    transform: translateX(-20%) translateY(210px) rotate(70deg);
     opacity: 0;
   }
 }
@@ -990,22 +993,22 @@ body.pirate-page {
   }
 
   .player-pirate[data-step="0"] {
-    left: 42%;
-    top: 42%;
+    left: 39%;
+    top: 30%;
   }
 
   .player-pirate[data-step="1"] {
-    left: 52%;
-    top: 46%;
+    left: 49%;
+    top: 31%;
   }
 
   .player-pirate[data-step="2"] {
-    left: 62%;
-    top: 50%;
+    left: 60%;
+    top: 32%;
   }
 
   .splash {
-    left: 64%;
-    top: 62%;
+    left: 62%;
+    top: 70%;
   }
 }

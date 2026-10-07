@@ -209,14 +209,14 @@
     },
     dagger: {
       el: document.getElementById("cabin-dagger"),
-      storageKey: "cruise-cabin-dagger-pose-v2",
+      storageKey: "cruise-cabin-dagger-pose-v3",
       cssPrefix: "dagger",
       label: "dagger",
       help: "Stab the tip into the desk. Alt-drag to tilt the blade.",
       defaultPose: {
         x: -0.06,
-        y: 0.51,
-        z: -0.415,
+        y: 0.52,
+        z: -0.355,
         rx: 18,
         rz: -12,
         scale: 0.021,

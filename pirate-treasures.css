@@ -62,6 +62,8 @@ body.pirate-page {
   --cabin-half-h: calc(var(--cabin-h) / 2);
   --cabin-half-d: calc(var(--cabin-d) / 2);
   --cabin-cam-z: 0px;
+  /* Positive = stand closer to the back door (+Z), away from stern */
+  --cabin-stand-z: calc(var(--cabin-half-d) * 0.22);
   --cabin-perspective: 780px;
   position: relative;
   height: 100vh;

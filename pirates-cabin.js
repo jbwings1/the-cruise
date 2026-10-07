@@ -3,9 +3,9 @@
   const world = document.getElementById("cabin-world");
   if (!stage || !world) return;
 
-  // Standing in front of the door, facing the stern.
+  // Standing near the door, facing the stern.
   // yaw 0 = stern; +yaw looks toward starboard; -yaw toward port.
-  // Rotate only — no pitch.
+  // Rotate only — no pitch. Pivot is shifted toward the door via --cabin-stand-z.
   let yaw = 0;
   let targetYaw = 0;
 
@@ -20,8 +20,11 @@
   let holdDir = 0; // -1 left, +1 right from bottom buttons
 
   function applyLook() {
+    // translateZ(-stand) first (room space) so the yaw pivot sits closer to the door
     world.style.transform =
-      "translateZ(var(--cabin-cam-z)) rotateY(" + (-yaw).toFixed(3) + "deg)";
+      "translateZ(var(--cabin-cam-z)) rotateY(" +
+      (-yaw).toFixed(3) +
+      "deg) translateZ(calc(var(--cabin-stand-z) * -1))";
   }
 
   function tick() {

@@ -6,13 +6,13 @@
   const hotspot = document.getElementById("plank-hotspot");
   if (!lookEl || !roomEl) return;
 
+  const PLAY_URL = "walk-the-plank.html";
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const MIN_YAW = -88; // look right (sword wall)
-  const MAX_YAW = 88; // look left (porthole wall)
-  const SWORD_VISIBLE_YAW = -55; // show screen-space sword CTA when facing right enough
+  const MIN_YAW = -88;
+  const MAX_YAW = 88;
+  const SWORD_VISIBLE_YAW = -50;
   let yaw = 0;
   let dragging = false;
-  let dragMoved = false;
   let dragStartX = 0;
   let dragStartYaw = 0;
   let pointerId = null;
@@ -21,15 +21,17 @@
     return Math.min(max, Math.max(min, n));
   }
 
+  function goPlay() {
+    window.location.assign(PLAY_URL);
+  }
+
   function measure() {
     const w = lookEl.clientWidth;
     const h = lookEl.clientHeight;
     const wallW = Math.max(w, Math.ceil(h * (16 / 9)));
-    const wallH = h;
-    const wallZ = wallW / 2;
     lookEl.style.setProperty("--cabin-wall-w", `${wallW}px`);
-    lookEl.style.setProperty("--cabin-wall-h", `${wallH}px`);
-    lookEl.style.setProperty("--cabin-wall-z", `${wallZ}px`);
+    lookEl.style.setProperty("--cabin-wall-h", `${h}px`);
+    lookEl.style.setProperty("--cabin-wall-z", `${wallW / 2}px`);
     apply();
   }
 
@@ -39,8 +41,7 @@
     if (leftBtn) leftBtn.disabled = yaw >= MAX_YAW - 0.5;
     if (rightBtn) rightBtn.disabled = yaw <= MIN_YAW + 0.5;
     if (hotspot) {
-      const showSword = yaw <= SWORD_VISIBLE_YAW;
-      hotspot.classList.toggle("is-hidden", !showSword);
+      hotspot.classList.toggle("is-hidden", yaw > SWORD_VISIBLE_YAW);
     }
   }
 
@@ -55,7 +56,6 @@
   lookEl.addEventListener("pointerdown", (e) => {
     if (e.target.closest("a, button")) return;
     dragging = true;
-    dragMoved = false;
     pointerId = e.pointerId;
     dragStartX = e.clientX;
     dragStartYaw = yaw;
@@ -66,7 +66,6 @@
   lookEl.addEventListener("pointermove", (e) => {
     if (!dragging || e.pointerId !== pointerId) return;
     const dx = e.clientX - dragStartX;
-    if (Math.abs(dx) > 3) dragMoved = true;
     yaw = dragStartYaw + (dx / lookEl.clientWidth) * 120;
     apply();
   });
@@ -106,4 +105,16 @@
 
   leftBtn?.addEventListener("click", () => nudge(reduceMotion ? 18 : 30));
   rightBtn?.addEventListener("click", () => nudge(reduceMotion ? -18 : -30));
+
+  hotspot?.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    goPlay();
+  });
+  hotspot?.addEventListener("pointerup", (e) => {
+    if (hotspot.classList.contains("is-hidden")) return;
+    e.preventDefault();
+    e.stopPropagation();
+    goPlay();
+  });
 })();

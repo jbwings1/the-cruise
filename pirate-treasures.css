@@ -260,6 +260,25 @@ body.pirate-page {
   pointer-events: none;
 }
 
+/* Desk in front of chair — rum bottle is on the desktop */
+.cabin-prop-desk {
+  --desk-x: 0.02;
+  --desk-y: 1.015;
+  --desk-z: -0.42;
+  --desk-rx: 7.5deg;
+  --desk-rz: 0deg;
+  --desk-scale: 0.34;
+  width: calc(var(--cabin-w) * var(--desk-scale));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--desk-x)),
+      calc(var(--cabin-half-h) * var(--desk-y)),
+      calc(var(--cabin-half-d) * var(--desk-z))
+    )
+    rotateX(var(--desk-rx)) rotateZ(var(--desk-rz));
+}
+
 /* Locked calibrated pose */
 .cabin-prop-chair {
   --chair-x: 0.06;

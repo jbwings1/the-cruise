@@ -124,19 +124,24 @@ body.pirate-page {
 
 .cabin-hotspot-sword {
   position: absolute;
-  left: 22%;
-  top: 40%;
-  width: 14%;
-  height: 62%;
+  left: 24%;
+  top: 46%;
+  width: min(140px, 16vw);
+  height: min(52vh, 420px);
   transform: translate(-50%, -50%);
   text-decoration: none;
   color: var(--cabin-ink);
   display: block;
   border: 0;
   background: transparent;
-  z-index: 4;
+  z-index: 6;
   cursor: pointer;
   pointer-events: auto;
+}
+
+.cabin-hotspot-sword.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .cabin-sword-glow {

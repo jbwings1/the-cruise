@@ -9,7 +9,8 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const MIN_YAW = -88; // look right (sword wall)
   const MAX_YAW = 88; // look left (porthole wall)
-  let yaw = 0; // 0 = facing stern desk; +yaw = look left; -yaw = look right
+  const SWORD_VISIBLE_YAW = -55; // show screen-space sword CTA when facing right enough
+  let yaw = 0;
   let dragging = false;
   let dragMoved = false;
   let dragStartX = 0;
@@ -23,7 +24,6 @@
   function measure() {
     const w = lookEl.clientWidth;
     const h = lookEl.clientHeight;
-    // Square-ish room footprint so left/right walls fill the view when faced.
     const wallW = Math.max(w, Math.ceil(h * (16 / 9)));
     const wallH = h;
     const wallZ = wallW / 2;
@@ -36,8 +36,12 @@
   function apply() {
     yaw = clamp(yaw, MIN_YAW, MAX_YAW);
     roomEl.style.transform = `translateZ(0) rotateY(${yaw}deg)`;
-    if (leftBtn) leftBtn.disabled = yaw <= MIN_YAW + 0.5;
-    if (rightBtn) rightBtn.disabled = yaw >= MAX_YAW - 0.5;
+    if (leftBtn) leftBtn.disabled = yaw >= MAX_YAW - 0.5;
+    if (rightBtn) rightBtn.disabled = yaw <= MIN_YAW + 0.5;
+    if (hotspot) {
+      const showSword = yaw <= SWORD_VISIBLE_YAW;
+      hotspot.classList.toggle("is-hidden", !showSword);
+    }
   }
 
   function nudge(deltaDeg) {
@@ -63,7 +67,6 @@
     if (!dragging || e.pointerId !== pointerId) return;
     const dx = e.clientX - dragStartX;
     if (Math.abs(dx) > 3) dragMoved = true;
-    // Drag right = look left (natural camera turn).
     yaw = dragStartYaw + (dx / lookEl.clientWidth) * 120;
     apply();
   });
@@ -101,24 +104,6 @@
     }
   });
 
-  // ‹ looks left (+yaw), › looks right (-yaw) to match wall placement.
   leftBtn?.addEventListener("click", () => nudge(reduceMotion ? 18 : 30));
   rightBtn?.addEventListener("click", () => nudge(reduceMotion ? -18 : -30));
-
-  hotspot?.addEventListener(
-    "pointerdown",
-    (e) => {
-      e.stopPropagation();
-    },
-    true
-  );
-
-  hotspot?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (dragMoved) {
-      e.preventDefault();
-      return;
-    }
-    window.location.href = hotspot.href;
-  });
 })();

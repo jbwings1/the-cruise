@@ -22,16 +22,12 @@
   let calibrateTarget = "desk"; // "desk" | "rum"
 
   function applyLook() {
-    // Fixed-pivot look-around: move stand point to origin, yaw, then restore.
-    // Pivot stays put — no circling the room.
-    const y = (-yaw).toFixed(3) + "deg";
+    // First-person yaw at a fixed stand point (no orbit):
+    // pull stand to the camera, rotate, optional cam dolly.
     world.style.transform =
-      "translateZ(var(--cabin-cam-z))" +
-      " translateZ(var(--cabin-stand-z))" +
-      " rotateY(" +
-      y +
-      ")" +
-      " translateZ(calc(var(--cabin-stand-z) * -1))";
+      "translateZ(var(--cabin-cam-z)) rotateY(" +
+      (-yaw).toFixed(3) +
+      "deg) translateZ(calc(var(--cabin-stand-z) * -1))";
   }
 
   function tick() {

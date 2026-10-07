@@ -127,4 +127,14 @@
     yaw = targetYaw = y;
     applyLook();
   };
+
+  const doorExit = document.querySelector(".cabin-door-exit");
+  if (doorExit) {
+    doorExit.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const href = doorExit.getAttribute("data-href") || "index.html";
+      window.location.href = href;
+    });
+  }
 })();

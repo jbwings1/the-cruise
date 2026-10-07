@@ -154,22 +154,25 @@ body.pirate-page {
 }
 
 .cabin-door-exit {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
   position: absolute;
   left: 50%;
-  /* Lower on the door, near the handle */
-  top: 58%;
+  /* Lower on the arched door, near the handle */
+  top: 68%;
   bottom: auto;
   z-index: 2;
   transform: translateX(-50%);
   box-sizing: border-box;
-  width: auto;
-  max-width: 28%;
-  min-width: 0;
+  width: max-content;
+  max-width: 70%;
   height: auto;
-  display: block;
+  min-height: 0;
+  display: inline-block;
   padding: 0;
   margin: 0;
-  border: 0;
+  border: 0 none transparent;
   border-radius: 0;
   background: transparent !important;
   background-color: transparent !important;
@@ -179,7 +182,7 @@ body.pirate-page {
   font-family: var(--pt-font-ui);
   font-size: clamp(1rem, 2.4vmin, 1.35rem);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.2;
   text-align: center;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
@@ -188,24 +191,20 @@ body.pirate-page {
     0 1px 3px rgba(0, 0, 0, 0.9);
   pointer-events: auto;
   cursor: pointer;
+  color-scheme: dark;
 }
 
-.cabin-door-exit:link,
-.cabin-door-exit:visited,
 .cabin-door-exit:hover,
 .cabin-door-exit:active,
 .cabin-door-exit:focus,
 .cabin-door-exit:focus-visible {
-  color: var(--cabin-gold);
+  color: var(--cabin-ink);
   background: transparent !important;
   background-color: transparent !important;
+  background-image: none !important;
   outline: none;
   box-shadow: none;
-}
-
-.cabin-door-exit:hover,
-.cabin-door-exit:focus-visible {
-  color: var(--cabin-ink);
+  border: 0 none transparent;
 }
 
 /* Facing stern: port left (−X), starboard right (+X) */

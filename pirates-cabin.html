@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=42" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=43" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -24,16 +24,24 @@
       </div>
     </header>
 
-    <main class="cabin-stage" aria-label="Captain’s cabin stern wall">
+    <main class="cabin-stage" aria-label="Captain’s cabin port wall">
       <div class="cabin-wall-view">
         <img
-          src="images/cabin-stern-wall.jpg?v=4"
-          alt="Empty stern wall with three sunrise ocean windows"
+          id="cabin-wall-image"
+          src="images/cabin-port-wall.jpg?v=1"
+          alt="Empty port wall with a daytime ocean porthole"
           draggable="false"
         />
       </div>
     </main>
 
-    <p class="cabin-note">Stern wall · next we’ll add the desk and other items</p>
+    <div class="cabin-wall-switch" role="group" aria-label="Choose cabin wall to review">
+      <button type="button" class="cabin-wall-btn" data-wall="stern">Stern</button>
+      <button type="button" class="cabin-wall-btn is-active" data-wall="port">Port</button>
+    </div>
+
+    <p class="cabin-note" id="cabin-note">Port wall · empty for now · daytime ocean in the porthole</p>
+
+    <script src="pirates-cabin.js?v=12"></script>
   </body>
 </html>

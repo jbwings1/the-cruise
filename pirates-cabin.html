@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=44" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=123" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -18,30 +18,217 @@
         <p class="cabin-brand-mark">Captain’s Cabin</p>
         <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
       </div>
-      <div class="cabin-hud-actions">
-        <a class="cabin-play" href="walk-the-plank.html">Walk the Plank</a>
-        <a class="cabin-exit" href="index.html">Exit to cruise hub</a>
-      </div>
     </header>
 
-    <main class="cabin-stage" aria-label="Captain’s cabin port wall">
-      <div class="cabin-wall-view">
-        <img
-          id="cabin-wall-image"
-          src="images/cabin-port-wall-v5.jpg?v=1"
-          alt="Empty port wall with a small complete daytime porthole on the right"
-          draggable="false"
-        />
+    <main
+      class="cabin-stage"
+      id="cabin-stage"
+      aria-label="Captain’s cabin. Drag or use the bottom arrows to rotate."
+      tabindex="0"
+    >
+      <div class="cabin-viewport">
+        <div class="cabin-world" id="cabin-world">
+          <div class="cabin-face cabin-face-stern">
+            <img
+              src="images/cabin-stern-wall.jpg?v=6"
+              alt="Stern wall with three sunrise ocean windows"
+              draggable="false"
+            />
+            <div class="cabin-coat-hang" aria-hidden="true">
+              <img
+                src="images/cabin-captain-coat-hat.png?v=1"
+                alt=""
+                draggable="false"
+              />
+            </div>
+            <button
+              type="button"
+              class="cabin-sword-hotspot is-coming-soon"
+              id="plank-hotspot"
+              aria-label="Walk the Plank — coming soon"
+            >
+              <span class="cabin-sword-glow" aria-hidden="true"></span>
+              <img
+                class="cabin-sword-hotspot-img"
+                src="images/cabin-pirate-sword.png?v=1"
+                alt=""
+                draggable="false"
+              />
+              <span class="cabin-sword-hotspot-label">Coming soon</span>
+            </button>
+          </div>
+          <div class="cabin-face cabin-face-back">
+            <img
+              src="images/cabin-back-wall-v7.jpg?v=1"
+              alt="Back wall with arched door and ship-view portholes"
+              draggable="false"
+            />
+            <button type="button" class="cabin-door-exit" data-href="index.html">
+              Exit to cruise hub
+            </button>
+          </div>
+          <div class="cabin-face cabin-face-port">
+            <img
+              src="images/cabin-port-wall-v14.jpg?v=3"
+              alt="Port wall with the left stern window and frame on the left"
+              draggable="false"
+            />
+            <div
+              class="cabin-bookshelf"
+              id="cabin-bookshelf"
+              aria-hidden="true"
+            >
+              <img
+                src="images/cabin-bookshelf.png?v=1"
+                alt=""
+                draggable="false"
+              />
+            </div>
+            <button
+              type="button"
+              class="cabin-lantern cabin-lantern-port is-on"
+              id="cabin-lantern-port"
+              aria-pressed="true"
+              aria-label="Port lantern — click to turn off"
+            >
+              <span class="cabin-lantern-glow" aria-hidden="true"></span>
+              <img
+                class="cabin-lantern-img"
+                src="images/cabin-lantern-on.png?v=1"
+                alt=""
+                draggable="false"
+              />
+            </button>
+          </div>
+          <div class="cabin-face cabin-face-starboard">
+            <img
+              src="images/cabin-starboard-wall-v6.jpg?v=3"
+              alt="Starboard wall with the right stern window and frame on the right"
+              draggable="false"
+            />
+            <button
+              type="button"
+              class="cabin-wall-hotspot cabin-wall-hotspot-map"
+              aria-label="Wall treasure map — coming soon"
+            >
+              <span class="cabin-coming-glow" aria-hidden="true"></span>
+              <span class="cabin-coming-label">Coming soon</span>
+            </button>
+            <button
+              type="button"
+              class="cabin-lantern cabin-lantern-starboard is-on"
+              id="cabin-lantern-starboard"
+              aria-pressed="true"
+              aria-label="Starboard lantern — click to turn off"
+            >
+              <span class="cabin-lantern-glow" aria-hidden="true"></span>
+              <img
+                class="cabin-lantern-img"
+                src="images/cabin-lantern-on.png?v=1"
+                alt=""
+                draggable="false"
+              />
+            </button>
+          </div>
+          <div class="cabin-face cabin-face-floor" aria-hidden="true"></div>
+          <div class="cabin-face cabin-face-ceiling" aria-hidden="true"></div>
+          <div class="cabin-prop cabin-prop-desk" id="cabin-desk">
+            <img
+              src="images/cabin-captain-desk.png?v=7"
+              alt=""
+              draggable="false"
+            />
+            <button
+              type="button"
+              class="cabin-desk-hotspot cabin-desk-hotspot-map"
+              aria-label="Desk map — coming soon"
+            >
+              <span class="cabin-coming-glow" aria-hidden="true"></span>
+              <span class="cabin-coming-label">Coming soon</span>
+            </button>
+            <button
+              type="button"
+              class="cabin-desk-hotspot cabin-desk-hotspot-quill"
+              aria-label="Quill pen — coming soon"
+            >
+              <span class="cabin-coming-glow" aria-hidden="true"></span>
+              <span class="cabin-coming-label">Coming soon</span>
+            </button>
+            <button
+              type="button"
+              class="cabin-desk-hotspot cabin-desk-hotspot-box"
+              aria-label="Desk chest — coming soon"
+            >
+              <span class="cabin-coming-glow" aria-hidden="true"></span>
+              <span class="cabin-coming-label">Coming soon</span>
+            </button>
+          </div>
+          <div
+            class="cabin-prop cabin-prop-rum"
+            id="cabin-rum"
+            aria-hidden="true"
+          >
+            <img
+              src="images/cabin-rum-bottle.png?v=1"
+              alt=""
+              draggable="false"
+            />
+          </div>
+          <div
+            class="cabin-prop cabin-prop-dagger"
+            id="cabin-dagger"
+            aria-hidden="true"
+          >
+            <img
+              src="images/cabin-pirate-dagger.png?v=1"
+              alt=""
+              draggable="false"
+            />
+          </div>
+          <div class="cabin-prop cabin-prop-chair" aria-hidden="true">
+            <img
+              src="images/cabin-captain-chair.png?v=3"
+              alt=""
+              draggable="false"
+            />
+          </div>
+          <button
+            type="button"
+            class="cabin-prop cabin-prop-chest cabin-coming-hotspot"
+            id="cabin-chest"
+            aria-label="Treasure chest — coming soon"
+          >
+            <span class="cabin-coming-glow" aria-hidden="true"></span>
+            <img
+              src="images/cabin-treasure-chest.png?v=2"
+              alt=""
+              draggable="false"
+            />
+            <span class="cabin-coming-label">Coming soon</span>
+          </button>
+        </div>
       </div>
     </main>
 
-    <div class="cabin-wall-switch" role="group" aria-label="Choose cabin wall to review">
-      <button type="button" class="cabin-wall-btn" data-wall="stern">Stern</button>
-      <button type="button" class="cabin-wall-btn is-active" data-wall="port">Port</button>
+    <div class="cabin-turn" role="group" aria-label="Rotate view">
+      <button
+        type="button"
+        class="cabin-turn-btn"
+        id="cabin-turn-left"
+        aria-label="Rotate left"
+      >
+        ‹
+      </button>
+      <button
+        type="button"
+        class="cabin-turn-btn"
+        id="cabin-turn-right"
+        aria-label="Rotate right"
+      >
+        ›
+      </button>
     </div>
 
-    <p class="cabin-note" id="cabin-note">Port wall · empty for now · daytime ocean in the porthole</p>
-
-    <script src="pirates-cabin.js?v=12"></script>
+    <script src="pirates-cabin.js?v=59"></script>
   </body>
 </html>

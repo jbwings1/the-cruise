@@ -54,39 +54,817 @@ body.pirate-page {
 .cabin-page {
   --cabin-ink: #f4e8d4;
   --cabin-gold: #e6c15a;
+  /* 16:9 walls match the painted assets; square floor plan */
+  --cabin-w: min(170vmin, 1800px);
+  --cabin-h: calc(var(--cabin-w) * 0.5625);
+  --cabin-d: var(--cabin-w);
+  --cabin-half-w: calc(var(--cabin-w) / 2);
+  --cabin-half-h: calc(var(--cabin-h) / 2);
+  --cabin-half-d: calc(var(--cabin-d) / 2);
+  --cabin-cam-z: 0px;
+  /* Restored stand (pre door/center experiments). Centered L/R. */
+  --cabin-stand-x: 0;
+  --cabin-stand-z: calc(var(--cabin-half-d) * 0.42);
+  --cabin-perspective: 780px;
   position: relative;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
   background: #0a0705;
+  touch-action: none;
 }
 
 .cabin-stage {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  cursor: grab;
   background: #0a0705;
+  outline: none;
 }
 
-.cabin-wall-view {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.cabin-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.cabin-viewport {
+  position: absolute;
+  inset: 0;
+  perspective: var(--cabin-perspective);
+  perspective-origin: 50% 48%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  /* Let look-drag hit the stage; interactive wall controls opt back in */
+  pointer-events: none;
+}
+
+.cabin-sword-hotspot,
+.cabin-lantern,
+.cabin-door-exit,
+.cabin-coming-hotspot,
+.cabin-desk-hotspot,
+.cabin-wall-hotspot {
+  pointer-events: auto;
+}
+
+.cabin-world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.cabin-face {
+  position: absolute;
+  backface-visibility: hidden;
+  background: #1a100c;
   overflow: hidden;
 }
 
-.cabin-wall-view img {
+.cabin-face img {
   display: block;
   width: 100%;
   height: 100%;
-  /* contain = full wall always visible; cover was clipping the porthole bottom */
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
-  background: #0a0705;
+}
+
+.cabin-face-stern,
+.cabin-face-back {
+  width: var(--cabin-w);
+  height: var(--cabin-h);
+  left: calc(var(--cabin-half-w) * -1);
+  top: calc(var(--cabin-half-h) * -1);
+}
+
+.cabin-face-port,
+.cabin-face-starboard {
+  width: var(--cabin-d);
+  height: var(--cabin-h);
+  left: calc(var(--cabin-half-d) * -1);
+  top: calc(var(--cabin-half-h) * -1);
+}
+
+.cabin-face-floor,
+.cabin-face-ceiling {
+  width: var(--cabin-w);
+  height: var(--cabin-d);
+  left: calc(var(--cabin-half-w) * -1);
+  top: calc(var(--cabin-half-d) * -1);
+}
+
+/* Inside the box: each face sits half a room away, facing the center */
+.cabin-face-stern {
+  transform: rotateY(0deg) translateZ(calc(var(--cabin-half-d) * -1));
+}
+
+/* Captain coat + hat on a skeleton hand — port side of stern windows */
+.cabin-coat-hang {
+  position: absolute;
+  left: 3.8%;
+  top: 11.6%;
+  width: 15.5%;
+  height: 62%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cabin-coat-hang img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  filter: drop-shadow(4px 8px 10px rgba(0, 0, 0, 0.55));
+}
+
+/* Walk the Plank sword — starboard side of the stern wall */
+.cabin-sword-hotspot {
+  appearance: none;
+  position: absolute;
+  left: 84.8%;
+  top: 28.5%;
+  width: 7.2%;
+  height: 41%;
+  z-index: 3;
+  display: block;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  color: var(--cabin-ink);
+  font: inherit;
+  border: 0;
+  background: transparent;
+  cursor: default;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-sword-hotspot:focus-visible {
+  outline: none;
+}
+
+.cabin-sword-hotspot-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  opacity: 0.001;
+  transition:
+    opacity 160ms ease,
+    filter 160ms ease,
+    transform 160ms ease;
+}
+
+.cabin-sword-glow {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 220%;
+  height: 110%;
+  transform: translate(-50%, -50%) rotate(-6deg);
+  border-radius: 46% / 40%;
+  background: radial-gradient(
+    ellipse 46% 60% at 50% 40%,
+    rgba(255, 236, 170, 0.72),
+    rgba(230, 193, 90, 0.38) 34%,
+    rgba(230, 160, 60, 0.14) 55%,
+    transparent 72%
+  );
+  opacity: 0;
+  filter: blur(1px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 160ms ease, filter 160ms ease;
+}
+
+.cabin-sword-hotspot-label {
+  position: absolute;
+  right: 108%;
+  top: 42%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-family: var(--pt-font-display);
+  font-size: clamp(2rem, 4.4vmin, 2.9rem);
+  letter-spacing: 0.03em;
+  color: #fff6e4;
+  text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 1px 0 rgba(0, 0, 0, 0.95),
+    0 2px 0 rgba(0, 0, 0, 0.9),
+    0 3px 10px rgba(0, 0, 0, 0.95),
+    0 0 18px rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease, filter 160ms ease;
+}
+
+.cabin-sword-hotspot:hover .cabin-sword-glow,
+.cabin-sword-hotspot:focus-visible .cabin-sword-glow {
+  opacity: 1;
+  filter: blur(0.2px) drop-shadow(0 0 22px rgba(255, 214, 110, 0.95));
+}
+
+.cabin-sword-hotspot:hover .cabin-sword-hotspot-img,
+.cabin-sword-hotspot:focus-visible .cabin-sword-hotspot-img {
+  opacity: 1;
+  filter:
+    brightness(1.18)
+    drop-shadow(0 0 10px rgba(255, 220, 120, 0.95))
+    drop-shadow(0 0 22px rgba(230, 193, 90, 0.85));
+}
+
+.cabin-sword-hotspot:hover .cabin-sword-hotspot-label,
+.cabin-sword-hotspot:focus-visible .cabin-sword-hotspot-label {
+  opacity: 1;
+  transform: translate(-0.15rem, -50%);
+  filter: drop-shadow(0 4px 12px rgba(230, 193, 90, 0.45));
+}
+
+@media (max-width: 700px) {
+  .cabin-sword-hotspot {
+    width: 9.5%;
+    height: 44%;
+  }
+
+  .cabin-sword-hotspot-label {
+    font-size: clamp(1.9rem, 6.8vw, 2.4rem);
+  }
+}
+
+.cabin-face-back {
+  transform: rotateY(180deg) translateZ(calc(var(--cabin-half-d) * -1));
+}
+
+.cabin-door-exit {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: absolute;
+  left: 50%;
+  /* Lower on the arched door, near the handle */
+  top: 76%;
+  bottom: auto;
+  z-index: 2;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 70%;
+  height: auto;
+  min-height: 0;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  border: 0 none transparent;
+  border-radius: 0;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none;
+  color: var(--cabin-gold);
+  font-family: var(--pt-font-ui);
+  font-size: clamp(1rem, 2.4vmin, 1.35rem);
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  text-shadow:
+    0 0 6px rgba(0, 0, 0, 0.95),
+    0 1px 3px rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.cabin-door-exit:hover,
+.cabin-door-exit:active,
+.cabin-door-exit:focus,
+.cabin-door-exit:focus-visible {
+  color: var(--cabin-ink);
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  outline: none;
+  box-shadow: none;
+  border: 0 none transparent;
+}
+
+/* Facing stern: port left (−X), starboard right (+X) */
+.cabin-face-port {
+  transform: rotateY(-90deg) translateZ(calc(var(--cabin-half-w) * -1));
+}
+
+.cabin-face-starboard {
+  transform: rotateY(90deg) translateZ(calc(var(--cabin-half-w) * -1));
+}
+
+/* Wall lanterns — door-side of each side window; click to toggle */
+.cabin-lantern {
+  appearance: none;
+  position: absolute;
+  z-index: 3;
+  width: 7.5%;
+  height: 28%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Locked calibrated port-wall bookshelf */
+.cabin-bookshelf {
+  --shelf-left: 60.8;
+  --shelf-top: 16.6;
+  --shelf-w: 31.2;
+  --shelf-h: 83.2;
+  --shelf-rot: -0.25deg;
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--shelf-left) * 1%);
+  top: calc(var(--shelf-top) * 1%);
+  width: calc(var(--shelf-w) * 1%);
+  height: calc(var(--shelf-h) * 1%);
+  transform: rotate(var(--shelf-rot));
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+
+.cabin-bookshelf img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center bottom;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  filter: drop-shadow(6px 8px 10px rgba(0, 0, 0, 0.55));
+}
+
+.cabin-lantern-port {
+  /* Port window is on the left; door is toward the right of that window */
+  left: 46%;
+  top: 22%;
+}
+
+.cabin-lantern-starboard {
+  /* Starboard window is on the right; door is toward the left of that window */
+  left: 49%;
+  top: 22%;
+}
+
+.cabin-lantern-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: filter 180ms ease, opacity 180ms ease;
+}
+
+.cabin-lantern-glow {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 280%;
+  height: 160%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    rgba(255, 200, 110, 0.55),
+    rgba(230, 150, 60, 0.22) 38%,
+    rgba(120, 60, 20, 0.08) 62%,
+    transparent 76%
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.cabin-lantern.is-on .cabin-lantern-glow {
+  opacity: 1;
+  animation: cabin-lantern-flicker 2.8s ease-in-out infinite;
+}
+
+.cabin-lantern.is-on .cabin-lantern-img {
+  filter:
+    drop-shadow(0 0 8px rgba(255, 190, 90, 0.65))
+    drop-shadow(0 0 18px rgba(230, 140, 50, 0.35));
+}
+
+.cabin-lantern:not(.is-on) .cabin-lantern-img {
+  filter: brightness(0.72) saturate(0.75);
+}
+
+.cabin-lantern:focus-visible {
+  outline: 1px solid rgba(230, 193, 90, 0.65);
+  outline-offset: 2px;
+}
+
+@keyframes cabin-lantern-flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  40% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.78;
+  }
+  70% {
+    opacity: 0.95;
+  }
+}
+
+/* Soft room fill from lit lanterns */
+.cabin-page.cabin-lit-port .cabin-face-port::after,
+.cabin-page.cabin-lit-starboard .cabin-face-starboard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 55% 70% at var(--lantern-glow-x, 35%) 40%,
+    rgba(255, 180, 90, 0.16),
+    rgba(180, 100, 40, 0.06) 45%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+}
+
+.cabin-page.cabin-lit-port .cabin-face-port::after {
+  --lantern-glow-x: 35%;
+}
+
+.cabin-page.cabin-lit-starboard .cabin-face-starboard::after {
+  --lantern-glow-x: 53%;
+}
+
+@media (max-width: 700px) {
+  .cabin-lantern {
+    width: 10%;
+    height: 32%;
+  }
+}
+
+.cabin-face-floor {
+  transform: rotateX(90deg) translateZ(calc(var(--cabin-half-h) * -1));
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(70, 42, 24, 0.55), transparent 55%),
+    repeating-linear-gradient(
+      90deg,
+      #2a1810 0 48px,
+      #23140e 48px 52px,
+      #2e1b12 52px 100px
+    );
+}
+
+.cabin-face-ceiling {
+  transform: rotateX(-90deg) translateZ(calc(var(--cabin-half-h) * -1));
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(40, 26, 16, 0.9), #120c08 70%),
+    repeating-linear-gradient(
+      0deg,
+      #1c120c 0 42px,
+      #160e0a 42px 46px,
+      #20150f 46px 88px
+    );
+}
+
+/* Chair prop — pose driven by CSS variables from pirates-cabin.js */
+.cabin-prop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  pointer-events: none;
+}
+
+/* Interactive coming-soon props must receive hover */
+.cabin-prop.cabin-coming-hotspot,
+.cabin-prop-chest {
+  pointer-events: auto;
+}
+
+.cabin-prop img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+/* Desk — pose driven by CSS variables from pirates-cabin.js */
+.cabin-prop-desk {
+  --desk-x: 0.02;
+  --desk-y: 1.035;
+  --desk-z: -0.225;
+  --desk-rx: 7.5deg;
+  --desk-rz: 0deg;
+  --desk-scale: 0.36;
+  width: calc(var(--cabin-w) * var(--desk-scale));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--desk-x)),
+      calc(var(--cabin-half-h) * var(--desk-y)),
+      calc(var(--cabin-half-d) * var(--desk-z))
+    )
+    rotateX(var(--desk-rx)) rotateZ(var(--desk-rz));
+}
+
+/* Coming-soon hotspots on the desk surface (map + quill) */
+.cabin-desk-hotspot {
+  appearance: none;
+  position: absolute;
+  z-index: 4;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Separate hit areas — rolled map, quill, small desk chest (grid-calibrated) */
+/* Map sits right of the stabbed dagger prop so hover doesn't land on the blade */
+.cabin-desk-hotspot-map {
+  left: 42%;
+  top: 27%;
+  width: 16%;
+  height: 11%;
+}
+
+.cabin-desk-hotspot-quill {
+  left: 58%;
+  top: 8%;
+  width: 12%;
+  height: 28%;
+}
+
+.cabin-desk-hotspot-box {
+  left: 70%;
+  top: 22%;
+  width: 18%;
+  height: 16%;
+}
+
+.cabin-desk-hotspot .cabin-coming-glow {
+  width: 120%;
+  height: 100%;
+}
+
+.cabin-coming-glow {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 140%;
+  height: 110%;
+  transform: translate(-50%, -50%);
+  border-radius: 46% / 40%;
+  background: radial-gradient(
+    ellipse 46% 60% at 50% 40%,
+    rgba(255, 236, 170, 0.72),
+    rgba(230, 193, 90, 0.38) 34%,
+    rgba(230, 160, 60, 0.14) 55%,
+    transparent 72%
+  );
+  opacity: 0;
+  filter: blur(1px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 160ms ease, filter 160ms ease;
+}
+
+.cabin-coming-label {
+  position: absolute;
+  left: 50%;
+  bottom: 108%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--pt-font-display);
+  font-size: clamp(1.35rem, 3vmin, 2rem);
+  letter-spacing: 0.03em;
+  color: #fff6e4;
+  text-shadow:
+    0 0 2px rgba(0, 0, 0, 1),
+    0 1px 0 rgba(0, 0, 0, 0.95),
+    0 2px 0 rgba(0, 0, 0, 0.9),
+    0 3px 10px rgba(0, 0, 0, 0.95),
+    0 0 18px rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease, filter 160ms ease;
+}
+
+.cabin-desk-hotspot:hover .cabin-coming-glow,
+.cabin-desk-hotspot:focus-visible .cabin-coming-glow,
+.cabin-coming-hotspot:hover .cabin-coming-glow,
+.cabin-coming-hotspot:focus-visible .cabin-coming-glow,
+.cabin-wall-hotspot:hover .cabin-coming-glow,
+.cabin-wall-hotspot:focus-visible .cabin-coming-glow {
+  opacity: 1;
+  filter: blur(0.2px) drop-shadow(0 0 22px rgba(255, 214, 110, 0.95));
+}
+
+.cabin-desk-hotspot:hover .cabin-coming-label,
+.cabin-desk-hotspot:focus-visible .cabin-coming-label,
+.cabin-coming-hotspot:hover .cabin-coming-label,
+.cabin-coming-hotspot:focus-visible .cabin-coming-label,
+.cabin-wall-hotspot:hover .cabin-coming-label,
+.cabin-wall-hotspot:focus-visible .cabin-coming-label {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-0.15rem);
+  filter: drop-shadow(0 4px 12px rgba(230, 193, 90, 0.45));
+}
+
+.cabin-desk-hotspot:focus-visible,
+.cabin-coming-hotspot:focus-visible,
+.cabin-wall-hotspot:focus-visible {
+  outline: none;
+}
+
+/* Wall treasure map — starboard, coming soon */
+.cabin-wall-hotspot {
+  appearance: none;
+  position: absolute;
+  z-index: 4;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-wall-hotspot-map {
+  left: 11%;
+  top: 22%;
+  width: 30%;
+  height: 54%;
+}
+
+.cabin-wall-hotspot-map .cabin-coming-glow {
+  width: 130%;
+  height: 115%;
+}
+
+.cabin-wall-hotspot-map .cabin-coming-label {
+  bottom: auto;
+  top: -10%;
+  font-size: clamp(1.6rem, 3.6vmin, 2.4rem);
+}
+
+.cabin-wall-hotspot-map:hover,
+.cabin-wall-hotspot-map:focus-visible {
+  filter:
+    brightness(1.12)
+    drop-shadow(0 0 14px rgba(255, 220, 120, 0.85))
+    drop-shadow(0 0 28px rgba(230, 193, 90, 0.7));
+}
+
+/* Rum bottle — separate prop sitting on the desk */
+.cabin-prop-rum {
+  --rum-x: 0.244;
+  --rum-y: 0.39;
+  --rum-z: -0.34;
+  --rum-rx: 7.5deg;
+  --rum-rz: 0deg;
+  --rum-scale: 0.027;
+  width: calc(var(--cabin-w) * var(--rum-scale));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--rum-x)),
+      calc(var(--cabin-half-h) * var(--rum-y)),
+      calc(var(--cabin-half-d) * var(--rum-z))
+    )
+    rotateX(var(--rum-rx)) rotateZ(var(--rum-rz));
+}
+
+/* Pirate dagger — tip-down, stabbed into the desk */
+.cabin-prop-dagger {
+  --dagger-x: -0.06;
+  --dagger-y: 0.52;
+  --dagger-z: -0.355;
+  --dagger-rx: 18deg;
+  --dagger-rz: -12deg;
+  --dagger-scale: 0.021;
+  width: calc(var(--cabin-w) * var(--dagger-scale));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--dagger-x)),
+      calc(var(--cabin-half-h) * var(--dagger-y)),
+      calc(var(--cabin-half-d) * var(--dagger-z))
+    )
+    rotateX(var(--dagger-rx)) rotateZ(var(--dagger-rz));
+}
+
+/* Locked calibrated chair pose */
+.cabin-prop-chair {
+  --chair-x: 0.06;
+  --chair-y: 1.015;
+  --chair-z: -0.685;
+  --chair-rx: 7.5deg;
+  --chair-rz: -4.5deg;
+  --chair-scale: 0.16;
+  width: calc(var(--cabin-w) * var(--chair-scale));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--chair-x)),
+      calc(var(--cabin-half-h) * var(--chair-y)),
+      calc(var(--cabin-half-d) * var(--chair-z))
+    )
+    rotateX(var(--chair-rx)) rotateZ(var(--chair-rz));
+}
+
+/* Locked calibrated treasure chest under the starboard map */
+.cabin-prop-chest {
+  appearance: none;
+  --chest-x: -0.744;
+  --chest-y: 1.0;
+  --chest-z: 0.12;
+  --chest-rx: 7.5deg;
+  --chest-ry: 36deg;
+  --chest-rz: -1deg;
+  --chest-scale: 0.21;
+  width: calc(var(--cabin-w) * var(--chest-scale));
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--chest-x)),
+      calc(var(--cabin-half-h) * var(--chest-y)),
+      calc(var(--cabin-half-d) * var(--chest-z))
+    )
+    rotateY(var(--chest-ry)) rotateX(var(--chest-rx)) rotateZ(var(--chest-rz));
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-prop-chest img {
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65));
+  transition: filter 160ms ease;
+}
+
+.cabin-prop-chest .cabin-coming-glow {
+  width: 140%;
+  height: 110%;
+  top: 52%;
+}
+
+.cabin-prop-chest .cabin-coming-label {
+  bottom: auto;
+  top: -8%;
+  font-size: clamp(1.5rem, 3.4vmin, 2.3rem);
+}
+
+.cabin-prop-chest:hover img,
+.cabin-prop-chest:focus-visible img {
+  filter:
+    drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65))
+    brightness(1.16)
+    drop-shadow(0 0 12px rgba(255, 220, 120, 0.95))
+    drop-shadow(0 0 24px rgba(230, 193, 90, 0.85));
 }
 
 .cabin-hud {
@@ -123,84 +901,57 @@ body.pirate-page {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
 }
 
-.cabin-hud-actions {
-  pointer-events: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: flex-end;
-}
-
-.cabin-play,
-.cabin-exit {
-  padding: 0.45rem 0.9rem;
-  border: 1px solid rgba(230, 193, 90, 0.4);
-  background: rgba(20, 12, 8, 0.55);
-  color: rgba(244, 232, 212, 0.88);
-  font-family: var(--pt-font-ui);
-  font-size: 0.9rem;
-  text-decoration: none;
-  border-radius: 4px;
-  backdrop-filter: blur(4px);
-}
-
-.cabin-play {
-  border-color: rgba(230, 193, 90, 0.7);
-  color: var(--cabin-gold);
-}
-
-.cabin-play:hover,
-.cabin-play:focus-visible,
-.cabin-exit:hover,
-.cabin-exit:focus-visible {
-  color: var(--cabin-ink);
-  border-color: var(--cabin-gold);
-  outline: none;
-}
-
-.cabin-wall-switch {
+.cabin-turn {
   position: absolute;
   left: 50%;
-  bottom: 3.1rem;
-  z-index: 5;
+  bottom: 1rem;
+  z-index: 6;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  max-width: calc(100% - 1.25rem);
+  pointer-events: none;
 }
 
-.cabin-wall-btn {
+.cabin-turn-btn {
+  pointer-events: auto;
   appearance: none;
-  border: 1px solid rgba(230, 193, 90, 0.4);
-  background: rgba(20, 12, 8, 0.6);
-  color: rgba(244, 232, 212, 0.88);
-  font-family: var(--pt-font-ui);
-  font-size: 0.9rem;
-  padding: 0.4rem 0.9rem;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  border: 1px solid rgba(230, 193, 90, 0.55);
   border-radius: 4px;
+  background: rgba(20, 12, 8, 0.72);
+  color: var(--cabin-gold);
+  font-family: var(--pt-font-ui);
+  font-size: 1.55rem;
+  line-height: 1;
   cursor: pointer;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(4px);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
-.cabin-wall-btn:hover,
-.cabin-wall-btn:focus-visible {
+.cabin-turn-btn:hover,
+.cabin-turn-btn:focus-visible {
   border-color: var(--cabin-gold);
   color: var(--cabin-ink);
   outline: none;
 }
 
-.cabin-wall-btn.is-active {
+.cabin-turn-btn:active,
+.cabin-turn-btn.is-held {
+  background: rgba(40, 26, 14, 0.85);
   border-color: var(--cabin-gold);
-  color: var(--cabin-gold);
+  color: var(--cabin-ink);
 }
 
 .cabin-note {
-  position: absolute;
-  left: 50%;
-  bottom: 1.1rem;
-  z-index: 5;
-  transform: translateX(-50%);
   margin: 0;
-  padding: 0.4rem 0.85rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 4px;
   background: rgba(10, 7, 5, 0.5);
   color: rgba(244, 232, 212, 0.85);
@@ -208,6 +959,8 @@ body.pirate-page {
   font-size: 0.85rem;
   pointer-events: none;
   backdrop-filter: blur(3px);
+  text-align: center;
+  max-width: min(18rem, 52vw);
 }
 
 /* ——— Walk the Plank game ——— */

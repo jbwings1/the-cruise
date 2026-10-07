@@ -80,6 +80,124 @@ body {
   animation: rise-in 1100ms ease-out both;
 }
 
+/* Treasure chest — bottom left, opposite the countdown */
+.hub-chest {
+  position: absolute;
+  left: clamp(0.5rem, 3vw, 2.25rem);
+  bottom: 0.85rem;
+  z-index: 2;
+  width: min(140px, 22vw);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: rise-in 1100ms ease-out both;
+}
+
+.hub-chest:focus-visible {
+  outline: 2px solid rgba(230, 193, 90, 0.85);
+  outline-offset: 4px;
+}
+
+.hub-chest-stage {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  width: 100%;
+  aspect-ratio: 560 / 537;
+  background: transparent;
+}
+
+.hub-chest-frame {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  opacity: 0;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.45));
+}
+
+.hub-chest-frame.is-active {
+  opacity: 1;
+}
+
+.hub-chest-glow {
+  position: absolute;
+  left: 50%;
+  bottom: 28%;
+  z-index: 0;
+  width: 85%;
+  height: 70%;
+  transform: translateX(-50%) scale(0.65);
+  transform-origin: 50% 70%;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 60%,
+    rgba(255, 220, 120, 0.62),
+    rgba(230, 160, 60, 0.22) 42%,
+    rgba(230, 160, 60, 0.06) 62%,
+    transparent 78%
+  );
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: opacity 80ms linear, transform 80ms linear;
+}
+
+.hub-chest-label {
+  display: block;
+  margin-top: 0.15rem;
+  font-family: var(--font-display);
+  font-size: clamp(0.78rem, 1.7vw, 0.98rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.2;
+  text-align: center;
+  color: #fff6e4;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.85),
+    0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.hub-chest:hover .hub-chest-label,
+.hub-chest:focus-visible .hub-chest-label {
+  color: #ffe7a8;
+}
+
+.hub-chest-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 18% 88%,
+      rgba(255, 220, 120, 0.95),
+      rgba(230, 160, 60, 0.55) 28%,
+      rgba(20, 12, 8, 0.2) 55%,
+      #0a0705 78%
+    ),
+    #0a0705;
+  opacity: 0;
+  transition: opacity 850ms ease-in;
+}
+
+.hub-chest-veil[hidden] {
+  display: block !important;
+  opacity: 0;
+}
+
+.hub-chest-veil.is-on {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .hub-countdown-label {
   margin: 0 0 0.22rem;
   font-size: 0.64rem;
@@ -283,8 +401,8 @@ body {
   align-self: end;
   justify-self: center;
   /* Same inset on both sides keeps the sentence on the page center
-     and clear of the corner countdown. */
-  width: min(40rem, calc(100% - 31rem));
+     and clear of the corner chest + countdown. */
+  width: min(40rem, calc(100% - 34rem));
   margin: 0;
   padding-top: 1.5rem;
   font-family: var(--font-body);
@@ -329,6 +447,16 @@ body {
     margin: 0.7rem 0 0;
     padding: 0.28rem 0.5rem 0.34rem;
     max-width: 100%;
+  }
+
+  .hub-chest {
+    position: static;
+    left: auto;
+    bottom: auto;
+    align-self: flex-start;
+    order: 4;
+    width: min(110px, 32vw);
+    margin: 0.55rem 0 0;
   }
 
   .hub-countdown-label {

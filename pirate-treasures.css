@@ -93,6 +93,14 @@ body.pirate-page {
   perspective-origin: 50% 48%;
   overflow: hidden;
   transform-style: preserve-3d;
+  /* Let look-drag hit the stage; interactive wall controls opt back in */
+  pointer-events: none;
+}
+
+.cabin-sword-hotspot,
+.cabin-lantern,
+.cabin-door-exit {
+  pointer-events: auto;
 }
 
 .cabin-world {

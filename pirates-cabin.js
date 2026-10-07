@@ -21,9 +21,9 @@
       note: "Starboard wall · daytime ocean in the window",
     },
     back: {
-      src: "images/cabin-back-wall-v2.jpg?v=1",
-      alt: "Empty back wall made from the stern wood with the windows removed",
-      note: "Back wall · stern wood without windows",
+      src: "images/cabin-back-wall-v3.jpg?v=1",
+      alt: "Empty back wall of continuous stern-matched wood with no windows",
+      note: "Back wall · continuous stern-matched wood · no windows",
     },
   };
 

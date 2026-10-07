@@ -21,9 +21,9 @@
       note: "Starboard wall · daytime ocean in the window",
     },
     back: {
-      src: "images/cabin-back-wall-v6.jpg?v=1",
-      alt: "Back wall with arched door and a daytime ocean window on each side",
-      note: "Back wall · door with port windows on each side",
+      src: "images/cabin-back-wall-v7.jpg?v=1",
+      alt: "Back wall with arched door and circular portholes showing the ship deck on each side",
+      note: "Back wall · door with ship-view portholes on each side",
     },
   };
 

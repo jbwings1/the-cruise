@@ -10,13 +10,18 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=73" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=74" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
       <div class="cabin-brand">
         <p class="cabin-brand-mark">Captain’s Cabin</p>
         <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
+      </div>
+      <div class="cabin-hud-actions">
+        <button type="button" class="cabin-move-chair" id="cabin-move-chair">
+          Move chair
+        </button>
       </div>
     </header>
 
@@ -30,8 +35,8 @@
         <div class="cabin-world" id="cabin-world">
           <div class="cabin-face cabin-face-stern">
             <img
-              src="images/cabin-stern-wall-v5.jpg?v=6"
-              alt="Stern wall with three sunrise ocean windows and captain’s chair"
+              src="images/cabin-stern-wall.jpg?v=5"
+              alt="Stern wall with three sunrise ocean windows"
               draggable="false"
             />
           </div>
@@ -61,6 +66,17 @@
           </div>
           <div class="cabin-face cabin-face-floor" aria-hidden="true"></div>
           <div class="cabin-face cabin-face-ceiling" aria-hidden="true"></div>
+          <div
+            class="cabin-prop cabin-prop-chair"
+            id="cabin-chair"
+            aria-hidden="true"
+          >
+            <img
+              src="images/cabin-captain-chair.png?v=3"
+              alt=""
+              draggable="false"
+            />
+          </div>
         </div>
       </div>
     </main>
@@ -85,6 +101,43 @@
       </button>
     </div>
 
-    <script src="pirates-cabin.js?v=38"></script>
+    <div class="cabin-calibrate" id="cabin-calibrate" hidden>
+      <div class="cabin-calibrate-header">
+        <p class="cabin-calibrate-title">Move the chair</p>
+        <button type="button" id="cabin-calibrate-close" class="cabin-calibrate-close">
+          Close
+        </button>
+      </div>
+      <p class="cabin-calibrate-help">
+        Drag the chair to slide it. Tip it so all four feet meet the floor.
+      </p>
+      <div class="cabin-calibrate-pad" aria-label="Move">
+        <button type="button" data-nudge="y,-1" title="Up">↑</button>
+        <button type="button" data-nudge="x,-1" title="Left">←</button>
+        <button type="button" data-nudge="x,1" title="Right">→</button>
+        <button type="button" data-nudge="y,1" title="Down">↓</button>
+      </div>
+      <div class="cabin-calibrate-pad" aria-label="Depth and tilt">
+        <button type="button" data-nudge="z,1" title="Toward room">In</button>
+        <button type="button" data-nudge="z,-1" title="Toward wall">Out</button>
+        <button type="button" data-nudge="rx,-1" title="Tilt back">Tilt −</button>
+        <button type="button" data-nudge="rx,1" title="Tilt forward">Tilt +</button>
+      </div>
+      <div class="cabin-calibrate-pad" aria-label="Scale">
+        <button type="button" data-nudge="scale,-1" title="Smaller">− Size</button>
+        <button type="button" data-nudge="scale,1" title="Bigger">+ Size</button>
+        <button type="button" data-nudge="rz,-1" title="Twist left">↺</button>
+        <button type="button" data-nudge="rz,1" title="Twist right">↻</button>
+      </div>
+      <p class="cabin-calibrate-coords" id="cabin-calibrate-coords">—</p>
+      <p class="cabin-calibrate-fine">
+        Hold Shift for fine steps. Arrow keys move · [ ] depth · , . tilt
+      </p>
+      <button type="button" class="cabin-calibrate-copy" id="cabin-calibrate-copy">
+        Copy pose values
+      </button>
+    </div>
+
+    <script src="pirates-cabin.js?v=39"></script>
   </body>
 </html>

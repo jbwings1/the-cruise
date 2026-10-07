@@ -18,6 +18,7 @@
   let activePointer = null;
   const keys = new Set();
   let holdDir = 0; // -1 left, +1 right from bottom buttons
+  let calibrating = false;
 
   function applyLook() {
     world.style.transform =
@@ -30,11 +31,23 @@
 
   function tick() {
     // Inverted so ‹ / left turns the view the way the chevrons read.
-    if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A") || holdDir < 0) {
-      targetYaw += KEY_STEP;
-    }
-    if (keys.has("ArrowRight") || keys.has("d") || keys.has("D") || holdDir > 0) {
-      targetYaw -= KEY_STEP;
+    if (!calibrating) {
+      if (
+        keys.has("ArrowLeft") ||
+        keys.has("a") ||
+        keys.has("A") ||
+        holdDir < 0
+      ) {
+        targetYaw += KEY_STEP;
+      }
+      if (
+        keys.has("ArrowRight") ||
+        keys.has("d") ||
+        keys.has("D") ||
+        holdDir > 0
+      ) {
+        targetYaw -= KEY_STEP;
+      }
     }
 
     yaw += (targetYaw - yaw) * LERP;
@@ -47,7 +60,11 @@
   }
 
   function onPointerDown(e) {
-    if (e.target.closest("a, button")) return;
+    if (
+      e.target.closest("a, button, .cabin-calibrate, .cabin-prop-chest")
+    ) {
+      return;
+    }
     dragging = true;
     activePointer = e.pointerId;
     lastX = e.clientX;
@@ -103,6 +120,7 @@
   stage.addEventListener("lostpointercapture", onPointerUp);
 
   window.addEventListener("keydown", (e) => {
+    if (calibrating) return;
     if (
       e.key === "ArrowLeft" ||
       e.key === "ArrowRight" ||
@@ -184,4 +202,260 @@
   });
 
   syncLanternRoomLight();
+
+  /* ——— Floor chest pose calibrator (with in/out off the wall) ——— */
+  const chestEl = document.getElementById("cabin-chest");
+  const calibratePanel = document.getElementById("cabin-calibrate");
+  const calibrateCoords = document.getElementById("cabin-calibrate-coords");
+  const calibrateCopyBtn = document.getElementById("cabin-calibrate-copy");
+  const calibrateCloseBtn = document.getElementById("cabin-calibrate-close");
+  const moveChestBtn = document.getElementById("cabin-move-chest");
+  const CHEST_STORAGE = "cruise-cabin-chest-pose-v2";
+  const chestDefault = {
+    x: -0.78,
+    y: 1.02,
+    z: 0.12,
+    rx: 7.5,
+    rz: 8,
+    scale: 0.15,
+  };
+  const chestClamp = {
+    x: [-0.95, 0.95],
+    y: [0.55, 1.25],
+    z: [-0.95, 0.95],
+    rx: [-25, 35],
+    rz: [-35, 35],
+    scale: [0.06, 0.35],
+  };
+  let chestPose = { ...chestDefault };
+  let chestDrag = null;
+
+  function loadChestPose() {
+    try {
+      const raw = localStorage.getItem(CHEST_STORAGE);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return;
+      const d = chestDefault;
+      chestPose = {
+        x: Number.isFinite(parsed.x) ? parsed.x : d.x,
+        y: Number.isFinite(parsed.y) ? parsed.y : d.y,
+        z: Number.isFinite(parsed.z) ? parsed.z : d.z,
+        rx: Number.isFinite(parsed.rx) ? parsed.rx : d.rx,
+        rz: Number.isFinite(parsed.rz) ? parsed.rz : d.rz,
+        scale: Number.isFinite(parsed.scale) ? parsed.scale : d.scale,
+      };
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function saveChestPose() {
+    try {
+      localStorage.setItem(CHEST_STORAGE, JSON.stringify(chestPose));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function clampChestPose() {
+    Object.keys(chestClamp).forEach((k) => {
+      const [lo, hi] = chestClamp[k];
+      chestPose[k] = Math.max(lo, Math.min(hi, chestPose[k]));
+    });
+  }
+
+  function applyChestPose() {
+    if (!chestEl) return;
+    chestEl.style.setProperty("--chest-x", String(chestPose.x));
+    chestEl.style.setProperty("--chest-y", String(chestPose.y));
+    chestEl.style.setProperty("--chest-z", String(chestPose.z));
+    chestEl.style.setProperty("--chest-rx", chestPose.rx.toFixed(2) + "deg");
+    chestEl.style.setProperty("--chest-rz", chestPose.rz.toFixed(2) + "deg");
+    chestEl.style.setProperty("--chest-scale", String(chestPose.scale));
+    if (calibrating && calibrateCoords) {
+      calibrateCoords.textContent =
+        `chest  x: ${chestPose.x.toFixed(3)}  y: ${chestPose.y.toFixed(3)}  z: ${chestPose.z.toFixed(3)}\n` +
+        `tilt(rx): ${chestPose.rx.toFixed(1)}°  twist(rz): ${chestPose.rz.toFixed(1)}°  scale: ${chestPose.scale.toFixed(3)}`;
+    }
+  }
+
+  function nudgeChest(axis, dir, fine) {
+    const step = {
+      x: fine ? 0.002 : 0.012,
+      y: fine ? 0.002 : 0.01,
+      z: fine ? 0.003 : 0.015,
+      rx: fine ? 0.25 : 1.5,
+      rz: fine ? 0.25 : 1.5,
+      scale: fine ? 0.002 : 0.01,
+    }[axis];
+    if (!step) return;
+    chestPose[axis] += dir * step;
+    clampChestPose();
+    saveChestPose();
+    applyChestPose();
+  }
+
+  function setCalibrating(on) {
+    calibrating = on;
+    document.body.classList.toggle("is-calibrating-chest", on);
+    if (calibratePanel) calibratePanel.hidden = !on;
+    if (on) {
+      yaw = targetYaw = 90;
+      applyLook();
+      applyChestPose();
+    }
+  }
+
+  loadChestPose();
+  clampChestPose();
+  applyChestPose();
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("calibrate") || window.location.hash === "#calibrate") {
+    setCalibrating(true);
+  }
+
+  if (moveChestBtn) {
+    moveChestBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setCalibrating(true);
+    });
+  }
+  if (calibrateCloseBtn) {
+    calibrateCloseBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setCalibrating(false);
+    });
+  }
+  if (calibratePanel) {
+    calibratePanel.addEventListener("pointerdown", (e) => e.stopPropagation());
+    calibratePanel.querySelectorAll("[data-nudge]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const [axis, dirStr] = btn.dataset.nudge.split(",");
+        nudgeChest(axis, Number(dirStr), e.shiftKey);
+      });
+    });
+  }
+
+  if (calibrateCopyBtn) {
+    calibrateCopyBtn.addEventListener("click", async () => {
+      const text =
+        `chest\n` +
+        `x: ${chestPose.x.toFixed(4)}\n` +
+        `y: ${chestPose.y.toFixed(4)}\n` +
+        `z: ${chestPose.z.toFixed(4)}\n` +
+        `rx: ${chestPose.rx.toFixed(2)}\n` +
+        `rz: ${chestPose.rz.toFixed(2)}\n` +
+        `scale: ${chestPose.scale.toFixed(4)}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        calibrateCopyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          calibrateCopyBtn.textContent = "Copy pose values";
+        }, 1200);
+      } catch {
+        calibrateCopyBtn.textContent = "Copy failed";
+        setTimeout(() => {
+          calibrateCopyBtn.textContent = "Copy pose values";
+        }, 1200);
+      }
+    });
+  }
+
+  if (chestEl) {
+    chestEl.addEventListener("pointerdown", (e) => {
+      if (!calibrating) return;
+      e.preventDefault();
+      e.stopPropagation();
+      chestDrag = {
+        id: e.pointerId,
+        lastX: e.clientX,
+        lastY: e.clientY,
+        alt: e.altKey,
+      };
+      chestEl.classList.add("is-dragging-prop");
+      try {
+        chestEl.setPointerCapture(e.pointerId);
+      } catch (_) {
+        /* ignore */
+      }
+    });
+
+    chestEl.addEventListener("pointermove", (e) => {
+      if (!chestDrag || e.pointerId !== chestDrag.id) return;
+      const dx = e.clientX - chestDrag.lastX;
+      const dy = e.clientY - chestDrag.lastY;
+      chestDrag.lastX = e.clientX;
+      chestDrag.lastY = e.clientY;
+      if (chestDrag.alt || e.altKey) {
+        chestPose.rx += dy * 0.08;
+        chestPose.rz += dx * 0.05;
+      } else {
+        // Facing starboard: horizontal drag slides along the wall (z),
+        // vertical seats on the floor (y). Use Out/In for off-wall (x).
+        chestPose.z += dx * 0.0009;
+        chestPose.y += dy * 0.0009;
+      }
+      clampChestPose();
+      saveChestPose();
+      applyChestPose();
+    });
+
+    const endChestDrag = (e) => {
+      if (!chestDrag || e.pointerId !== chestDrag.id) return;
+      chestDrag = null;
+      chestEl.classList.remove("is-dragging-prop");
+    };
+    chestEl.addEventListener("pointerup", endChestDrag);
+    chestEl.addEventListener("pointercancel", endChestDrag);
+  }
+
+  window.addEventListener("keydown", (e) => {
+    if (!calibrating) return;
+    const fine = e.shiftKey;
+    if (e.key === "ArrowLeft") {
+      nudgeChest("z", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "ArrowRight") {
+      nudgeChest("z", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "ArrowUp") {
+      nudgeChest("y", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      nudgeChest("y", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "[") {
+      nudgeChest("x", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "]") {
+      nudgeChest("x", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "-" || e.key === "_") {
+      nudgeChest("scale", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "=" || e.key === "+") {
+      nudgeChest("scale", 1, fine);
+      e.preventDefault();
+    } else if (e.key === ",") {
+      nudgeChest("rx", -1, fine);
+      e.preventDefault();
+    } else if (e.key === ".") {
+      nudgeChest("rx", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "Escape") {
+      setCalibrating(false);
+      e.preventDefault();
+    }
+  });
+
+  window.__getChestPose = () => ({ ...chestPose });
+  window.__setChestPose = (next = {}) => {
+    chestPose = { ...chestPose, ...next };
+    clampChestPose();
+    saveChestPose();
+    applyChestPose();
+  };
 })();

@@ -267,7 +267,7 @@ body.pirate-page {
   --desk-z: -0.42;
   --desk-rx: 7.5deg;
   --desk-rz: 0deg;
-  --desk-scale: 0.34;
+  --desk-scale: 0.38;
   width: calc(var(--cabin-w) * var(--desk-scale));
   transform-origin: 50% 100%;
   transform: translate(-50%, -100%)

@@ -101,7 +101,8 @@ body.pirate-page {
 .cabin-lantern,
 .cabin-door-exit,
 .cabin-coming-hotspot,
-.cabin-desk-hotspot {
+.cabin-desk-hotspot,
+.cabin-wall-hotspot {
   pointer-events: auto;
 }
 
@@ -607,26 +608,40 @@ body.pirate-page {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Separate hit areas — rolled map vs quill+inkwell */
 .cabin-desk-hotspot-map {
-  left: 26%;
-  top: 4%;
-  width: 24%;
-  height: 30%;
+  left: 23%;
+  top: 7%;
+  width: 20%;
+  height: 25%;
 }
 
 .cabin-desk-hotspot-quill {
-  left: 50%;
-  top: 0%;
-  width: 18%;
-  height: 36%;
+  left: 55%;
+  top: 1%;
+  width: 14%;
+  height: 34%;
+}
+
+.cabin-desk-hotspot .cabin-coming-glow {
+  width: 120%;
+  height: 100%;
+}
+
+.cabin-desk-hotspot-map .cabin-coming-label {
+  left: 40%;
+}
+
+.cabin-desk-hotspot-quill .cabin-coming-label {
+  left: 60%;
 }
 
 .cabin-coming-glow {
   position: absolute;
   left: 50%;
   top: 48%;
-  width: 160%;
-  height: 120%;
+  width: 140%;
+  height: 110%;
   transform: translate(-50%, -50%);
   border-radius: 46% / 40%;
   background: radial-gradient(
@@ -667,7 +682,9 @@ body.pirate-page {
 .cabin-desk-hotspot:hover .cabin-coming-glow,
 .cabin-desk-hotspot:focus-visible .cabin-coming-glow,
 .cabin-coming-hotspot:hover .cabin-coming-glow,
-.cabin-coming-hotspot:focus-visible .cabin-coming-glow {
+.cabin-coming-hotspot:focus-visible .cabin-coming-glow,
+.cabin-wall-hotspot:hover .cabin-coming-glow,
+.cabin-wall-hotspot:focus-visible .cabin-coming-glow {
   opacity: 1;
   filter: blur(0.2px) drop-shadow(0 0 22px rgba(255, 214, 110, 0.95));
 }
@@ -675,15 +692,59 @@ body.pirate-page {
 .cabin-desk-hotspot:hover .cabin-coming-label,
 .cabin-desk-hotspot:focus-visible .cabin-coming-label,
 .cabin-coming-hotspot:hover .cabin-coming-label,
-.cabin-coming-hotspot:focus-visible .cabin-coming-label {
+.cabin-coming-hotspot:focus-visible .cabin-coming-label,
+.cabin-wall-hotspot:hover .cabin-coming-label,
+.cabin-wall-hotspot:focus-visible .cabin-coming-label {
   opacity: 1;
   transform: translateX(-50%) translateY(-0.15rem);
   filter: drop-shadow(0 4px 12px rgba(230, 193, 90, 0.45));
 }
 
 .cabin-desk-hotspot:focus-visible,
-.cabin-coming-hotspot:focus-visible {
+.cabin-coming-hotspot:focus-visible,
+.cabin-wall-hotspot:focus-visible {
   outline: none;
+}
+
+/* Wall treasure map — starboard, coming soon */
+.cabin-wall-hotspot {
+  appearance: none;
+  position: absolute;
+  z-index: 4;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-wall-hotspot-map {
+  left: 11%;
+  top: 22%;
+  width: 30%;
+  height: 54%;
+}
+
+.cabin-wall-hotspot-map .cabin-coming-glow {
+  width: 130%;
+  height: 115%;
+}
+
+.cabin-wall-hotspot-map .cabin-coming-label {
+  bottom: auto;
+  top: -10%;
+  font-size: clamp(1.6rem, 3.6vmin, 2.4rem);
+}
+
+.cabin-wall-hotspot-map:hover,
+.cabin-wall-hotspot-map:focus-visible {
+  filter:
+    brightness(1.12)
+    drop-shadow(0 0 14px rgba(255, 220, 120, 0.85))
+    drop-shadow(0 0 28px rgba(230, 193, 90, 0.7));
 }
 
 /* Rum bottle — separate prop sitting on the desk */

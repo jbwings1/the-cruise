@@ -22,12 +22,13 @@
   let calibrateTarget = "desk"; // "desk" | "rum"
 
   function applyLook() {
-    // First-person yaw at a fixed stand point (no orbit):
-    // pull stand to the camera, rotate, optional cam dolly.
+    // Pure yaw at room center — equal distance to all walls, no slide/orbit.
     world.style.transform =
       "translateZ(var(--cabin-cam-z)) rotateY(" +
       (-yaw).toFixed(3) +
-      "deg) translateZ(calc(var(--cabin-stand-z) * -1))";
+      "deg) translate3d(" +
+      "calc(var(--cabin-half-w) * var(--cabin-stand-x) * -1), 0, " +
+      "calc(var(--cabin-stand-z) * -1))";
   }
 
   function tick() {

@@ -62,8 +62,9 @@ body.pirate-page {
   --cabin-half-h: calc(var(--cabin-h) / 2);
   --cabin-half-d: calc(var(--cabin-d) / 2);
   --cabin-cam-z: 0px;
-  /* Fixed look-around pivot: +Z toward the door. Rotate only — no orbit. */
-  --cabin-stand-z: calc(var(--cabin-half-d) * 0.42);
+  /* True room center so left/right (and door/stern) stay equal when you turn. */
+  --cabin-stand-x: 0;
+  --cabin-stand-z: 0px;
   --cabin-perspective: 780px;
   position: relative;
   height: 100vh;

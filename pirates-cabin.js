@@ -16,9 +16,9 @@
       note: "Port wall · one stern-style window on the right",
     },
     starboard: {
-      src: "images/cabin-starboard-wall.jpg?v=1",
-      alt: "Empty starboard wall with the same wood planks as the port wall",
-      note: "Starboard wall · same empty wood as port · starting point",
+      src: "images/cabin-starboard-wall-v2.jpg?v=1",
+      alt: "Starboard wall with one stern-matched sunrise window on the left",
+      note: "Starboard wall · one stern-style window on the left",
     },
   };
 

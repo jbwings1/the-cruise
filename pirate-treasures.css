@@ -98,10 +98,10 @@ body.pirate-page {
   -webkit-user-drag: none;
 }
 
-/* Cutlass sits ~63% across the painted panorama, hilt near mid height. */
+/* Cutlass sits ~57% across the painted panorama, hilt near mid height. */
 .cabin-hotspot-sword {
   position: absolute;
-  left: 63%;
+  left: 57%;
   top: 38%;
   width: 4.8%;
   height: 56%;

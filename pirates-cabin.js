@@ -127,4 +127,11 @@
 
   applyLook();
   requestAnimationFrame(tick);
+
+  // Test / debug helper
+  window.__setCabinLook = (y = 0, p = 0) => {
+    yaw = targetYaw = y;
+    pitch = targetPitch = clamp(p, -MAX_PITCH, MAX_PITCH);
+    applyLook();
+  };
 })();

@@ -114,11 +114,12 @@ body.pirate-page {
 }
 
 .cabin-wall-left {
-  transform: rotateY(90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
+  /* Empirically: negative room yaw faces the rotateY(90deg) wall. */
+  transform: rotateY(-90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
 }
 
 .cabin-wall-right {
-  transform: rotateY(-90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
+  transform: rotateY(90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
 }
 
 .cabin-hotspot-sword {

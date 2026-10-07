@@ -157,7 +157,7 @@ body.pirate-page {
   position: absolute;
   left: 50%;
   /* Lower on the door, near the handle */
-  top: 52%;
+  top: 58%;
   bottom: auto;
   z-index: 2;
   transform: translateX(-50%);

@@ -230,32 +230,6 @@ body.pirate-page {
     );
 }
 
-/* Furniture props live in room space (siblings of the wall faces) */
-.cabin-prop {
-  position: absolute;
-  left: 0;
-  top: 0;
-  transform-style: preserve-3d;
-  pointer-events: none;
-}
-
-.cabin-prop img {
-  display: block;
-  width: 100%;
-  height: auto;
-  user-select: none;
-  -webkit-user-drag: none;
-  pointer-events: none;
-  filter: drop-shadow(0 22px 16px rgba(0, 0, 0, 0.55));
-}
-
-/* Against the stern, centered on the middle window, feet on the floor */
-.cabin-prop-chair {
-  width: calc(var(--cabin-w) * 0.155);
-  transform: translate(-50%, -100%)
-    translate3d(0, var(--cabin-half-h), calc(var(--cabin-half-d) * -0.9));
-}
-
 .cabin-face-ceiling {
   transform: rotateX(-90deg) translateZ(calc(var(--cabin-half-h) * -1));
   background:

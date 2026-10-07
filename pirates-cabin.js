@@ -183,5 +183,18 @@
     btn.addEventListener("pointerdown", (e) => e.stopPropagation());
   });
 
+  /* Coming-soon hotspots: hover-only for now; don't start a look-drag */
+  document
+    .querySelectorAll(
+      ".cabin-coming-hotspot, .cabin-desk-hotspot, .cabin-wall-hotspot, .cabin-sword-hotspot"
+    )
+    .forEach((btn) => {
+      btn.addEventListener("pointerdown", (e) => e.stopPropagation());
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    });
+
   syncLanternRoomLight();
 })();

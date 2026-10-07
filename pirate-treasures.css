@@ -95,6 +95,7 @@ body.pirate-page {
   overflow: hidden;
   backface-visibility: hidden;
   transform-style: preserve-3d;
+  pointer-events: none;
 }
 
 .cabin-wall img {
@@ -120,47 +121,12 @@ body.pirate-page {
   transform: rotateY(-90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
 }
 
-.cabin-floor,
-.cabin-ceiling {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--cabin-wall-w, 100vw);
-  height: var(--cabin-wall-w, 100vw);
-  margin-left: calc(var(--cabin-wall-w, 100vw) / -2);
-  margin-top: calc(var(--cabin-wall-w, 100vw) / -2);
-  backface-visibility: hidden;
-  pointer-events: none;
-}
-
-.cabin-floor {
-  background:
-    linear-gradient(180deg, rgba(20, 12, 8, 0.15), rgba(8, 5, 3, 0.55)),
-    repeating-linear-gradient(
-      90deg,
-      #3a2414 0 36px,
-      #2a1810 36px 72px
-    );
-  transform: rotateX(90deg) translateZ(calc(var(--cabin-wall-h, 100vh) / -2));
-}
-
-.cabin-ceiling {
-  background:
-    linear-gradient(0deg, rgba(20, 12, 8, 0.2), rgba(8, 5, 3, 0.65)),
-    repeating-linear-gradient(
-      90deg,
-      #2a1810 0 48px,
-      #1a1008 48px 96px
-    );
-  transform: rotateX(-90deg) translateZ(calc(var(--cabin-wall-h, 100vh) / -2));
-}
-
 .cabin-hotspot-sword {
   position: absolute;
-  left: 28%;
-  top: 42%;
-  width: 10%;
-  height: 58%;
+  left: 22%;
+  top: 40%;
+  width: 14%;
+  height: 62%;
   transform: translate(-50%, -50%);
   text-decoration: none;
   color: var(--cabin-ink);
@@ -169,6 +135,7 @@ body.pirate-page {
   background: transparent;
   z-index: 4;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .cabin-sword-glow {

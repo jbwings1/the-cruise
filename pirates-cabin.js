@@ -7,8 +7,8 @@
   if (!lookEl || !roomEl) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const MIN_YAW = -78; // look right (sword wall)
-  const MAX_YAW = 78; // look left (porthole wall)
+  const MIN_YAW = -88; // look right (sword wall)
+  const MAX_YAW = 88; // look left (porthole wall)
   let yaw = 0; // 0 = facing stern desk; +yaw = look left; -yaw = look right
   let dragging = false;
   let dragMoved = false;
@@ -102,11 +102,23 @@
   });
 
   // ‹ looks left (+yaw), › looks right (-yaw) to match wall placement.
-  leftBtn?.addEventListener("click", () => nudge(reduceMotion ? 12 : 22));
-  rightBtn?.addEventListener("click", () => nudge(reduceMotion ? -12 : -22));
+  leftBtn?.addEventListener("click", () => nudge(reduceMotion ? 18 : 30));
+  rightBtn?.addEventListener("click", () => nudge(reduceMotion ? -18 : -30));
+
+  hotspot?.addEventListener(
+    "pointerdown",
+    (e) => {
+      e.stopPropagation();
+    },
+    true
+  );
 
   hotspot?.addEventListener("click", (e) => {
     e.stopPropagation();
-    if (dragMoved) return;
+    if (dragMoved) {
+      e.preventDefault();
+      return;
+    }
+    window.location.href = hotspot.href;
   });
 })();

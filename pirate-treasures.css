@@ -615,11 +615,12 @@ body.pirate-page {
 }
 
 /* Separate hit areas — rolled map, quill, small desk chest (grid-calibrated) */
+/* Map sits right of the stabbed dagger prop so hover doesn't land on the blade */
 .cabin-desk-hotspot-map {
-  left: 36%;
-  top: 26%;
-  width: 20%;
-  height: 12%;
+  left: 42%;
+  top: 27%;
+  width: 16%;
+  height: 11%;
 }
 
 .cabin-desk-hotspot-quill {

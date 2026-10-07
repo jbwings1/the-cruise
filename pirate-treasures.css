@@ -263,11 +263,11 @@ body.pirate-page {
 /* Desk — pose driven by CSS variables from pirates-cabin.js */
 .cabin-prop-desk {
   --desk-x: 0.02;
-  --desk-y: 1.015;
-  --desk-z: -0.42;
+  --desk-y: 1.035;
+  --desk-z: -0.375;
   --desk-rx: 7.5deg;
   --desk-rz: 0deg;
-  --desk-scale: 0.38;
+  --desk-scale: 0.34;
   width: calc(var(--cabin-w) * var(--desk-scale));
   transform-origin: 50% 100%;
   transform: translate(-50%, -100%)
@@ -281,12 +281,12 @@ body.pirate-page {
 
 /* Rum bottle — separate prop sitting on the desk */
 .cabin-prop-rum {
-  --rum-x: -0.08;
-  --rum-y: 0.72;
-  --rum-z: -0.4;
+  --rum-x: 0.244;
+  --rum-y: 0.41;
+  --rum-z: -0.43;
   --rum-rx: 7.5deg;
   --rum-rz: 0deg;
-  --rum-scale: 0.055;
+  --rum-scale: 0.027;
   width: calc(var(--cabin-w) * var(--rum-scale));
   transform-origin: 50% 100%;
   transform: translate(-50%, -100%)

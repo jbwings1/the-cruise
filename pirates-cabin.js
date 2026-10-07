@@ -165,11 +165,11 @@
       label: "desk",
       defaultPose: {
         x: 0.02,
-        y: 1.015,
-        z: -0.42,
+        y: 1.035,
+        z: -0.375,
         rx: 7.5,
         rz: 0,
-        scale: 0.38,
+        scale: 0.34,
       },
       clamp: {
         x: [-0.45, 0.45],
@@ -186,12 +186,12 @@
       cssPrefix: "rum",
       label: "rum",
       defaultPose: {
-        x: -0.08,
-        y: 0.72,
-        z: -0.4,
+        x: 0.244,
+        y: 0.41,
+        z: -0.43,
         rx: 7.5,
         rz: 0,
-        scale: 0.055,
+        scale: 0.027,
       },
       clamp: {
         x: [-0.45, 0.45],

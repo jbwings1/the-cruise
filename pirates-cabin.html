@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=115" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=116" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -18,9 +18,6 @@
         <p class="cabin-brand-mark">Captain’s Cabin</p>
         <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
       </div>
-      <button type="button" class="cabin-move-btn" id="cabin-move-chest">
-        Move chest
-      </button>
     </header>
 
     <main
@@ -201,62 +198,6 @@
       </button>
     </div>
 
-    <div class="cabin-calibrate" id="cabin-calibrate" hidden>
-      <div class="cabin-calibrate-header">
-        <p class="cabin-calibrate-title" id="cabin-calibrate-title">
-          Move chest
-        </p>
-        <button
-          type="button"
-          id="cabin-calibrate-close"
-          class="cabin-calibrate-close"
-        >
-          Close
-        </button>
-      </div>
-      <p class="cabin-calibrate-help" id="cabin-calibrate-help">
-        Drag to slide. In/Out moves toward the room or the wall. Use Up/Down to
-        seat it on the floor.
-      </p>
-      <div class="cabin-calibrate-pad" aria-label="Move along wall">
-        <button type="button" data-nudge="y,-1" title="Up">↑</button>
-        <button type="button" data-nudge="z,-1" title="Toward stern">←</button>
-        <button type="button" data-nudge="z,1" title="Toward door">→</button>
-        <button type="button" data-nudge="y,1" title="Down">↓</button>
-      </div>
-      <div class="cabin-calibrate-pad" aria-label="Depth off wall">
-        <button type="button" data-nudge="x,1" title="Out into the room">
-          Out
-        </button>
-        <button type="button" data-nudge="x,-1" title="In toward the wall">
-          In
-        </button>
-        <button type="button" data-nudge="rx,-1" title="Tilt back">Tilt −</button>
-        <button type="button" data-nudge="rx,1" title="Tilt forward">Tilt +</button>
-      </div>
-      <div class="cabin-calibrate-pad" aria-label="Turn">
-        <button type="button" data-nudge="ry,-1" title="Turn left">
-          Turn ←
-        </button>
-        <button type="button" data-nudge="ry,1" title="Turn right">
-          Turn →
-        </button>
-        <button type="button" data-nudge="rz,-1" title="Twist left">↺</button>
-        <button type="button" data-nudge="rz,1" title="Twist right">↻</button>
-      </div>
-      <div class="cabin-calibrate-pad" aria-label="Size">
-        <button type="button" data-nudge="scale,-1" title="Smaller">− Size</button>
-        <button type="button" data-nudge="scale,1" title="Bigger">+ Size</button>
-      </div>
-      <p class="cabin-calibrate-coords" id="cabin-calibrate-coords">—</p>
-      <p class="cabin-calibrate-fine">
-        Hold Shift for fine. Arrows slide/seat · [ ] in/out · ; ' turn · −/= size
-      </p>
-      <button type="button" class="cabin-calibrate-copy" id="cabin-calibrate-copy">
-        Copy pose values
-      </button>
-    </div>
-
-    <script src="pirates-cabin.js?v=57"></script>
+    <script src="pirates-cabin.js?v=58"></script>
   </body>
 </html>

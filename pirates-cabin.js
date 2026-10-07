@@ -215,7 +215,7 @@
       help: "Stab the tip into the desk. Alt-drag to tilt the blade.",
       defaultPose: {
         x: 0.06,
-        y: 0.43,
+        y: 0.52,
         z: -0.4,
         rx: 18,
         rz: -12,

@@ -302,7 +302,7 @@ body.pirate-page {
 /* Pirate dagger — tip-down, stabbed into the desk */
 .cabin-prop-dagger {
   --dagger-x: 0.06;
-  --dagger-y: 0.43;
+  --dagger-y: 0.52;
   --dagger-z: -0.4;
   --dagger-rx: 18deg;
   --dagger-rz: -12deg;

@@ -334,6 +334,136 @@ body.pirate-page {
   transform: rotateY(90deg) translateZ(calc(var(--cabin-half-w) * -1));
 }
 
+/* Wall lanterns — door-side of each side window; click to toggle */
+.cabin-lantern {
+  appearance: none;
+  position: absolute;
+  z-index: 3;
+  width: 7.5%;
+  height: 28%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-lantern-port {
+  /* Port window is on the left; door is toward the right of that window */
+  left: 31%;
+  top: 22%;
+}
+
+.cabin-lantern-starboard {
+  /* Starboard window is on the right; door is toward the left of that window */
+  left: 49%;
+  top: 22%;
+}
+
+.cabin-lantern-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: filter 180ms ease, opacity 180ms ease;
+}
+
+.cabin-lantern-glow {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: 280%;
+  height: 160%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse at 50% 45%,
+    rgba(255, 200, 110, 0.55),
+    rgba(230, 150, 60, 0.22) 38%,
+    rgba(120, 60, 20, 0.08) 62%,
+    transparent 76%
+  );
+  opacity: 0;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.cabin-lantern.is-on .cabin-lantern-glow {
+  opacity: 1;
+  animation: cabin-lantern-flicker 2.8s ease-in-out infinite;
+}
+
+.cabin-lantern.is-on .cabin-lantern-img {
+  filter:
+    drop-shadow(0 0 8px rgba(255, 190, 90, 0.65))
+    drop-shadow(0 0 18px rgba(230, 140, 50, 0.35));
+}
+
+.cabin-lantern:not(.is-on) .cabin-lantern-img {
+  filter: brightness(0.72) saturate(0.75);
+}
+
+.cabin-lantern:focus-visible {
+  outline: 1px solid rgba(230, 193, 90, 0.65);
+  outline-offset: 2px;
+}
+
+@keyframes cabin-lantern-flicker {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  40% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0.78;
+  }
+  70% {
+    opacity: 0.95;
+  }
+}
+
+/* Soft room fill from lit lanterns */
+.cabin-page.cabin-lit-port .cabin-face-port::after,
+.cabin-page.cabin-lit-starboard .cabin-face-starboard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse 55% 70% at var(--lantern-glow-x, 35%) 40%,
+    rgba(255, 180, 90, 0.16),
+    rgba(180, 100, 40, 0.06) 45%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+}
+
+.cabin-page.cabin-lit-port .cabin-face-port::after {
+  --lantern-glow-x: 35%;
+}
+
+.cabin-page.cabin-lit-starboard .cabin-face-starboard::after {
+  --lantern-glow-x: 53%;
+}
+
+@media (max-width: 700px) {
+  .cabin-lantern {
+    width: 10%;
+    height: 32%;
+  }
+}
+
 .cabin-face-floor {
   transform: rotateX(90deg) translateZ(calc(var(--cabin-half-h) * -1));
   background:

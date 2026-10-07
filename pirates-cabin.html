@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=97" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=98" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -66,6 +66,21 @@
               alt="Port wall with the left stern window and frame on the left"
               draggable="false"
             />
+            <button
+              type="button"
+              class="cabin-lantern cabin-lantern-port is-on"
+              id="cabin-lantern-port"
+              aria-pressed="true"
+              aria-label="Port lantern — click to turn off"
+            >
+              <span class="cabin-lantern-glow" aria-hidden="true"></span>
+              <img
+                class="cabin-lantern-img"
+                src="images/cabin-lantern-on.png?v=1"
+                alt=""
+                draggable="false"
+              />
+            </button>
           </div>
           <div class="cabin-face cabin-face-starboard">
             <img
@@ -73,6 +88,21 @@
               alt="Starboard wall with the right stern window and frame on the right"
               draggable="false"
             />
+            <button
+              type="button"
+              class="cabin-lantern cabin-lantern-starboard is-on"
+              id="cabin-lantern-starboard"
+              aria-pressed="true"
+              aria-label="Starboard lantern — click to turn off"
+            >
+              <span class="cabin-lantern-glow" aria-hidden="true"></span>
+              <img
+                class="cabin-lantern-img"
+                src="images/cabin-lantern-on.png?v=1"
+                alt=""
+                draggable="false"
+              />
+            </button>
           </div>
           <div class="cabin-face cabin-face-floor" aria-hidden="true"></div>
           <div class="cabin-face cabin-face-ceiling" aria-hidden="true"></div>
@@ -139,6 +169,6 @@
       </button>
     </div>
 
-    <script src="pirates-cabin.js?v=50"></script>
+    <script src="pirates-cabin.js?v=51"></script>
   </body>
 </html>

@@ -141,4 +141,47 @@
       window.location.href = href;
     });
   }
+
+  /* ——— Side-wall lantern toggles ——— */
+  const LANTERN_ON = "images/cabin-lantern-on.png?v=1";
+  const LANTERN_OFF = "images/cabin-lantern-off.png?v=1";
+
+  function syncLanternRoomLight() {
+    const port = document.getElementById("cabin-lantern-port");
+    const starboard = document.getElementById("cabin-lantern-starboard");
+    document.body.classList.toggle(
+      "cabin-lit-port",
+      !!(port && port.classList.contains("is-on"))
+    );
+    document.body.classList.toggle(
+      "cabin-lit-starboard",
+      !!(starboard && starboard.classList.contains("is-on"))
+    );
+  }
+
+  function setLantern(btn, on) {
+    if (!btn) return;
+    const img = btn.querySelector(".cabin-lantern-img");
+    const side = btn.id === "cabin-lantern-port" ? "Port" : "Starboard";
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    btn.setAttribute(
+      "aria-label",
+      side + " lantern — click to turn " + (on ? "off" : "on")
+    );
+    if (img) img.src = on ? LANTERN_ON : LANTERN_OFF;
+    syncLanternRoomLight();
+  }
+
+  document.querySelectorAll(".cabin-lantern").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setLantern(btn, !btn.classList.contains("is-on"));
+    });
+    // keep click from starting a look-drag
+    btn.addEventListener("pointerdown", (e) => e.stopPropagation());
+  });
+
+  syncLanternRoomLight();
 })();

@@ -643,11 +643,11 @@ body.pirate-page {
     rotateX(var(--chair-rx)) rotateZ(var(--chair-rz));
 }
 
-/* Treasure chest under the starboard map — pose via calibrator */
+/* Locked calibrated treasure chest under the starboard map */
 .cabin-chest-prop {
-  --chest-left: 15;
+  --chest-left: 31.8;
   --chest-bottom: 0.5;
-  --chest-w: 24;
+  --chest-w: 25.2;
   --chest-h: 30;
   position: absolute;
   left: calc(var(--chest-left) * 1%);
@@ -670,125 +670,6 @@ body.pirate-page {
   -webkit-user-drag: none;
   pointer-events: none;
   filter: drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65));
-}
-
-.cabin-page.is-calibrating-chest .cabin-chest-prop {
-  pointer-events: auto;
-  cursor: grab;
-  outline: 1px dashed rgba(230, 193, 90, 0.55);
-}
-
-.cabin-page.is-calibrating-chest .cabin-chest-prop.is-dragging-prop {
-  cursor: grabbing;
-}
-
-.cabin-move-btn {
-  pointer-events: auto;
-  padding: 0.45rem 0.9rem;
-  border: 1px solid rgba(230, 193, 90, 0.55);
-  background: rgba(20, 12, 8, 0.55);
-  color: var(--cabin-gold);
-  font-family: var(--pt-font-ui);
-  font-size: 0.9rem;
-  border-radius: 4px;
-  cursor: pointer;
-  backdrop-filter: blur(4px);
-}
-
-.cabin-move-btn:hover,
-.cabin-move-btn:focus-visible {
-  color: var(--cabin-ink);
-  border-color: var(--cabin-gold);
-  outline: none;
-}
-
-.cabin-calibrate {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  z-index: 12;
-  width: min(300px, calc(100% - 1.5rem));
-  padding: 0.75rem 0.85rem;
-  background: rgba(12, 10, 16, 0.92);
-  border: 1px solid rgba(230, 193, 90, 0.45);
-  border-radius: 10px;
-  color: #f3e7c8;
-  font-family: var(--pt-font-ui);
-  pointer-events: auto;
-}
-
-.cabin-calibrate[hidden] {
-  display: none !important;
-}
-
-.cabin-calibrate-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.35rem;
-}
-
-.cabin-calibrate-title {
-  margin: 0;
-  font-size: 1.05rem;
-  color: #e6c15a;
-}
-
-.cabin-calibrate-close {
-  appearance: none;
-  border: 1px solid rgba(230, 193, 90, 0.35);
-  background: rgba(40, 28, 16, 0.95);
-  color: #f3e7c8;
-  border-radius: 6px;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.8rem;
-}
-
-.cabin-calibrate-help,
-.cabin-calibrate-fine,
-.cabin-calibrate-coords {
-  margin: 0 0 0.55rem;
-  font-size: 0.78rem;
-  line-height: 1.35;
-  opacity: 0.9;
-}
-
-.cabin-calibrate-coords {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.78rem;
-  color: #9fe3c0;
-  white-space: pre-wrap;
-}
-
-.cabin-calibrate-pad {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-bottom: 0.55rem;
-}
-
-.cabin-calibrate-pad button,
-.cabin-calibrate-copy {
-  appearance: none;
-  border: 1px solid rgba(230, 193, 90, 0.4);
-  background: rgba(40, 28, 16, 0.95);
-  color: #f3e7c8;
-  border-radius: 6px;
-  padding: 0.35rem 0.55rem;
-  cursor: pointer;
-  font: inherit;
-}
-
-.cabin-calibrate-pad button {
-  min-width: 2.4rem;
-  font-size: 0.95rem;
-}
-
-.cabin-calibrate-copy {
-  width: 100%;
 }
 
 .cabin-hud {

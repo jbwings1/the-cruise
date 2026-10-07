@@ -301,12 +301,12 @@ body.pirate-page {
 
 /* Pirate dagger — tip-down, stabbed into the desk */
 .cabin-prop-dagger {
-  --dagger-x: 0.06;
-  --dagger-y: 0.52;
-  --dagger-z: -0.4;
+  --dagger-x: -0.06;
+  --dagger-y: 0.51;
+  --dagger-z: -0.415;
   --dagger-rx: 18deg;
   --dagger-rz: -12deg;
-  --dagger-scale: 0.045;
+  --dagger-scale: 0.021;
   width: calc(var(--cabin-w) * var(--dagger-scale));
   transform-origin: 50% 100%;
   transform: translate(-50%, -100%)

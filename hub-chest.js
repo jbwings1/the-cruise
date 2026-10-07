@@ -15,7 +15,6 @@
   for (let i = 0; i < FRAME_COUNT; i += 1) {
     const img = document.createElement("img");
     img.src = `images/hub-chest-open/frame-${String(i).padStart(2, "0")}.png?v=2`;
-    // cache-bust script consumers via styles v bump; frames unchanged
     img.alt = "";
     img.draggable = false;
     img.className = "hub-chest-frame";

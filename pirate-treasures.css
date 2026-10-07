@@ -185,6 +185,7 @@ body.pirate-page {
 
 /* Walk the Plank sword — starboard side of the stern wall */
 .cabin-sword-hotspot {
+  appearance: none;
   position: absolute;
   left: 84.8%;
   top: 28.5%;
@@ -192,11 +193,14 @@ body.pirate-page {
   height: 41%;
   z-index: 3;
   display: block;
+  padding: 0;
+  margin: 0;
   text-decoration: none;
   color: var(--cabin-ink);
+  font: inherit;
   border: 0;
   background: transparent;
-  cursor: pointer;
+  cursor: default;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
 }

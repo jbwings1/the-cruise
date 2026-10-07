@@ -62,9 +62,9 @@ body.pirate-page {
   --cabin-half-h: calc(var(--cabin-h) / 2);
   --cabin-half-d: calc(var(--cabin-d) / 2);
   --cabin-cam-z: 0px;
-  /* Stand at the door, centered L/R — door stays behind you when you look left or right. */
+  /* At the door, centered L/R. Door is on the back wall, so it sits behind you. */
   --cabin-stand-x: 0;
-  --cabin-stand-z: calc(var(--cabin-half-d) * 0.88);
+  --cabin-stand-z: calc(var(--cabin-half-d) * 0.58);
   --cabin-perspective: 780px;
   position: relative;
   height: 100vh;

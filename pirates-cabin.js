@@ -21,9 +21,9 @@
       note: "Starboard wall · daytime ocean in the window",
     },
     back: {
-      src: "images/cabin-back-wall-v3.jpg?v=1",
-      alt: "Empty back wall of continuous stern-matched wood with no windows",
-      note: "Back wall · continuous stern-matched wood · no windows",
+      src: "images/cabin-back-wall-v4.jpg?v=1",
+      alt: "Back wall with a centered arched wooden door",
+      note: "Back wall · arched door in the middle",
     },
   };
 

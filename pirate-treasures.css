@@ -50,7 +50,7 @@ body.pirate-page {
   border: 0;
 }
 
-/* ——— Captain’s cabin (look-around) ——— */
+/* ——— Captain’s cabin (3D look-around room) ——— */
 .cabin-page {
   --cabin-ink: #f4e8d4;
   --cabin-gold: #e6c15a;
@@ -66,7 +66,10 @@ body.pirate-page {
 .cabin-look {
   position: absolute;
   inset: 0;
+  z-index: 1;
   overflow: hidden;
+  perspective: 900px;
+  perspective-origin: 50% 48%;
   cursor: grab;
 }
 
@@ -74,54 +77,82 @@ body.pirate-page {
   cursor: grabbing;
 }
 
-.cabin-world {
+.cabin-room {
   position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
+  inset: 0;
+  transform-style: preserve-3d;
   will-change: transform;
 }
 
-.cabin-scene {
-  position: relative;
-  height: 100%;
-  width: max-content;
+.cabin-wall {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--cabin-wall-w, 100vw);
+  height: var(--cabin-wall-h, 100vh);
+  margin-left: calc(var(--cabin-wall-w, 100vw) / -2);
+  margin-top: calc(var(--cabin-wall-h, 100vh) / -2);
+  background: #1a1008;
+  overflow: hidden;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  pointer-events: none;
 }
 
-.cabin-pano {
+.cabin-wall img {
   display: block;
+  width: 100%;
   height: 100%;
-  width: auto;
-  max-width: none;
+  object-fit: cover;
+  object-position: center center;
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
 }
 
-/* Cutlass sits ~57% across the painted panorama, hilt near mid height. */
+.cabin-wall-front {
+  transform: translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
+}
+
+.cabin-wall-left {
+  /* Empirically: negative room yaw faces the rotateY(90deg) wall. */
+  transform: rotateY(-90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
+}
+
+.cabin-wall-right {
+  transform: rotateY(90deg) translateZ(calc(var(--cabin-wall-z, 50vw) * -1));
+}
+
 .cabin-hotspot-sword {
   position: absolute;
-  left: 57%;
-  top: 38%;
-  width: 4.8%;
-  height: 56%;
+  left: 26%;
+  top: 48%;
+  width: min(160px, 18vw);
+  height: min(54vh, 440px);
   transform: translate(-50%, -50%);
+  appearance: none;
   text-decoration: none;
   color: var(--cabin-ink);
   display: block;
   border: 0;
+  padding: 0;
   background: transparent;
-  z-index: 4;
+  z-index: 8;
   cursor: pointer;
+  pointer-events: auto;
+}
+
+.cabin-hotspot-sword.is-hidden {
+  display: none;
 }
 
 .cabin-sword-glow {
   position: absolute;
   left: 50%;
   top: 42%;
-  width: 185%;
+  width: 180%;
   height: 95%;
-  transform: translate(-50%, -50%) rotate(-9deg);
+  transform: translate(-50%, -50%) rotate(-6deg);
   border-radius: 46% / 40%;
   background:
     radial-gradient(
@@ -163,7 +194,7 @@ body.pirate-page {
 
 .cabin-hotspot-copy {
   position: absolute;
-  left: 102%;
+  left: 105%;
   top: 58%;
   transform: translate(0, -50%);
   display: grid;
@@ -186,7 +217,6 @@ body.pirate-page {
   letter-spacing: 0.03em;
   color: var(--cabin-gold);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
-  text-align: center;
   line-height: 1.1;
 }
 
@@ -235,8 +265,16 @@ body.pirate-page {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
 }
 
-.cabin-exit {
+.cabin-hud-actions {
   pointer-events: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.cabin-play,
+.cabin-exit {
   align-self: flex-start;
   padding: 0.45rem 0.9rem;
   border: 1px solid rgba(230, 193, 90, 0.4);
@@ -249,6 +287,13 @@ body.pirate-page {
   backdrop-filter: blur(4px);
 }
 
+.cabin-play {
+  border-color: rgba(230, 193, 90, 0.7);
+  color: var(--cabin-gold);
+}
+
+.cabin-play:hover,
+.cabin-play:focus-visible,
 .cabin-exit:hover,
 .cabin-exit:focus-visible {
   color: var(--cabin-ink);
@@ -319,8 +364,8 @@ body.pirate-page {
   z-index: 3;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 70% at 50% 45%, transparent 45%, rgba(0, 0, 0, 0.35) 100%),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.28), transparent 12%, transparent 88%, rgba(0, 0, 0, 0.28));
+    radial-gradient(ellipse 80% 70% at 50% 45%, transparent 48%, rgba(0, 0, 0, 0.38) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.22), transparent 14%, transparent 86%, rgba(0, 0, 0, 0.22));
 }
 
 @keyframes cabin-sword-idle {
@@ -344,6 +389,10 @@ body.pirate-page {
 }
 
 @media (max-width: 700px) {
+  .cabin-look {
+    perspective: 720px;
+  }
+
   .cabin-turn {
     width: 2.4rem;
     height: 2.4rem;
@@ -351,12 +400,13 @@ body.pirate-page {
   }
 
   .cabin-hotspot-sword {
-    width: 7.5%;
-    height: 54%;
+    left: 28%;
+    width: min(120px, 22vw);
+    height: min(48vh, 360px);
   }
 
   .cabin-hotspot-copy {
-    left: 98%;
+    left: 100%;
     min-width: 6.2rem;
   }
 }
@@ -367,7 +417,7 @@ body.pirate-page {
     animation: none;
   }
 
-  .cabin-world {
+  .cabin-room {
     transition: none;
   }
 }

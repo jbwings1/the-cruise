@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=35" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=41" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -18,40 +18,58 @@
         <p class="cabin-brand-mark">Captain’s Cabin</p>
         <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
       </div>
-      <a class="cabin-exit" href="index.html">Exit to cruise hub</a>
+      <div class="cabin-hud-actions">
+        <a class="cabin-play" href="walk-the-plank.html">Walk the Plank</a>
+        <a class="cabin-exit" href="index.html">Exit to cruise hub</a>
+      </div>
     </header>
 
     <div
       class="cabin-look"
       id="cabin-look"
       role="region"
-      aria-label="Captain’s cabin. Drag or use arrows to look around."
+      aria-label="Captain’s cabin. Drag or use arrows to look left and right."
       tabindex="0"
     >
-      <div class="cabin-world" id="cabin-world">
-        <div class="cabin-scene" id="cabin-scene">
+      <div class="cabin-room" id="cabin-room">
+        <div class="cabin-wall cabin-wall-left">
           <img
-            class="cabin-pano"
-            id="cabin-pano"
-            src="images/cabin-panorama.jpg?v=4"
-            alt="Painterly view of the empty captain’s cabin with ocean windows; sunset only beside the sword"
+            src="images/cabin-wall-left.jpg?v=1"
+            alt="Left cabin wall with bookshelves and a daytime porthole"
             draggable="false"
           />
-          <a
-            class="cabin-hotspot cabin-hotspot-sword"
-            id="plank-hotspot"
-            href="walk-the-plank.html"
-            aria-label="Walk the Plank — click the sword to play"
-          >
-            <span class="cabin-sword-glow" aria-hidden="true"></span>
-            <span class="cabin-hotspot-copy">
-              <span class="cabin-hotspot-label">Walk the Plank</span>
-              <span class="cabin-hotspot-hint">Click the sword</span>
-            </span>
-          </a>
+        </div>
+
+        <div class="cabin-wall cabin-wall-front">
+          <img
+            src="images/cabin-wall-front.jpg?v=1"
+            alt="Stern desk and daytime ocean windows"
+            draggable="false"
+          />
+        </div>
+
+        <div class="cabin-wall cabin-wall-right">
+          <img
+            src="images/cabin-wall-right.jpg?v=1"
+            alt="Right cabin wall with cutlass and sunset window"
+            draggable="false"
+          />
         </div>
       </div>
       <div class="cabin-vignette" aria-hidden="true"></div>
+
+      <button
+        type="button"
+        class="cabin-hotspot cabin-hotspot-sword is-hidden"
+        id="plank-hotspot"
+        aria-label="Walk the Plank — click the sword to play"
+      >
+        <span class="cabin-sword-glow" aria-hidden="true"></span>
+        <span class="cabin-hotspot-copy">
+          <span class="cabin-hotspot-label">Walk the Plank</span>
+          <span class="cabin-hotspot-hint">Click the sword</span>
+        </span>
+      </button>
     </div>
 
     <button
@@ -71,8 +89,8 @@
       ›
     </button>
 
-    <p class="cabin-hint" id="cabin-hint">Drag · arrows · or buttons to look around</p>
+    <p class="cabin-hint" id="cabin-hint">Drag · arrows · or buttons to look around the cabin</p>
 
-    <script src="pirates-cabin.js?v=6"></script>
+    <script src="pirates-cabin.js?v=11"></script>
   </body>
 </html>

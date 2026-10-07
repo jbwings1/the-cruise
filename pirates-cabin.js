@@ -25,11 +25,12 @@
   }
 
   function tick() {
+    // Inverted so ‹ / left turns the view the way the chevrons read.
     if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A") || holdDir < 0) {
-      targetYaw -= KEY_STEP;
+      targetYaw += KEY_STEP;
     }
     if (keys.has("ArrowRight") || keys.has("d") || keys.has("D") || holdDir > 0) {
-      targetYaw += KEY_STEP;
+      targetYaw -= KEY_STEP;
     }
 
     yaw += (targetYaw - yaw) * LERP;
@@ -81,7 +82,7 @@
     if (!dragging || e.pointerId !== activePointer) return;
     const dx = e.clientX - lastX;
     lastX = e.clientX;
-    targetYaw += dx * DRAG_SENS;
+    targetYaw -= dx * DRAG_SENS;
   }
 
   function onPointerUp(e) {

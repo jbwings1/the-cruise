@@ -153,6 +153,52 @@ body.pirate-page {
   transform: rotateY(180deg) translateZ(calc(var(--cabin-half-d) * -1));
 }
 
+.cabin-door-exit {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5%;
+  z-index: 2;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  width: 20%;
+  height: 56%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 0.35rem 7%;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 2px 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 55%,
+    rgba(10, 7, 5, 0.55) 100%
+  );
+  color: var(--cabin-gold);
+  font-family: var(--pt-font-ui);
+  font-size: clamp(0.62rem, 1.5vmin, 0.85rem);
+  font-weight: 500;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.cabin-door-exit:hover,
+.cabin-door-exit:focus-visible {
+  border-color: rgba(230, 193, 90, 0.65);
+  color: var(--cabin-ink);
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(20, 12, 8, 0.72) 100%
+  );
+  outline: none;
+}
+
 /* Facing stern: port left (−X), starboard right (+X) */
 .cabin-face-port {
   transform: rotateY(-90deg) translateZ(calc(var(--cabin-half-w) * -1));

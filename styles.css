@@ -86,7 +86,7 @@ body {
   left: clamp(0.5rem, 3vw, 2.25rem);
   bottom: 0.85rem;
   z-index: 2;
-  width: min(220px, 34vw);
+  width: min(140px, 22vw);
   margin: 0;
   padding: 0;
   border: 0;
@@ -106,7 +106,8 @@ body {
   display: grid;
   place-items: end center;
   width: 100%;
-  aspect-ratio: 720 / 792;
+  aspect-ratio: 560 / 537;
+  background: transparent;
 }
 
 .hub-chest-frame {
@@ -450,7 +451,7 @@ body {
     bottom: auto;
     align-self: flex-start;
     order: 4;
-    width: min(168px, 48vw);
+    width: min(110px, 32vw);
     margin: 0.55rem 0 0;
   }
 

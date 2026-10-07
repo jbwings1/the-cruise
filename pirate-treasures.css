@@ -157,14 +157,14 @@ body.pirate-page {
   position: absolute;
   left: 50%;
   /* Between handle (mid-door) and top hinge */
-  top: 38%;
+  top: 30%;
   bottom: auto;
   z-index: 2;
   transform: translateX(-50%);
   box-sizing: border-box;
   width: 16%;
   min-width: 7.5rem;
-  height: 18%;
+  height: 14%;
   display: flex;
   align-items: center;
   justify-content: center;

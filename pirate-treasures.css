@@ -283,8 +283,8 @@ body.pirate-page {
 /* Rum bottle — separate prop sitting on the desk */
 .cabin-prop-rum {
   --rum-x: 0.244;
-  --rum-y: 0.41;
-  --rum-z: -0.43;
+  --rum-y: 0.39;
+  --rum-z: -0.34;
   --rum-rx: 7.5deg;
   --rum-rz: 0deg;
   --rum-scale: 0.027;

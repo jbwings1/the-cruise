@@ -186,14 +186,14 @@
     },
     rum: {
       el: document.getElementById("cabin-rum"),
-      storageKey: "cruise-cabin-rum-pose-v2",
+      storageKey: "cruise-cabin-rum-pose-v3",
       cssPrefix: "rum",
       label: "rum",
       help: "Drag the bottle onto the desk. Alt-drag to tilt.",
       defaultPose: {
         x: 0.244,
-        y: 0.41,
-        z: -0.43,
+        y: 0.39,
+        z: -0.34,
         rx: 7.5,
         rz: 0,
         scale: 0.027,

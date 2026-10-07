@@ -15,6 +15,7 @@
   for (let i = 0; i < FRAME_COUNT; i += 1) {
     const img = document.createElement("img");
     img.src = `images/hub-chest-open/frame-${String(i).padStart(2, "0")}.png?v=2`;
+    // cache-bust script consumers via styles v bump; frames unchanged
     img.alt = "";
     img.draggable = false;
     img.className = "hub-chest-frame";
@@ -29,7 +30,14 @@
       img.classList.toggle("is-active", idx === frame);
     });
     const t = frame / (FRAME_COUNT - 1);
-    if (glow) glow.style.opacity = String(Math.pow(t, 1.35) * 0.9);
+    if (glow) {
+      // Start spreading almost immediately; near-full by mid-open
+      const glowT = Math.min(1, Math.max(0, (t - 0.02) / 0.45));
+      const ease = Math.sqrt(glowT);
+      glow.style.opacity = String(ease * 0.95);
+      glow.style.transform =
+        "translateX(-50%) scale(" + (0.65 + ease * 1.35).toFixed(3) + ")";
+    }
   }
 
   function stop() {

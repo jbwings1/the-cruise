@@ -130,21 +130,24 @@ body {
 .hub-chest-glow {
   position: absolute;
   left: 50%;
-  bottom: 30%;
+  bottom: 28%;
   z-index: 0;
-  width: 70%;
-  height: 55%;
-  transform: translateX(-50%);
+  width: 85%;
+  height: 70%;
+  transform: translateX(-50%) scale(0.65);
+  transform-origin: 50% 70%;
   border-radius: 50%;
   background: radial-gradient(
     ellipse at 50% 60%,
-    rgba(255, 220, 120, 0.55),
-    rgba(230, 160, 60, 0.18) 48%,
-    transparent 72%
+    rgba(255, 220, 120, 0.62),
+    rgba(230, 160, 60, 0.22) 42%,
+    rgba(230, 160, 60, 0.06) 62%,
+    transparent 78%
   );
   opacity: 0;
   pointer-events: none;
   mix-blend-mode: screen;
+  transition: opacity 80ms linear, transform 80ms linear;
 }
 
 .hub-chest-label {

@@ -1,0 +1,256 @@
+.qe-page .qe-shell {
+  max-width: 56rem;
+}
+
+.qe-toolbar {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1.25rem 0 1.5rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(40, 28, 18, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 252, 246, 0.92);
+}
+
+.qe-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: end;
+}
+
+.qe-filters label,
+.qe-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #3a2c1e;
+}
+
+.qe-filters select,
+.qe-filters input,
+.qe-form input[type="text"],
+.qe-form textarea,
+.qe-form select {
+  font: inherit;
+  font-weight: 400;
+  min-width: 9rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(40, 28, 18, 0.22);
+  border-radius: 8px;
+  background: #fff;
+  color: #1f160f;
+}
+
+.qe-search-label {
+  flex: 1 1 12rem;
+}
+
+.qe-search-label input {
+  width: 100%;
+  min-width: 0;
+}
+
+.qe-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.qe-btn {
+  appearance: none;
+  border: 1px solid rgba(40, 28, 18, 0.28);
+  background: #fff8ee;
+  color: #2a1c12;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.qe-btn:hover {
+  background: #fff1dc;
+}
+
+.qe-btn-primary {
+  background: #2f5d4a;
+  border-color: #244a3b;
+  color: #f7fff9;
+}
+
+.qe-btn-primary:hover {
+  background: #274f3f;
+}
+
+.qe-btn-ghost {
+  background: transparent;
+}
+
+.qe-btn-danger {
+  background: #fff;
+  border-color: #a33;
+  color: #8a2222;
+}
+
+.qe-status {
+  margin: 0;
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  color: #2f5d4a;
+}
+
+.qe-counts {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #5a4634;
+}
+
+.qe-list {
+  display: grid;
+  gap: 0.75rem;
+  padding-bottom: 3rem;
+}
+
+.qe-card {
+  border: 1px solid rgba(40, 28, 18, 0.14);
+  border-radius: 12px;
+  background: rgba(255, 252, 246, 0.96);
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.qe-card[data-status="keep"] {
+  border-color: rgba(47, 93, 74, 0.45);
+  box-shadow: inset 3px 0 0 #2f5d4a;
+}
+
+.qe-card[data-status="cut"] {
+  opacity: 0.62;
+  border-style: dashed;
+}
+
+.qe-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.65rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qe-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.qe-pill {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: #efe4d4;
+  color: #3a2c1e;
+}
+
+.qe-pill-type {
+  background: #dfeaf5;
+}
+
+.qe-pill-keep {
+  background: #d5ebe1;
+  color: #1d4a38;
+}
+
+.qe-pill-cut {
+  background: #f3d7d7;
+  color: #6e2424;
+}
+
+.qe-prompt {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: #1f160f;
+}
+
+.qe-answer {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4a3828;
+}
+
+.qe-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.qe-dialog {
+  border: none;
+  border-radius: 14px;
+  padding: 0;
+  max-width: min(34rem, calc(100vw - 2rem));
+  width: 100%;
+  box-shadow: 0 18px 50px rgba(20, 12, 6, 0.28);
+}
+
+.qe-dialog::backdrop {
+  background: rgba(20, 12, 6, 0.45);
+}
+
+.qe-form {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.25rem 1.3rem 1.35rem;
+}
+
+.qe-form h2 {
+  margin: 0 0 0.2rem;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.7rem;
+}
+
+.qe-form textarea {
+  resize: vertical;
+  width: 100%;
+}
+
+.qe-inline {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.35rem;
+  margin-right: 1rem;
+  font-weight: 500 !important;
+}
+
+.qe-choice-row {
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.45rem;
+}
+
+.qe-choice-row input[type="text"] {
+  width: 100%;
+}
+
+.qe-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.qe-empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #5a4634;
+}

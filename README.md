@@ -30,7 +30,8 @@ npx --yes serve .
 
 - Captain’s cabin (direct link while building): [`pirates-cabin.html`](pirates-cabin.html)
 - Walk the Plank game: [`walk-the-plank.html`](walk-the-plank.html)
-- Edit quiz questions: [`walk-the-plank-questions.js`](walk-the-plank-questions.js)
+- Live quiz file: [`walk-the-plank-questions.js`](walk-the-plank-questions.js)
+- Review / edit / add / export questions: [`plank-question-editor.html`](plank-question-editor.html) (draft bank: [`plank-questions-bank.json`](plank-questions-bank.json))
 - Home-page treasure chest link is intentionally not wired yet
 
 ## Edit later

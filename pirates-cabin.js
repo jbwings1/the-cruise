@@ -1,1 +1,34 @@
-/* Cabin props/look-around will return as we add walls and items one at a time. */
+(() => {
+  const imageEl = document.getElementById("cabin-wall-image");
+  const noteEl = document.getElementById("cabin-note");
+  const buttons = Array.from(document.querySelectorAll(".cabin-wall-btn"));
+  if (!imageEl || !buttons.length) return;
+
+  const walls = {
+    stern: {
+      src: "images/cabin-stern-wall.jpg?v=4",
+      alt: "Empty stern wall with three sunrise ocean windows",
+      note: "Stern wall · approved · sunrise in the windows",
+    },
+    port: {
+      src: "images/cabin-port-wall.jpg?v=1",
+      alt: "Empty port wall with a daytime ocean porthole",
+      note: "Port wall · empty for now · daytime ocean in the porthole",
+    },
+  };
+
+  function showWall(name) {
+    const wall = walls[name];
+    if (!wall) return;
+    imageEl.src = wall.src;
+    imageEl.alt = wall.alt;
+    if (noteEl) noteEl.textContent = wall.note;
+    buttons.forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.wall === name);
+    });
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => showWall(btn.dataset.wall));
+  });
+})();

@@ -156,6 +156,41 @@ body.pirate-page {
   outline: none;
 }
 
+.cabin-wall-switch {
+  position: absolute;
+  left: 50%;
+  bottom: 3.1rem;
+  z-index: 5;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+}
+
+.cabin-wall-btn {
+  appearance: none;
+  border: 1px solid rgba(230, 193, 90, 0.4);
+  background: rgba(20, 12, 8, 0.6);
+  color: rgba(244, 232, 212, 0.88);
+  font-family: var(--pt-font-ui);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  backdrop-filter: blur(3px);
+}
+
+.cabin-wall-btn:hover,
+.cabin-wall-btn:focus-visible {
+  border-color: var(--cabin-gold);
+  color: var(--cabin-ink);
+  outline: none;
+}
+
+.cabin-wall-btn.is-active {
+  border-color: var(--cabin-gold);
+  color: var(--cabin-gold);
+}
+
 .cabin-note {
   position: absolute;
   left: 50%;

@@ -210,12 +210,13 @@
   const calibrateCopyBtn = document.getElementById("cabin-calibrate-copy");
   const calibrateCloseBtn = document.getElementById("cabin-calibrate-close");
   const moveChestBtn = document.getElementById("cabin-move-chest");
-  const CHEST_STORAGE = "cruise-cabin-chest-pose-v2";
+  const CHEST_STORAGE = "cruise-cabin-chest-pose-v3";
   const chestDefault = {
     x: -0.78,
     y: 1.02,
     z: 0.12,
     rx: 7.5,
+    ry: 0,
     rz: 8,
     scale: 0.15,
   };
@@ -224,6 +225,7 @@
     y: [0.55, 1.25],
     z: [-0.95, 0.95],
     rx: [-25, 35],
+    ry: [-180, 180],
     rz: [-35, 35],
     scale: [0.06, 0.35],
   };
@@ -242,6 +244,7 @@
         y: Number.isFinite(parsed.y) ? parsed.y : d.y,
         z: Number.isFinite(parsed.z) ? parsed.z : d.z,
         rx: Number.isFinite(parsed.rx) ? parsed.rx : d.rx,
+        ry: Number.isFinite(parsed.ry) ? parsed.ry : d.ry,
         rz: Number.isFinite(parsed.rz) ? parsed.rz : d.rz,
         scale: Number.isFinite(parsed.scale) ? parsed.scale : d.scale,
       };
@@ -271,12 +274,14 @@
     chestEl.style.setProperty("--chest-y", String(chestPose.y));
     chestEl.style.setProperty("--chest-z", String(chestPose.z));
     chestEl.style.setProperty("--chest-rx", chestPose.rx.toFixed(2) + "deg");
+    chestEl.style.setProperty("--chest-ry", chestPose.ry.toFixed(2) + "deg");
     chestEl.style.setProperty("--chest-rz", chestPose.rz.toFixed(2) + "deg");
     chestEl.style.setProperty("--chest-scale", String(chestPose.scale));
     if (calibrating && calibrateCoords) {
       calibrateCoords.textContent =
         `chest  x: ${chestPose.x.toFixed(3)}  y: ${chestPose.y.toFixed(3)}  z: ${chestPose.z.toFixed(3)}\n` +
-        `tilt(rx): ${chestPose.rx.toFixed(1)}°  twist(rz): ${chestPose.rz.toFixed(1)}°  scale: ${chestPose.scale.toFixed(3)}`;
+        `tilt(rx): ${chestPose.rx.toFixed(1)}°  turn(ry): ${chestPose.ry.toFixed(1)}°  twist(rz): ${chestPose.rz.toFixed(1)}°\n` +
+        `scale: ${chestPose.scale.toFixed(3)}`;
     }
   }
 
@@ -286,6 +291,7 @@
       y: fine ? 0.002 : 0.01,
       z: fine ? 0.003 : 0.015,
       rx: fine ? 0.25 : 1.5,
+      ry: fine ? 0.5 : 3,
       rz: fine ? 0.25 : 1.5,
       scale: fine ? 0.002 : 0.01,
     }[axis];
@@ -347,6 +353,7 @@
         `y: ${chestPose.y.toFixed(4)}\n` +
         `z: ${chestPose.z.toFixed(4)}\n` +
         `rx: ${chestPose.rx.toFixed(2)}\n` +
+        `ry: ${chestPose.ry.toFixed(2)}\n` +
         `rz: ${chestPose.rz.toFixed(2)}\n` +
         `scale: ${chestPose.scale.toFixed(4)}`;
       try {
@@ -390,8 +397,9 @@
       chestDrag.lastX = e.clientX;
       chestDrag.lastY = e.clientY;
       if (chestDrag.alt || e.altKey) {
+        // Alt-drag: turn left/right (yaw) + tilt
+        chestPose.ry += dx * 0.12;
         chestPose.rx += dy * 0.08;
-        chestPose.rz += dx * 0.05;
       } else {
         // Facing starboard: horizontal drag slides along the wall (z),
         // vertical seats on the floor (y). Use Out/In for off-wall (x).
@@ -444,6 +452,12 @@
       e.preventDefault();
     } else if (e.key === ".") {
       nudgeChest("rx", 1, fine);
+      e.preventDefault();
+    } else if (e.key === ";" || e.key === ":") {
+      nudgeChest("ry", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "'" || e.key === '"') {
+      nudgeChest("ry", 1, fine);
       e.preventDefault();
     } else if (e.key === "Escape") {
       setCalibrating(false);

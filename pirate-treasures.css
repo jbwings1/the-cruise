@@ -649,6 +649,7 @@ body.pirate-page {
   --chest-y: 1.02;
   --chest-z: 0.12;
   --chest-rx: 7.5deg;
+  --chest-ry: 0deg;
   --chest-rz: 8deg;
   --chest-scale: 0.15;
   width: calc(var(--cabin-w) * var(--chest-scale));
@@ -659,7 +660,7 @@ body.pirate-page {
       calc(var(--cabin-half-h) * var(--chest-y)),
       calc(var(--cabin-half-d) * var(--chest-z))
     )
-    rotateX(var(--chest-rx)) rotateZ(var(--chest-rz));
+    rotateY(var(--chest-ry)) rotateX(var(--chest-rx)) rotateZ(var(--chest-rz));
 }
 
 .cabin-prop-chest img {

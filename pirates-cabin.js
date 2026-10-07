@@ -1,20 +1,19 @@
 (() => {
   const lookEl = document.getElementById("cabin-look");
-  const worldEl = document.getElementById("cabin-world");
-  const sceneEl = document.getElementById("cabin-scene");
-  const panoEl = document.getElementById("cabin-pano");
+  const roomEl = document.getElementById("cabin-room");
   const leftBtn = document.getElementById("cabin-turn-left");
   const rightBtn = document.getElementById("cabin-turn-right");
   const hotspot = document.getElementById("plank-hotspot");
-  if (!lookEl || !worldEl || !panoEl) return;
+  if (!lookEl || !roomEl) return;
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let look = 0.68; // start facing the cutlass wall
-  let maxOffset = 0;
+  const MIN_YAW = -78;
+  const MAX_YAW = 78;
+  let yaw = 0; // 0 = facing stern desk; negative = look left; positive = look right
   let dragging = false;
   let dragMoved = false;
   let dragStartX = 0;
-  let dragStartLook = 0;
+  let dragStartYaw = 0;
   let pointerId = null;
 
   function clamp(n, min, max) {
@@ -22,31 +21,31 @@
   }
 
   function measure() {
-    const viewW = lookEl.clientWidth;
-    const sceneW =
-      (sceneEl && sceneEl.getBoundingClientRect().width) ||
-      panoEl.getBoundingClientRect().width ||
-      panoEl.naturalWidth;
-    worldEl.style.width = `${sceneW}px`;
-    maxOffset = Math.max(0, sceneW - viewW);
+    const w = lookEl.clientWidth;
+    const h = lookEl.clientHeight;
+    // Square-ish room footprint so left/right walls fill the view when faced.
+    const wallW = Math.max(w, Math.ceil(h * (16 / 9)));
+    const wallH = h;
+    const wallZ = wallW / 2;
+    lookEl.style.setProperty("--cabin-wall-w", `${wallW}px`);
+    lookEl.style.setProperty("--cabin-wall-h", `${wallH}px`);
+    lookEl.style.setProperty("--cabin-wall-z", `${wallZ}px`);
     apply();
   }
 
   function apply() {
-    look = clamp(look, 0, 1);
-    const x = -look * maxOffset;
-    worldEl.style.transform = `translate3d(${x}px, 0, 0)`;
-    if (leftBtn) leftBtn.disabled = look <= 0.001;
-    if (rightBtn) rightBtn.disabled = look >= 0.999;
+    yaw = clamp(yaw, MIN_YAW, MAX_YAW);
+    roomEl.style.transform = `translateZ(0) rotateY(${yaw}deg)`;
+    if (leftBtn) leftBtn.disabled = yaw <= MIN_YAW + 0.5;
+    if (rightBtn) rightBtn.disabled = yaw >= MAX_YAW - 0.5;
   }
 
-  function nudge(delta) {
-    look += delta;
+  function nudge(deltaDeg) {
+    yaw += deltaDeg;
     apply();
   }
 
-  panoEl.addEventListener("load", measure);
-  if (panoEl.complete) measure();
+  measure();
   window.addEventListener("resize", measure);
 
   lookEl.addEventListener("pointerdown", (e) => {
@@ -55,7 +54,7 @@
     dragMoved = false;
     pointerId = e.pointerId;
     dragStartX = e.clientX;
-    dragStartLook = look;
+    dragStartYaw = yaw;
     lookEl.classList.add("is-dragging");
     lookEl.setPointerCapture?.(pointerId);
   });
@@ -64,8 +63,8 @@
     if (!dragging || e.pointerId !== pointerId) return;
     const dx = e.clientX - dragStartX;
     if (Math.abs(dx) > 3) dragMoved = true;
-    const span = maxOffset || lookEl.clientWidth;
-    look = dragStartLook - dx / span;
+    // Drag right = look left (natural camera turn).
+    yaw = dragStartYaw + (dx / lookEl.clientWidth) * 120;
     apply();
   });
 
@@ -85,14 +84,14 @@
     (e) => {
       if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && Math.abs(e.deltaY) < 2) return;
       e.preventDefault();
-      const delta = (e.deltaX || e.deltaY) / (maxOffset || lookEl.clientWidth);
-      nudge(delta * (reduceMotion ? 0.35 : 0.55));
+      const delta = e.deltaX || e.deltaY;
+      nudge((delta / lookEl.clientWidth) * 90 * (reduceMotion ? 0.5 : 0.85));
     },
     { passive: false }
   );
 
   window.addEventListener("keydown", (e) => {
-    const step = reduceMotion ? 0.06 : 0.1;
+    const step = reduceMotion ? 8 : 14;
     if (e.key === "ArrowLeft") {
       e.preventDefault();
       nudge(-step);
@@ -102,10 +101,10 @@
     }
   });
 
-  leftBtn?.addEventListener("click", () => nudge(reduceMotion ? -0.1 : -0.16));
-  rightBtn?.addEventListener("click", () => nudge(reduceMotion ? 0.1 : 0.16));
+  // Buttons: ‹ looks left (negative yaw), › looks right (positive yaw)
+  leftBtn?.addEventListener("click", () => nudge(reduceMotion ? -12 : -22));
+  rightBtn?.addEventListener("click", () => nudge(reduceMotion ? 12 : 22));
 
-  // Ensure sword click always navigates even if a parent gesture interferes.
   hotspot?.addEventListener("click", (e) => {
     e.stopPropagation();
     if (dragMoved) return;

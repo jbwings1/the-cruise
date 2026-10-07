@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=35" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=36" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -25,16 +25,33 @@
       class="cabin-look"
       id="cabin-look"
       role="region"
-      aria-label="Captain’s cabin. Drag or use arrows to look around."
+      aria-label="Captain’s cabin. Drag or use arrows to look left and right."
       tabindex="0"
     >
-      <div class="cabin-world" id="cabin-world">
-        <div class="cabin-scene" id="cabin-scene">
+      <div class="cabin-room" id="cabin-room">
+        <div class="cabin-ceiling" aria-hidden="true"></div>
+        <div class="cabin-floor" aria-hidden="true"></div>
+
+        <div class="cabin-wall cabin-wall-left">
           <img
-            class="cabin-pano"
-            id="cabin-pano"
-            src="images/cabin-panorama.jpg?v=4"
-            alt="Painterly view of the empty captain’s cabin with ocean windows; sunset only beside the sword"
+            src="images/cabin-wall-left.jpg?v=1"
+            alt="Left cabin wall with bookshelves and a daytime porthole"
+            draggable="false"
+          />
+        </div>
+
+        <div class="cabin-wall cabin-wall-front">
+          <img
+            src="images/cabin-wall-front.jpg?v=1"
+            alt="Stern desk and daytime ocean windows"
+            draggable="false"
+          />
+        </div>
+
+        <div class="cabin-wall cabin-wall-right">
+          <img
+            src="images/cabin-wall-right.jpg?v=1"
+            alt="Right cabin wall with cutlass and sunset window"
             draggable="false"
           />
           <a
@@ -71,8 +88,8 @@
       ›
     </button>
 
-    <p class="cabin-hint" id="cabin-hint">Drag · arrows · or buttons to look around</p>
+    <p class="cabin-hint" id="cabin-hint">Drag · arrows · or buttons to look around the cabin</p>
 
-    <script src="pirates-cabin.js?v=6"></script>
+    <script src="pirates-cabin.js?v=7"></script>
   </body>
 </html>

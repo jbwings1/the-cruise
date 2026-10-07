@@ -15,6 +15,11 @@
       alt: "Empty port wall with continuous stern-matched wood planks and no window",
       note: "Port wall · empty wood · same plank width · no tile repeat",
     },
+    starboard: {
+      src: "images/cabin-starboard-wall.jpg?v=1",
+      alt: "Empty starboard wall with the same wood planks as the port wall",
+      note: "Starboard wall · same empty wood as port · starting point",
+    },
   };
 
   function showWall(name) {

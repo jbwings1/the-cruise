@@ -24,12 +24,12 @@
       </div>
     </header>
 
-    <main class="cabin-stage" aria-label="Captain’s cabin port wall">
+    <main class="cabin-stage" aria-label="Captain’s cabin wall">
       <div class="cabin-wall-view">
         <img
           id="cabin-wall-image"
-          src="images/cabin-port-wall-v8.jpg?v=1"
-          alt="Empty port wall with continuous stern-matched wood planks and no window"
+          src="images/cabin-starboard-wall.jpg?v=1"
+          alt="Empty starboard wall with the same wood planks as the port wall"
           draggable="false"
         />
       </div>
@@ -37,11 +37,12 @@
 
     <div class="cabin-wall-switch" role="group" aria-label="Choose cabin wall to review">
       <button type="button" class="cabin-wall-btn" data-wall="stern">Stern</button>
-      <button type="button" class="cabin-wall-btn is-active" data-wall="port">Port</button>
+      <button type="button" class="cabin-wall-btn" data-wall="port">Port</button>
+      <button type="button" class="cabin-wall-btn is-active" data-wall="starboard">Starboard</button>
     </div>
 
-    <p class="cabin-note" id="cabin-note">Port wall · empty wood · same plank width · no tile repeat</p>
+    <p class="cabin-note" id="cabin-note">Starboard wall · same empty wood as port · starting point</p>
 
-    <script src="pirates-cabin.js?v=15"></script>
+    <script src="pirates-cabin.js?v=16"></script>
   </body>
 </html>

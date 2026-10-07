@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=117" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=118" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -124,16 +124,28 @@
           </div>
           <div class="cabin-face cabin-face-floor" aria-hidden="true"></div>
           <div class="cabin-face cabin-face-ceiling" aria-hidden="true"></div>
-          <div
-            class="cabin-prop cabin-prop-desk"
-            id="cabin-desk"
-            aria-hidden="true"
-          >
+          <div class="cabin-prop cabin-prop-desk" id="cabin-desk">
             <img
               src="images/cabin-captain-desk.png?v=7"
               alt=""
               draggable="false"
             />
+            <button
+              type="button"
+              class="cabin-desk-hotspot cabin-desk-hotspot-map"
+              aria-label="Treasure map — coming soon"
+            >
+              <span class="cabin-coming-glow" aria-hidden="true"></span>
+              <span class="cabin-coming-label">Coming soon</span>
+            </button>
+            <button
+              type="button"
+              class="cabin-desk-hotspot cabin-desk-hotspot-quill"
+              aria-label="Quill pen — coming soon"
+            >
+              <span class="cabin-coming-glow" aria-hidden="true"></span>
+              <span class="cabin-coming-label">Coming soon</span>
+            </button>
           </div>
           <div
             class="cabin-prop cabin-prop-rum"
@@ -164,17 +176,20 @@
               draggable="false"
             />
           </div>
-          <div
-            class="cabin-prop cabin-prop-chest"
+          <button
+            type="button"
+            class="cabin-prop cabin-prop-chest cabin-coming-hotspot"
             id="cabin-chest"
-            aria-hidden="true"
+            aria-label="Treasure chest — coming soon"
           >
+            <span class="cabin-coming-glow" aria-hidden="true"></span>
             <img
               src="images/cabin-treasure-chest.png?v=2"
               alt=""
               draggable="false"
             />
-          </div>
+            <span class="cabin-coming-label">Coming soon</span>
+          </button>
         </div>
       </div>
     </main>

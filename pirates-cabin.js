@@ -18,6 +18,8 @@
   let activePointer = null;
   const keys = new Set();
   let holdDir = 0; // -1 left, +1 right from bottom buttons
+  let calibrating = false;
+  let calibrateTarget = "desk"; // "desk" | "rum"
 
   function applyLook() {
     // translateZ(-stand) first (room space) so the yaw pivot sits closer to the door
@@ -29,10 +31,16 @@
 
   function tick() {
     // Inverted so ‹ / left turns the view the way the chevrons read.
-    if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A") || holdDir < 0) {
+    if (
+      !calibrating &&
+      (keys.has("ArrowLeft") || keys.has("a") || keys.has("A") || holdDir < 0)
+    ) {
       targetYaw += KEY_STEP;
     }
-    if (keys.has("ArrowRight") || keys.has("d") || keys.has("D") || holdDir > 0) {
+    if (
+      !calibrating &&
+      (keys.has("ArrowRight") || keys.has("d") || keys.has("D") || holdDir > 0)
+    ) {
       targetYaw -= KEY_STEP;
     }
 
@@ -46,7 +54,13 @@
   }
 
   function onPointerDown(e) {
-    if (e.target.closest("a, button")) return;
+    if (
+      e.target.closest(
+        "a, button, .cabin-calibrate, .cabin-prop-desk, .cabin-prop-rum"
+      )
+    ) {
+      return;
+    }
     dragging = true;
     activePointer = e.pointerId;
     lastX = e.clientX;
@@ -102,6 +116,7 @@
   stage.addEventListener("lostpointercapture", onPointerUp);
 
   window.addEventListener("keydown", (e) => {
+    if (calibrating) return;
     if (
       e.key === "ArrowLeft" ||
       e.key === "ArrowRight" ||
@@ -140,4 +155,386 @@
       window.location.href = href;
     });
   }
+
+  /* ——— Desk + rum pose calibrator (same controls as chair mover) ——— */
+  const PROPS = {
+    desk: {
+      el: document.getElementById("cabin-desk"),
+      storageKey: "cruise-cabin-desk-pose-v1",
+      cssPrefix: "desk",
+      label: "desk",
+      defaultPose: {
+        x: 0.02,
+        y: 1.015,
+        z: -0.42,
+        rx: 7.5,
+        rz: 0,
+        scale: 0.38,
+      },
+      clamp: {
+        x: [-0.45, 0.45],
+        y: [0.55, 1.25],
+        z: [-0.98, -0.1],
+        rx: [-25, 35],
+        rz: [-20, 20],
+        scale: [0.14, 0.55],
+      },
+    },
+    rum: {
+      el: document.getElementById("cabin-rum"),
+      storageKey: "cruise-cabin-rum-pose-v1",
+      cssPrefix: "rum",
+      label: "rum",
+      defaultPose: {
+        x: -0.08,
+        y: 0.72,
+        z: -0.4,
+        rx: 7.5,
+        rz: 0,
+        scale: 0.055,
+      },
+      clamp: {
+        x: [-0.45, 0.45],
+        y: [0.35, 1.15],
+        z: [-0.98, -0.1],
+        rx: [-25, 35],
+        rz: [-25, 25],
+        scale: [0.02, 0.18],
+      },
+    },
+  };
+
+  const poses = {
+    desk: { ...PROPS.desk.defaultPose },
+    rum: { ...PROPS.rum.defaultPose },
+  };
+
+  const calibratePanel = document.getElementById("cabin-calibrate");
+  const calibrateTitle = document.getElementById("cabin-calibrate-title");
+  const calibrateHelp = document.getElementById("cabin-calibrate-help");
+  const calibrateCoords = document.getElementById("cabin-calibrate-coords");
+  const calibrateCopyBtn = document.getElementById("cabin-calibrate-copy");
+  const calibrateCloseBtn = document.getElementById("cabin-calibrate-close");
+  const moveDeskBtn = document.getElementById("cabin-move-desk");
+  const moveRumBtn = document.getElementById("cabin-move-rum");
+
+  let propDrag = null;
+
+  function loadPose(name) {
+    const meta = PROPS[name];
+    try {
+      const raw = localStorage.getItem(meta.storageKey);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object") return;
+      const d = meta.defaultPose;
+      poses[name] = {
+        x: Number.isFinite(parsed.x) ? parsed.x : d.x,
+        y: Number.isFinite(parsed.y) ? parsed.y : d.y,
+        z: Number.isFinite(parsed.z) ? parsed.z : d.z,
+        rx: Number.isFinite(parsed.rx) ? parsed.rx : d.rx,
+        rz: Number.isFinite(parsed.rz) ? parsed.rz : d.rz,
+        scale: Number.isFinite(parsed.scale) ? parsed.scale : d.scale,
+      };
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function savePose(name) {
+    try {
+      localStorage.setItem(PROPS[name].storageKey, JSON.stringify(poses[name]));
+    } catch {
+      /* ignore */
+    }
+  }
+
+  function clampPose(name) {
+    const pose = poses[name];
+    const c = PROPS[name].clamp;
+    pose.x = Math.max(c.x[0], Math.min(c.x[1], pose.x));
+    pose.y = Math.max(c.y[0], Math.min(c.y[1], pose.y));
+    pose.z = Math.max(c.z[0], Math.min(c.z[1], pose.z));
+    pose.rx = Math.max(c.rx[0], Math.min(c.rx[1], pose.rx));
+    pose.rz = Math.max(c.rz[0], Math.min(c.rz[1], pose.rz));
+    pose.scale = Math.max(c.scale[0], Math.min(c.scale[1], pose.scale));
+  }
+
+  function applyPropPose(name) {
+    const meta = PROPS[name];
+    const el = meta.el;
+    const pose = poses[name];
+    if (!el) return;
+    const p = meta.cssPrefix;
+    el.style.setProperty(`--${p}-x`, String(pose.x));
+    el.style.setProperty(`--${p}-y`, String(pose.y));
+    el.style.setProperty(`--${p}-z`, String(pose.z));
+    el.style.setProperty(`--${p}-rx`, pose.rx.toFixed(2) + "deg");
+    el.style.setProperty(`--${p}-rz`, pose.rz.toFixed(2) + "deg");
+    el.style.setProperty(`--${p}-scale`, String(pose.scale));
+    if (calibrating && name === calibrateTarget && calibrateCoords) {
+      calibrateCoords.textContent =
+        `${name}  x: ${pose.x.toFixed(3)}  y: ${pose.y.toFixed(3)}  z: ${pose.z.toFixed(3)}\n` +
+        `tilt(rx): ${pose.rx.toFixed(1)}°  twist(rz): ${pose.rz.toFixed(1)}°  scale: ${pose.scale.toFixed(3)}`;
+    }
+  }
+
+  function applyAllPoses() {
+    applyPropPose("desk");
+    applyPropPose("rum");
+  }
+
+  function nudge(axis, dir, fine) {
+    const pose = poses[calibrateTarget];
+    const step = {
+      x: fine ? 0.002 : 0.012,
+      y: fine ? 0.002 : 0.01,
+      z: fine ? 0.003 : 0.015,
+      rx: fine ? 0.25 : 1.5,
+      rz: fine ? 0.25 : 1.5,
+      scale: fine
+        ? calibrateTarget === "rum"
+          ? 0.001
+          : 0.002
+        : calibrateTarget === "rum"
+          ? 0.004
+          : 0.01,
+    }[axis];
+    if (!step) return;
+    pose[axis] += dir * step;
+    clampPose(calibrateTarget);
+    savePose(calibrateTarget);
+    applyPropPose(calibrateTarget);
+  }
+
+  function syncTargetButtons() {
+    if (!calibratePanel) return;
+    calibratePanel.querySelectorAll("[data-target]").forEach((btn) => {
+      btn.classList.toggle("is-active", btn.dataset.target === calibrateTarget);
+    });
+    if (calibrateTitle) {
+      calibrateTitle.textContent =
+        calibrateTarget === "rum" ? "Move rum" : "Move desk";
+    }
+    if (calibrateHelp) {
+      calibrateHelp.textContent =
+        calibrateTarget === "rum"
+          ? "Drag the bottle onto the desk. Alt-drag to tilt."
+          : "Drag the desk to slide it. Alt-drag to tilt feet to the floor.";
+    }
+  }
+
+  function setCalibrating(on, target) {
+    if (target) calibrateTarget = target;
+    calibrating = on;
+    document.body.classList.toggle("is-calibrating-desk", on && calibrateTarget === "desk");
+    document.body.classList.toggle("is-calibrating-rum", on && calibrateTarget === "rum");
+    if (calibratePanel) calibratePanel.hidden = !on;
+    if (on) {
+      yaw = targetYaw = 0;
+      applyLook();
+      syncTargetButtons();
+      applyPropPose(calibrateTarget);
+    }
+  }
+
+  function switchTarget(target) {
+    if (!PROPS[target]) return;
+    calibrateTarget = target;
+    document.body.classList.toggle("is-calibrating-desk", calibrateTarget === "desk");
+    document.body.classList.toggle("is-calibrating-rum", calibrateTarget === "rum");
+    syncTargetButtons();
+    applyPropPose(calibrateTarget);
+  }
+
+  loadPose("desk");
+  loadPose("rum");
+  applyAllPoses();
+
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("calibrate") || window.location.hash === "#calibrate") {
+    const t = params.get("calibrate");
+    setCalibrating(true, t === "rum" ? "rum" : "desk");
+  }
+
+  if (moveDeskBtn) {
+    moveDeskBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setCalibrating(true, "desk");
+    });
+  }
+  if (moveRumBtn) {
+    moveRumBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setCalibrating(true, "rum");
+    });
+  }
+  if (calibrateCloseBtn) {
+    calibrateCloseBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      setCalibrating(false);
+    });
+  }
+
+  if (calibratePanel) {
+    calibratePanel.addEventListener("pointerdown", (e) => e.stopPropagation());
+    calibratePanel.querySelectorAll("[data-nudge]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const [axis, dirStr] = btn.dataset.nudge.split(",");
+        nudge(axis, Number(dirStr), e.shiftKey);
+      });
+    });
+    calibratePanel.querySelectorAll("[data-target]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!calibrating) setCalibrating(true, btn.dataset.target);
+        else switchTarget(btn.dataset.target);
+      });
+    });
+  }
+
+  if (calibrateCopyBtn) {
+    calibrateCopyBtn.addEventListener("click", async () => {
+      const pose = poses[calibrateTarget];
+      const text =
+        `${calibrateTarget}\n` +
+        `x: ${pose.x.toFixed(4)}\n` +
+        `y: ${pose.y.toFixed(4)}\n` +
+        `z: ${pose.z.toFixed(4)}\n` +
+        `rx: ${pose.rx.toFixed(2)}\n` +
+        `rz: ${pose.rz.toFixed(2)}\n` +
+        `scale: ${pose.scale.toFixed(4)}`;
+      try {
+        await navigator.clipboard.writeText(text);
+        calibrateCopyBtn.textContent = "Copied!";
+        setTimeout(() => {
+          calibrateCopyBtn.textContent = "Copy pose values";
+        }, 1200);
+      } catch {
+        calibrateCopyBtn.textContent = "Copy failed";
+        setTimeout(() => {
+          calibrateCopyBtn.textContent = "Copy pose values";
+        }, 1200);
+      }
+    });
+  }
+
+  function bindPropDrag(name) {
+    const el = PROPS[name].el;
+    if (!el) return;
+
+    el.addEventListener("pointerdown", (e) => {
+      if (!calibrating || calibrateTarget !== name) return;
+      e.preventDefault();
+      e.stopPropagation();
+      propDrag = {
+        name,
+        id: e.pointerId,
+        lastX: e.clientX,
+        lastY: e.clientY,
+        alt: e.altKey,
+      };
+      el.classList.add("is-dragging-prop");
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch (_) {
+        /* ignore */
+      }
+    });
+
+    el.addEventListener("pointermove", (e) => {
+      if (!propDrag || propDrag.name !== name || e.pointerId !== propDrag.id) {
+        return;
+      }
+      const dx = e.clientX - propDrag.lastX;
+      const dy = e.clientY - propDrag.lastY;
+      propDrag.lastX = e.clientX;
+      propDrag.lastY = e.clientY;
+      const pose = poses[name];
+      if (propDrag.alt || e.altKey) {
+        pose.rx += dy * 0.08;
+        pose.rz += dx * 0.05;
+      } else {
+        pose.x += dx * 0.0009;
+        pose.y += dy * 0.0009;
+      }
+      clampPose(name);
+      savePose(name);
+      applyPropPose(name);
+    });
+
+    const endDrag = (e) => {
+      if (!propDrag || propDrag.name !== name || e.pointerId !== propDrag.id) {
+        return;
+      }
+      propDrag = null;
+      el.classList.remove("is-dragging-prop");
+    };
+    el.addEventListener("pointerup", endDrag);
+    el.addEventListener("pointercancel", endDrag);
+  }
+
+  bindPropDrag("desk");
+  bindPropDrag("rum");
+
+  window.addEventListener("keydown", (e) => {
+    if (!calibrating) return;
+    const fine = e.shiftKey;
+    if (e.key === "ArrowLeft") {
+      nudge("x", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "ArrowRight") {
+      nudge("x", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "ArrowUp") {
+      nudge("y", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      nudge("y", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "[") {
+      nudge("z", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "]") {
+      nudge("z", 1, fine);
+      e.preventDefault();
+    } else if (e.key === ",") {
+      nudge("rx", -1, fine);
+      e.preventDefault();
+    } else if (e.key === ".") {
+      nudge("rx", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "-" || e.key === "_") {
+      nudge("scale", -1, fine);
+      e.preventDefault();
+    } else if (e.key === "=" || e.key === "+") {
+      nudge("scale", 1, fine);
+      e.preventDefault();
+    } else if (e.key === "1") {
+      switchTarget("desk");
+      e.preventDefault();
+    } else if (e.key === "2") {
+      switchTarget("rum");
+      e.preventDefault();
+    } else if (e.key === "Escape") {
+      setCalibrating(false);
+      e.preventDefault();
+    }
+  });
+
+  window.__getDeskPose = () => ({ ...poses.desk });
+  window.__getRumPose = () => ({ ...poses.rum });
+  window.__setDeskPose = (next = {}) => {
+    poses.desk = { ...poses.desk, ...next };
+    clampPose("desk");
+    savePose("desk");
+    applyPropPose("desk");
+  };
+  window.__setRumPose = (next = {}) => {
+    poses.rum = { ...poses.rum, ...next };
+    clampPose("rum");
+    savePose("rum");
+    applyPropPose("rum");
+  };
 })();

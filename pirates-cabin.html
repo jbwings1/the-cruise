@@ -10,13 +10,21 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=77" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=78" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
       <div class="cabin-brand">
         <p class="cabin-brand-mark">Captain’s Cabin</p>
         <p class="cabin-brand-line">Regan &amp; Elaina · Treasure awaits</p>
+      </div>
+      <div class="cabin-hud-actions">
+        <button type="button" class="cabin-move-btn" id="cabin-move-desk">
+          Move desk
+        </button>
+        <button type="button" class="cabin-move-btn" id="cabin-move-rum">
+          Move rum
+        </button>
       </div>
     </header>
 
@@ -61,9 +69,24 @@
           </div>
           <div class="cabin-face cabin-face-floor" aria-hidden="true"></div>
           <div class="cabin-face cabin-face-ceiling" aria-hidden="true"></div>
-          <div class="cabin-prop cabin-prop-desk" aria-hidden="true">
+          <div
+            class="cabin-prop cabin-prop-desk"
+            id="cabin-desk"
+            aria-hidden="true"
+          >
             <img
-              src="images/cabin-captain-desk.png?v=6"
+              src="images/cabin-captain-desk.png?v=7"
+              alt=""
+              draggable="false"
+            />
+          </div>
+          <div
+            class="cabin-prop cabin-prop-rum"
+            id="cabin-rum"
+            aria-hidden="true"
+          >
+            <img
+              src="images/cabin-rum-bottle.png?v=1"
               alt=""
               draggable="false"
             />
@@ -99,6 +122,47 @@
       </button>
     </div>
 
-    <script src="pirates-cabin.js?v=40"></script>
+    <div class="cabin-calibrate" id="cabin-calibrate" hidden>
+      <div class="cabin-calibrate-header">
+        <p class="cabin-calibrate-title" id="cabin-calibrate-title">Move desk</p>
+        <button type="button" id="cabin-calibrate-close" class="cabin-calibrate-close">
+          Close
+        </button>
+      </div>
+      <p class="cabin-calibrate-help" id="cabin-calibrate-help">
+        Drag to slide. Hold Alt and drag to tilt.
+      </p>
+      <div class="cabin-calibrate-targets" role="group" aria-label="Prop to move">
+        <button type="button" data-target="desk" class="is-active">Desk</button>
+        <button type="button" data-target="rum">Rum</button>
+      </div>
+      <div class="cabin-calibrate-pad" aria-label="Move">
+        <button type="button" data-nudge="y,-1" title="Up">↑</button>
+        <button type="button" data-nudge="x,-1" title="Left">←</button>
+        <button type="button" data-nudge="x,1" title="Right">→</button>
+        <button type="button" data-nudge="y,1" title="Down">↓</button>
+      </div>
+      <div class="cabin-calibrate-pad" aria-label="Depth and tilt">
+        <button type="button" data-nudge="z,1" title="Toward room">In</button>
+        <button type="button" data-nudge="z,-1" title="Toward wall">Out</button>
+        <button type="button" data-nudge="rx,-1" title="Tilt back">Tilt −</button>
+        <button type="button" data-nudge="rx,1" title="Tilt forward">Tilt +</button>
+      </div>
+      <div class="cabin-calibrate-pad" aria-label="Scale">
+        <button type="button" data-nudge="scale,-1" title="Smaller">− Size</button>
+        <button type="button" data-nudge="scale,1" title="Bigger">+ Size</button>
+        <button type="button" data-nudge="rz,-1" title="Twist left">↺</button>
+        <button type="button" data-nudge="rz,1" title="Twist right">↻</button>
+      </div>
+      <p class="cabin-calibrate-coords" id="cabin-calibrate-coords">—</p>
+      <p class="cabin-calibrate-fine">
+        Hold Shift for fine steps. Arrow keys move · [ ] depth · , . tilt
+      </p>
+      <button type="button" class="cabin-calibrate-copy" id="cabin-calibrate-copy">
+        Copy pose values
+      </button>
+    </div>
+
+    <script src="pirates-cabin.js?v=41"></script>
   </body>
 </html>

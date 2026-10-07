@@ -21,9 +21,9 @@
       note: "Starboard wall · daytime ocean in the window",
     },
     back: {
-      src: "images/cabin-back-wall-v5.jpg?v=1",
-      alt: "Back wall with a centered arched wooden door at the bottom",
-      note: "Back wall · arched door at the bottom",
+      src: "images/cabin-back-wall-v6.jpg?v=1",
+      alt: "Back wall with arched door and a daytime ocean window on each side",
+      note: "Back wall · door with port windows on each side",
     },
   };
 

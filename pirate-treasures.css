@@ -220,7 +220,7 @@ body.pirate-page {
   transform: translateY(-50%);
   white-space: nowrap;
   font-family: var(--pt-font-display);
-  font-size: clamp(1rem, 2.2vmin, 1.45rem);
+  font-size: clamp(2rem, 4.4vmin, 2.9rem);
   letter-spacing: 0.03em;
   color: var(--cabin-gold);
   text-shadow:
@@ -260,7 +260,7 @@ body.pirate-page {
   }
 
   .cabin-sword-hotspot-label {
-    font-size: clamp(0.95rem, 3.4vw, 1.2rem);
+    font-size: clamp(1.9rem, 6.8vw, 2.4rem);
   }
 }
 

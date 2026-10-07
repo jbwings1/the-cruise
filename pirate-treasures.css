@@ -165,7 +165,10 @@ body.pirate-page {
   z-index: 5;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  max-width: calc(100% - 1.5rem);
 }
 
 .cabin-wall-btn {
@@ -174,8 +177,8 @@ body.pirate-page {
   background: rgba(20, 12, 8, 0.6);
   color: rgba(244, 232, 212, 0.88);
   font-family: var(--pt-font-ui);
-  font-size: 0.9rem;
-  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
   border-radius: 4px;
   cursor: pointer;
   backdrop-filter: blur(3px);

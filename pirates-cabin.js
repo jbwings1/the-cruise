@@ -22,11 +22,16 @@
   let calibrateTarget = "desk"; // "desk" | "rum"
 
   function applyLook() {
-    // translateZ(-stand) first (room space) so the yaw pivot sits closer to the door
+    // Fixed-pivot look-around: move stand point to origin, yaw, then restore.
+    // Pivot stays put — no circling the room.
+    const y = (-yaw).toFixed(3) + "deg";
     world.style.transform =
-      "translateZ(var(--cabin-cam-z)) rotateY(" +
-      (-yaw).toFixed(3) +
-      "deg) translateZ(calc(var(--cabin-stand-z) * -1))";
+      "translateZ(var(--cabin-cam-z))" +
+      " translateZ(var(--cabin-stand-z))" +
+      " rotateY(" +
+      y +
+      ")" +
+      " translateZ(calc(var(--cabin-stand-z) * -1))";
   }
 
   function tick() {
@@ -160,7 +165,7 @@
   const PROPS = {
     desk: {
       el: document.getElementById("cabin-desk"),
-      storageKey: "cruise-cabin-desk-pose-v1",
+      storageKey: "cruise-cabin-desk-pose-v2",
       cssPrefix: "desk",
       label: "desk",
       defaultPose: {
@@ -182,7 +187,7 @@
     },
     rum: {
       el: document.getElementById("cabin-rum"),
-      storageKey: "cruise-cabin-rum-pose-v1",
+      storageKey: "cruise-cabin-rum-pose-v2",
       cssPrefix: "rum",
       label: "rum",
       defaultPose: {

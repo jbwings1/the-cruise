@@ -20,6 +20,11 @@
       alt: "Starboard wall with one stern-style window showing a daytime ocean view on the left",
       note: "Starboard wall · daytime ocean in the window",
     },
+    back: {
+      src: "images/cabin-back-wall.jpg?v=1",
+      alt: "Empty back wall with the same wood planks as the side walls",
+      note: "Back wall · empty wood · starting point",
+    },
   };
 
   function showWall(name) {

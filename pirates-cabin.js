@@ -11,14 +11,14 @@
       note: "Stern wall · approved · sunrise in the windows",
     },
     port: {
-      src: "images/cabin-port-wall-v9.jpg?v=1",
-      alt: "Port wall with one stern-matched sunrise window on the right",
-      note: "Port wall · one stern-style window on the right",
+      src: "images/cabin-port-wall-v10.jpg?v=1",
+      alt: "Port wall with one stern-style window showing a daytime ocean view on the right",
+      note: "Port wall · daytime ocean in the window",
     },
     starboard: {
-      src: "images/cabin-starboard-wall-v2.jpg?v=1",
-      alt: "Starboard wall with one stern-matched sunrise window on the left",
-      note: "Starboard wall · one stern-style window on the left",
+      src: "images/cabin-starboard-wall-v3.jpg?v=1",
+      alt: "Starboard wall with one stern-style window showing a daytime ocean view on the left",
+      note: "Starboard wall · daytime ocean in the window",
     },
   };
 

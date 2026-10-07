@@ -11,9 +11,9 @@
       note: "Stern wall · approved · sunrise in the windows",
     },
     port: {
-      src: "images/cabin-port-wall-v8.jpg?v=1",
-      alt: "Empty port wall with continuous stern-matched wood planks and no window",
-      note: "Port wall · empty wood · same plank width · no tile repeat",
+      src: "images/cabin-port-wall-v9.jpg?v=1",
+      alt: "Port wall with one stern-matched sunrise window on the right",
+      note: "Port wall · one stern-style window on the right",
     },
     starboard: {
       src: "images/cabin-starboard-wall.jpg?v=1",

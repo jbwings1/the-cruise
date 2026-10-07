@@ -62,9 +62,9 @@ body.pirate-page {
   --cabin-half-h: calc(var(--cabin-h) / 2);
   --cabin-half-d: calc(var(--cabin-d) / 2);
   --cabin-cam-z: 0px;
-  /* True room center so left/right (and door/stern) stay equal when you turn. */
+  /* Stand at the door, centered L/R — door stays behind you when you look left or right. */
   --cabin-stand-x: 0;
-  --cabin-stand-z: 0px;
+  --cabin-stand-z: calc(var(--cabin-half-d) * 0.88);
   --cabin-perspective: 780px;
   position: relative;
   height: 100vh;

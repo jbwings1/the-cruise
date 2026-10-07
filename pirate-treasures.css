@@ -160,6 +160,29 @@ body.pirate-page {
   transform: rotateY(0deg) translateZ(calc(var(--cabin-half-d) * -1));
 }
 
+/* Captain coat + hat on a skeleton hand — port side of stern windows */
+.cabin-coat-hang {
+  position: absolute;
+  left: 6.5%;
+  top: 6%;
+  width: 15.5%;
+  height: 62%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.cabin-coat-hang img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  filter: drop-shadow(4px 8px 10px rgba(0, 0, 0, 0.55));
+}
+
 /* Walk the Plank sword — starboard side of the stern wall */
 .cabin-sword-hotspot {
   position: absolute;

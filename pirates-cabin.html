@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=87" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=88" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -24,6 +24,9 @@
         </button>
         <button type="button" class="cabin-move-btn" id="cabin-move-rum">
           Move rum
+        </button>
+        <button type="button" class="cabin-move-btn" id="cabin-move-dagger">
+          Move dagger
         </button>
       </div>
     </header>
@@ -91,6 +94,17 @@
               draggable="false"
             />
           </div>
+          <div
+            class="cabin-prop cabin-prop-dagger"
+            id="cabin-dagger"
+            aria-hidden="true"
+          >
+            <img
+              src="images/cabin-pirate-dagger.png?v=1"
+              alt=""
+              draggable="false"
+            />
+          </div>
           <div class="cabin-prop cabin-prop-chair" aria-hidden="true">
             <img
               src="images/cabin-captain-chair.png?v=3"
@@ -134,6 +148,7 @@
       <div class="cabin-calibrate-targets" role="group" aria-label="Prop to move">
         <button type="button" data-target="desk" class="is-active">Desk</button>
         <button type="button" data-target="rum">Rum</button>
+        <button type="button" data-target="dagger">Dagger</button>
       </div>
       <div class="cabin-calibrate-pad" aria-label="Move">
         <button type="button" data-nudge="y,-1" title="Up">↑</button>
@@ -162,6 +177,6 @@
       </button>
     </div>
 
-    <script src="pirates-cabin.js?v=44"></script>
+    <script src="pirates-cabin.js?v=45"></script>
   </body>
 </html>

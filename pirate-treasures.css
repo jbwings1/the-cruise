@@ -299,6 +299,25 @@ body.pirate-page {
     rotateX(var(--rum-rx)) rotateZ(var(--rum-rz));
 }
 
+/* Pirate dagger — tip-down, stabbed into the desk */
+.cabin-prop-dagger {
+  --dagger-x: 0.06;
+  --dagger-y: 0.43;
+  --dagger-z: -0.4;
+  --dagger-rx: 18deg;
+  --dagger-rz: -12deg;
+  --dagger-scale: 0.045;
+  width: calc(var(--cabin-w) * var(--dagger-scale));
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%)
+    translate3d(
+      calc(var(--cabin-half-w) * var(--dagger-x)),
+      calc(var(--cabin-half-h) * var(--dagger-y)),
+      calc(var(--cabin-half-d) * var(--dagger-z))
+    )
+    rotateX(var(--dagger-rx)) rotateZ(var(--dagger-rz));
+}
+
 /* Locked calibrated chair pose */
 .cabin-prop-chair {
   --chair-x: 0.06;
@@ -319,14 +338,16 @@ body.pirate-page {
 }
 
 .cabin-page.is-calibrating-desk .cabin-prop-desk,
-.cabin-page.is-calibrating-rum .cabin-prop-rum {
+.cabin-page.is-calibrating-rum .cabin-prop-rum,
+.cabin-page.is-calibrating-dagger .cabin-prop-dagger {
   pointer-events: auto;
   cursor: grab;
   outline: 1px dashed rgba(230, 193, 90, 0.55);
 }
 
 .cabin-page.is-calibrating-desk .cabin-prop-desk.is-dragging-prop,
-.cabin-page.is-calibrating-rum .cabin-prop-rum.is-dragging-prop {
+.cabin-page.is-calibrating-rum .cabin-prop-rum.is-dragging-prop,
+.cabin-page.is-calibrating-dagger .cabin-prop-dagger.is-dragging-prop {
   cursor: grabbing;
 }
 

@@ -11,9 +11,9 @@
       note: "Stern wall · approved · sunrise in the windows",
     },
     port: {
-      src: "images/cabin-port-wall-sm.jpg?v=2",
+      src: "images/cabin-port-wall-v5.jpg?v=1",
       alt: "Empty port wall with a small complete daytime porthole on the right",
-      note: "Port wall · smaller full porthole on the right · daytime ocean",
+      note: "Port wall · full porthole on the right · daytime ocean",
     },
   };
 

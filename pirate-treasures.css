@@ -54,39 +54,136 @@ body.pirate-page {
 .cabin-page {
   --cabin-ink: #f4e8d4;
   --cabin-gold: #e6c15a;
+  /* 16:9 walls match the painted assets; square floor plan */
+  --cabin-w: min(170vmin, 1800px);
+  --cabin-h: calc(var(--cabin-w) * 0.5625);
+  --cabin-d: var(--cabin-w);
+  --cabin-half-w: calc(var(--cabin-w) / 2);
+  --cabin-half-h: calc(var(--cabin-h) / 2);
+  --cabin-half-d: calc(var(--cabin-d) / 2);
+  --cabin-cam-z: 0px;
+  --cabin-perspective: 780px;
   position: relative;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
   background: #0a0705;
+  touch-action: none;
 }
 
 .cabin-stage {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
+  cursor: grab;
   background: #0a0705;
+  outline: none;
 }
 
-.cabin-wall-view {
-  position: relative;
-  width: 100%;
-  height: 100%;
+.cabin-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.cabin-viewport {
+  position: absolute;
+  inset: 0;
+  perspective: var(--cabin-perspective);
+  perspective-origin: 50% 48%;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+.cabin-world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.cabin-face {
+  position: absolute;
+  backface-visibility: hidden;
+  background: #1a100c;
   overflow: hidden;
 }
 
-.cabin-wall-view img {
+.cabin-face img {
   display: block;
   width: 100%;
   height: 100%;
-  /* contain = full wall always visible; cover was clipping the porthole bottom */
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   user-select: none;
   -webkit-user-drag: none;
   pointer-events: none;
-  background: #0a0705;
+}
+
+.cabin-face-stern,
+.cabin-face-back {
+  width: var(--cabin-w);
+  height: var(--cabin-h);
+  left: calc(var(--cabin-half-w) * -1);
+  top: calc(var(--cabin-half-h) * -1);
+}
+
+.cabin-face-port,
+.cabin-face-starboard {
+  width: var(--cabin-d);
+  height: var(--cabin-h);
+  left: calc(var(--cabin-half-d) * -1);
+  top: calc(var(--cabin-half-h) * -1);
+}
+
+.cabin-face-floor,
+.cabin-face-ceiling {
+  width: var(--cabin-w);
+  height: var(--cabin-d);
+  left: calc(var(--cabin-half-w) * -1);
+  top: calc(var(--cabin-half-d) * -1);
+}
+
+/* Inside the box: each face sits half a room away, facing the center */
+.cabin-face-stern {
+  transform: rotateY(0deg) translateZ(calc(var(--cabin-half-d) * -1));
+}
+
+.cabin-face-back {
+  transform: rotateY(180deg) translateZ(calc(var(--cabin-half-d) * -1));
+}
+
+/* Facing stern: port left (−X), starboard right (+X) */
+.cabin-face-port {
+  transform: rotateY(-90deg) translateZ(calc(var(--cabin-half-w) * -1));
+}
+
+.cabin-face-starboard {
+  transform: rotateY(90deg) translateZ(calc(var(--cabin-half-w) * -1));
+}
+
+.cabin-face-floor {
+  transform: rotateX(90deg) translateZ(calc(var(--cabin-half-h) * -1));
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(70, 42, 24, 0.55), transparent 55%),
+    repeating-linear-gradient(
+      90deg,
+      #2a1810 0 48px,
+      #23140e 48px 52px,
+      #2e1b12 52px 100px
+    );
+}
+
+.cabin-face-ceiling {
+  transform: rotateX(-90deg) translateZ(calc(var(--cabin-half-h) * -1));
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(40, 26, 16, 0.9), #120c08 70%),
+    repeating-linear-gradient(
+      0deg,
+      #1c120c 0 42px,
+      #160e0a 42px 46px,
+      #20150f 46px 88px
+    );
 }
 
 .cabin-hud {
@@ -158,44 +255,6 @@ body.pirate-page {
   outline: none;
 }
 
-.cabin-wall-switch {
-  position: absolute;
-  left: 50%;
-  bottom: 3.1rem;
-  z-index: 5;
-  transform: translateX(-50%);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.35rem;
-  max-width: calc(100% - 1.5rem);
-}
-
-.cabin-wall-btn {
-  appearance: none;
-  border: 1px solid rgba(230, 193, 90, 0.4);
-  background: rgba(20, 12, 8, 0.6);
-  color: rgba(244, 232, 212, 0.88);
-  font-family: var(--pt-font-ui);
-  font-size: 0.85rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
-  cursor: pointer;
-  backdrop-filter: blur(3px);
-}
-
-.cabin-wall-btn:hover,
-.cabin-wall-btn:focus-visible {
-  border-color: var(--cabin-gold);
-  color: var(--cabin-ink);
-  outline: none;
-}
-
-.cabin-wall-btn.is-active {
-  border-color: var(--cabin-gold);
-  color: var(--cabin-gold);
-}
-
 .cabin-note {
   position: absolute;
   left: 50%;
@@ -211,6 +270,8 @@ body.pirate-page {
   font-size: 0.85rem;
   pointer-events: none;
   backdrop-filter: blur(3px);
+  text-align: center;
+  max-width: calc(100% - 1.5rem);
 }
 
 /* ——— Walk the Plank game ——— */

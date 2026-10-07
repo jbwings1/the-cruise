@@ -1,44 +1,130 @@
 (() => {
-  const imageEl = document.getElementById("cabin-wall-image");
-  const noteEl = document.getElementById("cabin-note");
-  const buttons = Array.from(document.querySelectorAll(".cabin-wall-btn"));
-  if (!imageEl || !buttons.length) return;
+  const stage = document.getElementById("cabin-stage");
+  const world = document.getElementById("cabin-world");
+  if (!stage || !world) return;
 
-  const walls = {
-    stern: {
-      src: "images/cabin-stern-wall.jpg?v=4",
-      alt: "Empty stern wall with three sunrise ocean windows",
-      note: "Stern wall · approved · sunrise in the windows",
-    },
-    port: {
-      src: "images/cabin-port-wall-v10.jpg?v=1",
-      alt: "Port wall with one stern-style window showing a daytime ocean view on the right",
-      note: "Port wall · daytime ocean in the window",
-    },
-    starboard: {
-      src: "images/cabin-starboard-wall-v3.jpg?v=1",
-      alt: "Starboard wall with one stern-style window showing a daytime ocean view on the left",
-      note: "Starboard wall · daytime ocean in the window",
-    },
-    back: {
-      src: "images/cabin-back-wall-v7.jpg?v=1",
-      alt: "Back wall with arched door and circular portholes showing the ship deck on each side",
-      note: "Back wall · door with ship-view portholes on each side",
-    },
-  };
+  // Standing in front of the door, facing the stern.
+  // yaw 0 = stern; +yaw looks toward starboard; -yaw toward port.
+  let yaw = 0;
+  let pitch = 0;
+  let targetYaw = 0;
+  let targetPitch = 0;
 
-  function showWall(name) {
-    const wall = walls[name];
-    if (!wall) return;
-    imageEl.src = wall.src;
-    imageEl.alt = wall.alt;
-    if (noteEl) noteEl.textContent = wall.note;
-    buttons.forEach((btn) => {
-      btn.classList.toggle("is-active", btn.dataset.wall === name);
-    });
+  const MAX_PITCH = 28;
+  const DRAG_SENS = 0.18;
+  const KEY_STEP = 2.4;
+  const LERP = 0.18;
+
+  let dragging = false;
+  let lastX = 0;
+  let lastY = 0;
+  let activePointer = null;
+  const keys = new Set();
+
+  function clamp(n, min, max) {
+    return Math.max(min, Math.min(max, n));
   }
 
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => showWall(btn.dataset.wall));
+  function applyLook() {
+    world.style.transform =
+      "translateZ(var(--cabin-cam-z)) rotateX(" +
+      pitch.toFixed(3) +
+      "deg) rotateY(" +
+      (-yaw).toFixed(3) +
+      "deg)";
+  }
+
+  function tick() {
+    if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A")) {
+      targetYaw -= KEY_STEP;
+    }
+    if (keys.has("ArrowRight") || keys.has("d") || keys.has("D")) {
+      targetYaw += KEY_STEP;
+    }
+    if (keys.has("ArrowUp") || keys.has("w") || keys.has("W")) {
+      targetPitch = clamp(targetPitch + KEY_STEP * 0.65, -MAX_PITCH, MAX_PITCH);
+    }
+    if (keys.has("ArrowDown") || keys.has("s") || keys.has("S")) {
+      targetPitch = clamp(targetPitch - KEY_STEP * 0.65, -MAX_PITCH, MAX_PITCH);
+    }
+
+    yaw += (targetYaw - yaw) * LERP;
+    pitch += (targetPitch - pitch) * LERP;
+    // Keep yaw from growing forever
+    if (yaw > 360 || yaw < -360) {
+      yaw %= 360;
+      targetYaw %= 360;
+    }
+    applyLook();
+    requestAnimationFrame(tick);
+  }
+
+  function onPointerDown(e) {
+    if (e.target.closest("a, button")) return;
+    dragging = true;
+    activePointer = e.pointerId;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    stage.classList.add("is-dragging");
+    try {
+      stage.setPointerCapture(e.pointerId);
+    } catch (_) {
+      /* ignore */
+    }
+  }
+
+  function onPointerMove(e) {
+    if (!dragging || e.pointerId !== activePointer) return;
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    targetYaw += dx * DRAG_SENS;
+    targetPitch = clamp(targetPitch - dy * DRAG_SENS, -MAX_PITCH, MAX_PITCH);
+  }
+
+  function onPointerUp(e) {
+    if (e.pointerId !== activePointer) return;
+    dragging = false;
+    activePointer = null;
+    stage.classList.remove("is-dragging");
+  }
+
+  stage.addEventListener("pointerdown", onPointerDown);
+  stage.addEventListener("pointermove", onPointerMove);
+  stage.addEventListener("pointerup", onPointerUp);
+  stage.addEventListener("pointercancel", onPointerUp);
+  stage.addEventListener("lostpointercapture", onPointerUp);
+
+  window.addEventListener("keydown", (e) => {
+    if (
+      e.key === "ArrowLeft" ||
+      e.key === "ArrowRight" ||
+      e.key === "ArrowUp" ||
+      e.key === "ArrowDown" ||
+      e.key === "a" ||
+      e.key === "A" ||
+      e.key === "d" ||
+      e.key === "D" ||
+      e.key === "w" ||
+      e.key === "W" ||
+      e.key === "s" ||
+      e.key === "S"
+    ) {
+      keys.add(e.key);
+      e.preventDefault();
+    }
   });
+
+  window.addEventListener("keyup", (e) => {
+    keys.delete(e.key);
+  });
+
+  // Prevent image drag ghosts
+  stage.querySelectorAll("img").forEach((img) => {
+    img.addEventListener("dragstart", (e) => e.preventDefault());
+  });
+
+  applyLook();
+  requestAnimationFrame(tick);
 })();

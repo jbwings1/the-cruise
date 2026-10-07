@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=45" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=46" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -24,26 +24,50 @@
       </div>
     </header>
 
-    <main class="cabin-stage" aria-label="Captain’s cabin wall">
-      <div class="cabin-wall-view">
-        <img
-          id="cabin-wall-image"
-          src="images/cabin-back-wall-v7.jpg?v=1"
-          alt="Back wall with arched door and circular portholes showing the ship deck on each side"
-          draggable="false"
-        />
+    <main
+      class="cabin-stage"
+      id="cabin-stage"
+      aria-label="Captain’s cabin. Drag or use arrow keys to look around."
+      tabindex="0"
+    >
+      <div class="cabin-viewport">
+        <div class="cabin-world" id="cabin-world">
+          <div class="cabin-face cabin-face-stern">
+            <img
+              src="images/cabin-stern-wall.jpg?v=4"
+              alt="Stern wall with three sunrise ocean windows"
+              draggable="false"
+            />
+          </div>
+          <div class="cabin-face cabin-face-back">
+            <img
+              src="images/cabin-back-wall-v7.jpg?v=1"
+              alt="Back wall with arched door and ship-view portholes"
+              draggable="false"
+            />
+          </div>
+          <div class="cabin-face cabin-face-port">
+            <img
+              src="images/cabin-port-wall-v10.jpg?v=1"
+              alt="Port wall with daytime ocean window"
+              draggable="false"
+            />
+          </div>
+          <div class="cabin-face cabin-face-starboard">
+            <img
+              src="images/cabin-starboard-wall-v3.jpg?v=1"
+              alt="Starboard wall with daytime ocean window"
+              draggable="false"
+            />
+          </div>
+          <div class="cabin-face cabin-face-floor" aria-hidden="true"></div>
+          <div class="cabin-face cabin-face-ceiling" aria-hidden="true"></div>
+        </div>
       </div>
     </main>
 
-    <div class="cabin-wall-switch" role="group" aria-label="Choose cabin wall to review">
-      <button type="button" class="cabin-wall-btn" data-wall="stern">Stern</button>
-      <button type="button" class="cabin-wall-btn" data-wall="port">Port</button>
-      <button type="button" class="cabin-wall-btn" data-wall="starboard">Starboard</button>
-      <button type="button" class="cabin-wall-btn is-active" data-wall="back">Back</button>
-    </div>
+    <p class="cabin-note" id="cabin-note">Standing at the door · facing the stern · drag to look around</p>
 
-    <p class="cabin-note" id="cabin-note">Back wall · door with port windows on each side</p>
-
-    <script src="pirates-cabin.js?v=27"></script>
+    <script src="pirates-cabin.js?v=28"></script>
   </body>
 </html>

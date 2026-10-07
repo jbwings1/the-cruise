@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Treasure Chest Open · Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Pirata+One&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #f4e8d4;
+        --gold: #e6c15a;
+        --bg0: #0a0705;
+        --bg1: #1a100c;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        min-height: 100vh;
+        min-height: 100dvh;
+        font-family: Figtree, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(ellipse at 50% 70%, #2a1a12 0%, transparent 55%),
+          radial-gradient(ellipse at 50% 100%, rgba(230, 193, 90, 0.12), transparent 45%),
+          linear-gradient(180deg, #120c08, var(--bg0) 70%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding: 1.5rem 1rem 2rem;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: "Pirata One", serif;
+        font-size: clamp(1.8rem, 5vw, 2.6rem);
+        letter-spacing: 0.03em;
+        color: var(--ink);
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+      }
+
+      .hint {
+        margin: 0;
+        opacity: 0.8;
+        font-size: 0.95rem;
+      }
+
+      .stage {
+        position: relative;
+        width: min(520px, 92vw);
+        aspect-ratio: 900 / 990;
+        display: grid;
+        place-items: end center;
+      }
+
+      .stage img {
+        grid-area: 1 / 1;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center bottom;
+        opacity: 0;
+        pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
+        filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.55));
+      }
+
+      .stage img.is-active {
+        opacity: 1;
+      }
+
+      .glow {
+        position: absolute;
+        left: 50%;
+        bottom: 28%;
+        width: 55%;
+        height: 45%;
+        transform: translateX(-50%);
+        border-radius: 50%;
+        background: radial-gradient(
+          ellipse at 50% 60%,
+          rgba(255, 220, 120, 0.55),
+          rgba(230, 160, 60, 0.2) 45%,
+          transparent 70%
+        );
+        opacity: 0;
+        pointer-events: none;
+        mix-blend-mode: screen;
+        transition: opacity 200ms linear;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        justify-content: center;
+      }
+
+      button {
+        appearance: none;
+        border: 1px solid rgba(230, 193, 90, 0.55);
+        background: rgba(20, 12, 8, 0.72);
+        color: var(--gold);
+        font: inherit;
+        font-size: 0.95rem;
+        border-radius: 4px;
+        padding: 0.55rem 1rem;
+        cursor: pointer;
+      }
+
+      button:hover,
+      button:focus-visible {
+        color: var(--ink);
+        border-color: var(--gold);
+        outline: none;
+      }
+
+      .frame-label {
+        margin: 0;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.85rem;
+        color: #9fe3c0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Treasure Chest</h1>
+    <p class="hint">Standalone open preview · 10 frames · not on the main page yet</p>
+
+    <div class="stage" id="stage" aria-label="Chest opening animation">
+      <div class="glow" id="glow" aria-hidden="true"></div>
+    </div>
+
+    <p class="frame-label" id="frame-label">frame 0 / 9</p>
+
+    <div class="controls">
+      <button type="button" id="btn-open">Play open</button>
+      <button type="button" id="btn-reset">Reset closed</button>
+    </div>
+
+    <script>
+      (() => {
+        const FRAME_COUNT = 10;
+        const FRAME_MS = 220; // ~2.2s total — slow open
+        const stage = document.getElementById("stage");
+        const glow = document.getElementById("glow");
+        const label = document.getElementById("frame-label");
+        const imgs = [];
+        let frame = 0;
+        let playing = false;
+        let timer = 0;
+
+        for (let i = 0; i < FRAME_COUNT; i += 1) {
+          const img = document.createElement("img");
+          img.src = `images/hub-chest-open/frame-${String(i).padStart(2, "0")}.png`;
+          img.alt = "";
+          img.draggable = false;
+          if (i === 0) img.classList.add("is-active");
+          stage.appendChild(img);
+          imgs.push(img);
+        }
+
+        function show(i) {
+          frame = Math.max(0, Math.min(FRAME_COUNT - 1, i));
+          imgs.forEach((img, idx) => {
+            img.classList.toggle("is-active", idx === frame);
+          });
+          // light grows as lid opens
+          const t = frame / (FRAME_COUNT - 1);
+          glow.style.opacity = String(Math.pow(t, 1.4) * 0.95);
+          label.textContent = `frame ${frame} / ${FRAME_COUNT - 1}`;
+        }
+
+        function stop() {
+          playing = false;
+          if (timer) {
+            clearTimeout(timer);
+            timer = 0;
+          }
+        }
+
+        function playOpen() {
+          stop();
+          playing = true;
+          show(0);
+          const step = () => {
+            if (!playing) return;
+            if (frame >= FRAME_COUNT - 1) {
+              playing = false;
+              return;
+            }
+            timer = setTimeout(() => {
+              show(frame + 1);
+              step();
+            }, FRAME_MS);
+          };
+          step();
+        }
+
+        document.getElementById("btn-open").addEventListener("click", playOpen);
+        document.getElementById("btn-reset").addEventListener("click", () => {
+          stop();
+          show(0);
+        });
+
+        // click chest to replay
+        stage.addEventListener("click", playOpen);
+        show(0);
+      })();
+    </script>
+  </body>
+</html>

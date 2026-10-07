@@ -255,14 +255,57 @@ body.pirate-page {
   outline: none;
 }
 
-.cabin-note {
+.cabin-turn {
   position: absolute;
   left: 50%;
-  bottom: 1.1rem;
-  z-index: 5;
+  bottom: 1rem;
+  z-index: 6;
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  max-width: calc(100% - 1.25rem);
+  pointer-events: none;
+}
+
+.cabin-turn-btn {
+  pointer-events: auto;
+  appearance: none;
+  width: 2.35rem;
+  height: 2.35rem;
+  padding: 0;
+  border: 1px solid rgba(230, 193, 90, 0.55);
+  border-radius: 4px;
+  background: rgba(20, 12, 8, 0.72);
+  color: var(--cabin-gold);
+  font-family: var(--pt-font-ui);
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.cabin-turn-btn:hover,
+.cabin-turn-btn:focus-visible {
+  border-color: var(--cabin-gold);
+  color: var(--cabin-ink);
+  outline: none;
+}
+
+.cabin-turn-btn:active,
+.cabin-turn-btn.is-held {
+  background: rgba(40, 26, 14, 0.85);
+  border-color: var(--cabin-gold);
+  color: var(--cabin-ink);
+}
+
+.cabin-note {
   margin: 0;
-  padding: 0.4rem 0.85rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 4px;
   background: rgba(10, 7, 5, 0.5);
   color: rgba(244, 232, 212, 0.85);
@@ -271,7 +314,7 @@ body.pirate-page {
   pointer-events: none;
   backdrop-filter: blur(3px);
   text-align: center;
-  max-width: calc(100% - 1.5rem);
+  max-width: min(18rem, 52vw);
 }
 
 /* ——— Walk the Plank game ——— */

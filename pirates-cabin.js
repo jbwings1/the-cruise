@@ -17,6 +17,7 @@
   let lastX = 0;
   let activePointer = null;
   const keys = new Set();
+  let holdDir = 0; // -1 left, +1 right from bottom buttons
 
   function applyLook() {
     world.style.transform =
@@ -24,10 +25,10 @@
   }
 
   function tick() {
-    if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A")) {
+    if (keys.has("ArrowLeft") || keys.has("a") || keys.has("A") || holdDir < 0) {
       targetYaw -= KEY_STEP;
     }
-    if (keys.has("ArrowRight") || keys.has("d") || keys.has("D")) {
+    if (keys.has("ArrowRight") || keys.has("d") || keys.has("D") || holdDir > 0) {
       targetYaw += KEY_STEP;
     }
 
@@ -52,6 +53,29 @@
       /* ignore */
     }
   }
+
+  function bindHoldButton(btn, dir) {
+    if (!btn) return;
+    const start = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      holdDir = dir;
+      btn.classList.add("is-held");
+    };
+    const stop = (e) => {
+      if (e) e.preventDefault();
+      if (holdDir === dir) holdDir = 0;
+      btn.classList.remove("is-held");
+    };
+    btn.addEventListener("pointerdown", start);
+    btn.addEventListener("pointerup", stop);
+    btn.addEventListener("pointerleave", stop);
+    btn.addEventListener("pointercancel", stop);
+    btn.addEventListener("lostpointercapture", stop);
+  }
+
+  bindHoldButton(document.getElementById("cabin-turn-left"), -1);
+  bindHoldButton(document.getElementById("cabin-turn-right"), 1);
 
   function onPointerMove(e) {
     if (!dragging || e.pointerId !== activePointer) return;

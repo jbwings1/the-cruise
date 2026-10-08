@@ -3,12 +3,10 @@
   const MAX_MISSES = 3;
   const NAME_MAX = 8;
   const GEM_COLORS = ["emerald", "ruby", "gold"];
-  const YAY_LINES = ["Yay!", "Arr!", "Aye!", "Yo ho!"];
-  const GEM_LINES = [
-    "Arrr, here's yer gem!",
-    "A fine gem for ye!",
-    "Treasure earned, matey!",
-  ];
+  /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
+  const SFX = {
+    walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
+  };
 
   const startPanel = document.getElementById("start-panel");
   const questionPanel = document.getElementById("question-panel");
@@ -107,58 +105,55 @@
     src.stop(now + duration + 0.02);
   }
 
+  function playSfx(url, volume = 1) {
+    return new Promise((resolve) => {
+      try {
+        ensureAudio();
+        const audio = new Audio(url);
+        audio.volume = Math.max(0, Math.min(1, volume));
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          resolve();
+        };
+        audio.addEventListener("ended", finish);
+        audio.addEventListener("error", finish);
+        audio.play().then(null, finish);
+        setTimeout(finish, 6000);
+      } catch {
+        resolve();
+      }
+    });
+  }
+
   function playCreak() {
     noiseBurst(0.85, 380, 0.28);
     beep(110, 0.55, "sawtooth", 0.08);
     setTimeout(() => beep(90, 0.45, "sawtooth", 0.06), 180);
   }
 
-  function playSplash() {
-    noiseBurst(1.35, 620, 0.32);
-    noiseBurst(1.1, 280, 0.2);
-    beep(70, 0.8, "sine", 0.12);
-    setTimeout(() => beep(55, 0.7, "sine", 0.08), 220);
-  }
-
-  function speak(line, pitch = 0.7, rate = 0.92) {
-    return new Promise((resolve) => {
-      if (!window.speechSynthesis) {
-        resolve();
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(line);
-      utter.pitch = pitch;
-      utter.rate = rate;
-      utter.volume = 1;
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        resolve();
-      };
-      utter.onend = finish;
-      utter.onerror = finish;
-      window.speechSynthesis.speak(utter);
-      // Safety so gameplay never stalls if speech events fail.
-      setTimeout(finish, Math.max(2200, line.length * 140));
-    });
+  async function playSplash() {
+    noiseBurst(1.1, 620, 0.22);
+    noiseBurst(0.9, 280, 0.14);
+    // Pirate sailor voice: "WALK THE PLANK"
+    await playSfx(SFX.walkThePlank, 1);
   }
 
   async function playYay() {
-    const line = YAY_LINES[Math.floor(Math.random() * YAY_LINES.length)];
+    // Placeholder tones until we have more pirate voice clips
     beep(440, 0.22, "triangle", 0.09);
     setTimeout(() => beep(560, 0.24, "triangle", 0.09), 160);
     setTimeout(() => beep(700, 0.32, "triangle", 0.1), 340);
-    await speak(line, 0.65 + Math.random() * 0.3, 0.9);
+    await wait(550);
   }
 
   async function playGemLine() {
-    const line = GEM_LINES[Math.floor(Math.random() * GEM_LINES.length)];
+    // Placeholder tones until we have more pirate voice clips
     beep(520, 0.28, "triangle", 0.1);
     setTimeout(() => beep(660, 0.3, "triangle", 0.1), 200);
     setTimeout(() => beep(880, 0.42, "triangle", 0.11), 420);
-    await speak(line, 0.6, 0.88);
+    await wait(750);
   }
 
   function sanitizeName(raw) {

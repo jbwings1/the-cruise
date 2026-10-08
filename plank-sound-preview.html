@@ -17,9 +17,6 @@
         margin: 0 auto;
         padding-bottom: 3rem;
       }
-      .sound-preview h1 {
-        margin-bottom: 0.35rem;
-      }
       .sound-preview .lead {
         margin: 0 0 1.25rem;
         color: #4a3828;
@@ -66,6 +63,13 @@
         color: #5a4634;
         margin: 0.35rem 0 0;
       }
+      .credit {
+        font-size: 0.85rem;
+        color: #5a4634;
+      }
+      .credit a {
+        color: #2f5d4a;
+      }
     </style>
   </head>
   <body class="page-inner">
@@ -74,218 +78,48 @@
         <a class="chat-back" href="walk-the-plank.html">← Walk the Plank</a>
         <h1>Sound preview</h1>
         <p class="lead">
-          Click each button to hear the same sounds the game uses. Voice lines
-          use your device’s speech voice (sounds differ by phone/computer).
+          Real pirate voice clips for the game. Click Play to hear each one.
         </p>
       </header>
 
       <section class="sound-group">
-        <h2>Correct answer (voice)</h2>
-        <p class="note">One of these is picked at random when you answer right.</p>
+        <h2>In the game now</h2>
         <div class="sound-row">
-          <span>“Yay!”</span>
-          <button type="button" data-speak="Yay!" data-pitch="0.75" data-rate="0.9">
-            Play
-          </button>
+          <span>Pirate voice — “WALK THE PLANK” (played when you splash out)</span>
+          <button type="button" id="play-walk">Play</button>
         </div>
-        <div class="sound-row">
-          <span>“Arr!”</span>
-          <button type="button" data-speak="Arr!" data-pitch="0.75" data-rate="0.9">
-            Play
-          </button>
-        </div>
-        <div class="sound-row">
-          <span>“Aye!”</span>
-          <button type="button" data-speak="Aye!" data-pitch="0.75" data-rate="0.9">
-            Play
-          </button>
-        </div>
-        <div class="sound-row">
-          <span>“Yo ho!”</span>
-          <button type="button" data-speak="Yo ho!" data-pitch="0.75" data-rate="0.9">
-            Play
-          </button>
-        </div>
-        <div class="sound-row">
-          <span>Success chime (tones only)</span>
-          <button type="button" id="play-yay-chime">Play</button>
-        </div>
+        <p class="credit">
+          Voice:
+          <a
+            href="https://freesound.org/s/846327/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“WALK THE PLANK” pirate sound effects by FPG</a
+          >
+          — AshdenWicka / FPG ·
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >CC BY 4.0</a
+          >
+        </p>
       </section>
 
       <section class="sound-group">
-        <h2>Gem earned (voice)</h2>
-        <p class="note">One of these plays when you finish a round.</p>
-        <div class="sound-row">
-          <span>“Arrr, here's yer gem!”</span>
-          <button
-            type="button"
-            data-speak="Arrr, here's yer gem!"
-            data-pitch="0.6"
-            data-rate="0.88"
-          >
-            Play
-          </button>
-        </div>
-        <div class="sound-row">
-          <span>“A fine gem for ye!”</span>
-          <button
-            type="button"
-            data-speak="A fine gem for ye!"
-            data-pitch="0.6"
-            data-rate="0.88"
-          >
-            Play
-          </button>
-        </div>
-        <div class="sound-row">
-          <span>“Treasure earned, matey!”</span>
-          <button
-            type="button"
-            data-speak="Treasure earned, matey!"
-            data-pitch="0.6"
-            data-rate="0.88"
-          >
-            Play
-          </button>
-        </div>
-        <div class="sound-row">
-          <span>Gem chime (tones only)</span>
-          <button type="button" id="play-gem-chime">Play</button>
-        </div>
-      </section>
-
-      <section class="sound-group">
-        <h2>Wrong / splash (no words)</h2>
-        <div class="sound-row">
-          <span>Plank creak (wrong answer)</span>
-          <button type="button" id="play-creak">Play</button>
-        </div>
-        <div class="sound-row">
-          <span>Water splash (walked the plank)</span>
-          <button type="button" id="play-splash">Play</button>
-        </div>
+        <h2>Still needed</h2>
+        <p class="note">
+          Send more pirate-voice clips for: correct answer cheer, gem reward,
+          and (optional) wrong-answer reaction. Until then those use short tones
+          only — no robot voice.
+        </p>
       </section>
     </div>
 
     <script>
-      let audioCtx = null;
-
-      function ensureAudio() {
-        if (!audioCtx) {
-          const Ctx = window.AudioContext || window.webkitAudioContext;
-          if (Ctx) audioCtx = new Ctx();
-        }
-        if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
-        return audioCtx;
-      }
-
-      function beep(freq, duration, type = "square", gainValue = 0.1) {
-        const ctx = ensureAudio();
-        if (!ctx) return;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = type;
-        osc.frequency.value = freq;
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        const now = ctx.currentTime;
-        const peak = Math.max(0.0001, gainValue);
-        const hold = Math.max(0.05, duration * 0.72);
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(peak, now + 0.02);
-        gain.gain.setValueAtTime(peak, now + hold);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-        osc.start(now);
-        osc.stop(now + duration + 0.02);
-      }
-
-      function noiseBurst(duration, filterFreq, gainValue = 0.22) {
-        const ctx = ensureAudio();
-        if (!ctx) return;
-        const length = Math.max(1, Math.floor(ctx.sampleRate * duration));
-        const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < length; i += 1) {
-          data[i] = (Math.random() * 2 - 1) * (1 - i / length);
-        }
-        const src = ctx.createBufferSource();
-        src.buffer = buffer;
-        const filter = ctx.createBiquadFilter();
-        filter.type = "bandpass";
-        filter.frequency.value = filterFreq;
-        filter.Q.value = 0.9;
-        const gain = ctx.createGain();
-        const now = ctx.currentTime;
-        const peak = Math.max(0.0001, gainValue);
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(peak, now + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-        src.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-        src.start(now);
-        src.stop(now + duration + 0.02);
-      }
-
-      function playCreak() {
-        noiseBurst(0.85, 380, 0.28);
-        beep(110, 0.55, "sawtooth", 0.08);
-        setTimeout(() => beep(90, 0.45, "sawtooth", 0.06), 180);
-      }
-
-      function playSplash() {
-        noiseBurst(1.35, 620, 0.32);
-        noiseBurst(1.1, 280, 0.2);
-        beep(70, 0.8, "sine", 0.12);
-        setTimeout(() => beep(55, 0.7, "sine", 0.08), 220);
-      }
-
-      function playYayChime() {
-        beep(440, 0.22, "triangle", 0.09);
-        setTimeout(() => beep(560, 0.24, "triangle", 0.09), 160);
-        setTimeout(() => beep(700, 0.32, "triangle", 0.1), 340);
-      }
-
-      function playGemChime() {
-        beep(520, 0.28, "triangle", 0.1);
-        setTimeout(() => beep(660, 0.3, "triangle", 0.1), 200);
-        setTimeout(() => beep(880, 0.42, "triangle", 0.11), 420);
-      }
-
-      function speak(line, pitch, rate) {
-        if (!window.speechSynthesis) {
-          alert("Speech is not available in this browser.");
-          return;
-        }
-        window.speechSynthesis.cancel();
-        const utter = new SpeechSynthesisUtterance(line);
-        utter.pitch = Number(pitch) || 0.7;
-        utter.rate = Number(rate) || 0.9;
-        utter.volume = 1;
-        window.speechSynthesis.speak(utter);
-      }
-
-      document.querySelectorAll("[data-speak]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          ensureAudio();
-          speak(btn.dataset.speak, btn.dataset.pitch, btn.dataset.rate);
-        });
-      });
-      document.getElementById("play-creak").addEventListener("click", () => {
-        ensureAudio();
-        playCreak();
-      });
-      document.getElementById("play-splash").addEventListener("click", () => {
-        ensureAudio();
-        playSplash();
-      });
-      document.getElementById("play-yay-chime").addEventListener("click", () => {
-        ensureAudio();
-        playYayChime();
-      });
-      document.getElementById("play-gem-chime").addEventListener("click", () => {
-        ensureAudio();
-        playGemChime();
+      document.getElementById("play-walk").addEventListener("click", () => {
+        const audio = new Audio("sounds/plank/walk-the-plank-voice.mp3");
+        audio.play();
       });
     </script>
   </body>

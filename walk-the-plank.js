@@ -388,7 +388,7 @@
       }
       await wait(FALL_FRAME_MS);
     }
-    await wait(450);
+    await wait(900);
     playerPirate.style.opacity = "0";
   }
 

@@ -642,6 +642,20 @@ body.pirate-page {
   height: 100%;
 }
 
+/* Rolled map — glow sits a little left and toward the stern, and a bit larger */
+.cabin-desk-hotspot-map .cabin-coming-glow {
+  left: 38%;
+  top: 30%;
+  width: 215%;
+  height: 205%;
+}
+
+/* Quill pen — glow a bit larger around the feather and nib */
+.cabin-desk-hotspot-quill .cabin-coming-glow {
+  width: 170%;
+  height: 128%;
+}
+
 .cabin-coming-glow {
   position: absolute;
   left: 50%;
@@ -735,8 +749,15 @@ body.pirate-page {
 }
 
 .cabin-wall-hotspot-map .cabin-coming-glow {
-  width: 130%;
-  height: 115%;
+  width: 78%;
+  height: 68%;
+  background: radial-gradient(
+    ellipse 40% 48% at 50% 42%,
+    rgba(255, 236, 170, 0.6),
+    rgba(230, 193, 90, 0.26) 32%,
+    rgba(230, 160, 60, 0.08) 50%,
+    transparent 66%
+  );
 }
 
 .cabin-wall-hotspot-map .cabin-coming-label {
@@ -748,9 +769,9 @@ body.pirate-page {
 .cabin-wall-hotspot-map:hover,
 .cabin-wall-hotspot-map:focus-visible {
   filter:
-    brightness(1.12)
-    drop-shadow(0 0 14px rgba(255, 220, 120, 0.85))
-    drop-shadow(0 0 28px rgba(230, 193, 90, 0.7));
+    brightness(1.08)
+    drop-shadow(0 0 6px rgba(255, 220, 120, 0.65))
+    drop-shadow(0 0 12px rgba(230, 193, 90, 0.4));
 }
 
 /* Rum bottle — separate prop sitting on the desk */
@@ -827,7 +848,7 @@ body.pirate-page {
   background: transparent;
   color: inherit;
   font: inherit;
-  cursor: default;
+  cursor: pointer;
   transform-origin: 50% 100%;
   transform: translate(-50%, -100%)
     translate3d(
@@ -853,9 +874,16 @@ body.pirate-page {
 }
 
 .cabin-prop-chest .cabin-coming-label {
+  z-index: 3;
   bottom: auto;
-  top: -8%;
+  top: 0;
+  transform: translateX(-50%) translateZ(60px);
   font-size: clamp(1.5rem, 3.4vmin, 2.3rem);
+}
+
+.cabin-prop-chest:hover .cabin-coming-label,
+.cabin-prop-chest:focus-visible .cabin-coming-label {
+  transform: translateX(-50%) translateY(-0.15rem) translateZ(60px);
 }
 
 .cabin-prop-chest:hover img,

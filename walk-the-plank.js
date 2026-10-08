@@ -58,27 +58,31 @@
     return state.audioCtx;
   }
 
-  function beep(freq, duration, type = "square", gainValue = 0.04) {
+  function beep(freq, duration, type = "square", gainValue = 0.1) {
     const ctx = ensureAudio();
     if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = type;
     osc.frequency.value = freq;
-    gain.gain.value = gainValue;
     osc.connect(gain);
     gain.connect(ctx.destination);
     const now = ctx.currentTime;
-    gain.gain.setValueAtTime(gainValue, now);
+    const peak = Math.max(0.0001, gainValue);
+    // Hold most of the note, then ease out so it is easy to hear.
+    const hold = Math.max(0.05, duration * 0.72);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(peak, now + 0.02);
+    gain.gain.setValueAtTime(peak, now + hold);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
     osc.start(now);
-    osc.stop(now + duration);
+    osc.stop(now + duration + 0.02);
   }
 
-  function noiseBurst(duration, filterFreq) {
+  function noiseBurst(duration, filterFreq, gainValue = 0.22) {
     const ctx = ensureAudio();
     if (!ctx) return;
-    const length = Math.floor(ctx.sampleRate * duration);
+    const length = Math.max(1, Math.floor(ctx.sampleRate * duration));
     const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < length; i += 1) {
@@ -89,46 +93,72 @@
     const filter = ctx.createBiquadFilter();
     filter.type = "bandpass";
     filter.frequency.value = filterFreq;
+    filter.Q.value = 0.9;
     const gain = ctx.createGain();
-    gain.gain.value = 0.12;
+    const now = ctx.currentTime;
+    const peak = Math.max(0.0001, gainValue);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(peak, now + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
     src.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
-    src.start();
+    src.start(now);
+    src.stop(now + duration + 0.02);
   }
 
   function playCreak() {
-    noiseBurst(0.35, 420);
-    beep(120, 0.18, "sawtooth", 0.03);
+    noiseBurst(0.85, 380, 0.28);
+    beep(110, 0.55, "sawtooth", 0.08);
+    setTimeout(() => beep(90, 0.45, "sawtooth", 0.06), 180);
   }
 
   function playSplash() {
-    noiseBurst(0.7, 700);
-    beep(80, 0.35, "sine", 0.05);
+    noiseBurst(1.35, 620, 0.32);
+    noiseBurst(1.1, 280, 0.2);
+    beep(70, 0.8, "sine", 0.12);
+    setTimeout(() => beep(55, 0.7, "sine", 0.08), 220);
   }
 
-  function speak(line, pitch = 0.7, rate = 1) {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(line);
-    utter.pitch = pitch;
-    utter.rate = rate;
-    utter.volume = 1;
-    window.speechSynthesis.speak(utter);
+  function speak(line, pitch = 0.7, rate = 0.92) {
+    return new Promise((resolve) => {
+      if (!window.speechSynthesis) {
+        resolve();
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utter = new SpeechSynthesisUtterance(line);
+      utter.pitch = pitch;
+      utter.rate = rate;
+      utter.volume = 1;
+      let done = false;
+      const finish = () => {
+        if (done) return;
+        done = true;
+        resolve();
+      };
+      utter.onend = finish;
+      utter.onerror = finish;
+      window.speechSynthesis.speak(utter);
+      // Safety so gameplay never stalls if speech events fail.
+      setTimeout(finish, Math.max(2200, line.length * 140));
+    });
   }
 
-  function playYay() {
+  async function playYay() {
     const line = YAY_LINES[Math.floor(Math.random() * YAY_LINES.length)];
-    speak(line, 0.6 + Math.random() * 0.4, 1.05);
-    beep(440, 0.08, "triangle", 0.03);
-    setTimeout(() => beep(660, 0.1, "triangle", 0.03), 80);
+    beep(440, 0.22, "triangle", 0.09);
+    setTimeout(() => beep(560, 0.24, "triangle", 0.09), 160);
+    setTimeout(() => beep(700, 0.32, "triangle", 0.1), 340);
+    await speak(line, 0.65 + Math.random() * 0.3, 0.9);
   }
 
-  function playGemLine() {
+  async function playGemLine() {
     const line = GEM_LINES[Math.floor(Math.random() * GEM_LINES.length)];
-    speak(line, 0.55, 0.95);
-    beep(520, 0.1, "triangle", 0.04);
-    setTimeout(() => beep(780, 0.14, "triangle", 0.04), 100);
+    beep(520, 0.28, "triangle", 0.1);
+    setTimeout(() => beep(660, 0.3, "triangle", 0.1), 200);
+    setTimeout(() => beep(880, 0.42, "triangle", 0.11), 420);
+    await speak(line, 0.6, 0.88);
   }
 
   function sanitizeName(raw) {
@@ -165,11 +195,11 @@
     });
   }
 
-  function addGem() {
+  async function addGem() {
     const color = GEM_COLORS[Math.floor(Math.random() * GEM_COLORS.length)];
     if (state.gemColors.length < 3) state.gemColors.push(color);
     setGems(state.gems + 1);
-    playGemLine();
+    await playGemLine();
   }
 
   function resetVisitGems() {
@@ -457,12 +487,12 @@
       feedbackEl.textContent = "Safe!";
       feedbackEl.classList.add("is-reveal");
       try {
-        playYay();
+        await playYay();
       } catch {
         /* ignore */
       }
       removeCorrectFromPool(question);
-      await wait(700);
+      await wait(250);
       state.roundIndex += 1;
       if (state.roundIndex >= state.roundQuestions.length) {
         await onRoundWin();
@@ -497,7 +527,7 @@
       /* ignore */
     }
     setStep(state.misses);
-    await wait(2000);
+    await wait(2400);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();
@@ -517,7 +547,7 @@
     progressChip.hidden = true;
     endTitle.textContent = "You survived!";
     endMessage.textContent = "A gem drops into your treasure.";
-    addGem();
+    await addGem();
     await window.PlankLeaderboard.submitScore(
       state.name,
       state.pirateId,

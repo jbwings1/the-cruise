@@ -6,6 +6,7 @@
   /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
   const SFX = {
     walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
+    arrMatey: "sounds/plank/arr-matey.mp3",
   };
 
   const startPanel = document.getElementById("start-panel");
@@ -141,11 +142,8 @@
   }
 
   async function playYay() {
-    // Placeholder tones until we have more pirate voice clips
-    beep(440, 0.22, "triangle", 0.09);
-    setTimeout(() => beep(560, 0.24, "triangle", 0.09), 160);
-    setTimeout(() => beep(700, 0.32, "triangle", 0.1), 340);
-    await wait(550);
+    // Pirate sailor voice: "ARR MATEY"
+    await playSfx(SFX.arrMatey, 1);
   }
 
   async function playGemLine() {

@@ -85,23 +85,40 @@
       <section class="sound-group">
         <h2>In the game now</h2>
         <div class="sound-row">
-          <span>Pirate voice — “WALK THE PLANK” (played when you splash out)</span>
+          <span>Correct answer — “ARR MATEY”</span>
+          <button type="button" id="play-arr">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Splash out — “WALK THE PLANK”</span>
           <button type="button" id="play-walk">Play</button>
         </div>
         <p class="credit">
-          Voice:
+          Voices from
           <a
-            href="https://freesound.org/s/846327/"
+            href="https://freesound.org/people/ashdenwicka/"
             target="_blank"
             rel="noopener noreferrer"
-            >“WALK THE PLANK” pirate sound effects by FPG</a
+            >AshdenWicka / FPG</a
           >
-          — AshdenWicka / FPG ·
+          ·
           <a
             href="https://creativecommons.org/licenses/by/4.0/"
             target="_blank"
             rel="noopener noreferrer"
             >CC BY 4.0</a
+          ><br />
+          <a
+            href="https://freesound.org/s/846323/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“ARR MATEY”</a
+          >
+          ·
+          <a
+            href="https://freesound.org/s/846327/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“WALK THE PLANK”</a
           >
         </p>
       </section>
@@ -109,18 +126,25 @@
       <section class="sound-group">
         <h2>Still needed</h2>
         <p class="note">
-          Send more pirate-voice clips for: correct answer cheer, gem reward,
-          and (optional) wrong-answer reaction. Until then those use short tones
-          only — no robot voice.
+          Send more pirate-voice clips for: gem reward, and (optional)
+          wrong-answer reaction. Until then those use short tones only — no
+          robot voice.
         </p>
       </section>
     </div>
 
     <script>
-      document.getElementById("play-walk").addEventListener("click", () => {
-        const audio = new Audio("sounds/plank/walk-the-plank-voice.mp3");
-        audio.play();
-      });
+      function play(src) {
+        new Audio(src).play();
+      }
+      document
+        .getElementById("play-arr")
+        .addEventListener("click", () => play("sounds/plank/arr-matey.mp3"));
+      document
+        .getElementById("play-walk")
+        .addEventListener("click", () =>
+          play("sounds/plank/walk-the-plank-voice.mp3")
+        );
     </script>
   </body>
 </html>

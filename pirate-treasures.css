@@ -642,6 +642,18 @@ body.pirate-page {
   height: 100%;
 }
 
+/* Rolled map on the desk — glow a bit larger than the tight scroll hit area */
+.cabin-desk-hotspot-map .cabin-coming-glow {
+  width: 175%;
+  height: 165%;
+}
+
+/* Quill pen — glow a bit larger around the feather and nib */
+.cabin-desk-hotspot-quill .cabin-coming-glow {
+  width: 170%;
+  height: 128%;
+}
+
 .cabin-coming-glow {
   position: absolute;
   left: 50%;
@@ -827,7 +839,7 @@ body.pirate-page {
   background: transparent;
   color: inherit;
   font: inherit;
-  cursor: default;
+  cursor: pointer;
   transform-origin: 50% 100%;
   transform: translate(-50%, -100%)
     translate3d(

@@ -191,8 +191,9 @@
     .forEach((btn) => {
       btn.addEventListener("pointerdown", (e) => e.stopPropagation());
       btn.addEventListener("click", (e) => {
-        e.preventDefault();
         e.stopPropagation();
+        if (btn.getAttribute("href")) return;
+        e.preventDefault();
       });
     });
 

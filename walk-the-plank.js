@@ -376,6 +376,7 @@
       if (i === FALL_SPLASH_INDEX) {
         splashEl.classList.add("is-active");
         try {
+          // Fire-and-forget so the fall frames keep moving while the voice plays
           playSplash();
         } catch {
           /* ignore */

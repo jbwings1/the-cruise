@@ -5,7 +5,7 @@
   const GEM_COLORS = ["emerald", "ruby", "gold"];
   /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
   const SFX = {
-    walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
+    splash: "sounds/plank/splash.mp3",
     arrMatey: "sounds/plank/arr-matey.mp3",
     yaargh: "sounds/plank/yaargh.mp3",
     scallywag: "sounds/plank/scallywag.mp3",
@@ -140,10 +140,8 @@
   }
 
   async function playSplash() {
-    noiseBurst(1.1, 620, 0.22);
-    noiseBurst(0.9, 280, 0.14);
-    // Pirate sailor voice: "WALK THE PLANK"
-    await playSfx(SFX.walkThePlank, 1);
+    // PirateMatt voice clip for splash-out
+    await playSfx(SFX.splash, 1);
   }
 
   async function playYay() {

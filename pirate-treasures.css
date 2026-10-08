@@ -749,8 +749,15 @@ body.pirate-page {
 }
 
 .cabin-wall-hotspot-map .cabin-coming-glow {
-  width: 130%;
-  height: 115%;
+  width: 78%;
+  height: 68%;
+  background: radial-gradient(
+    ellipse 40% 48% at 50% 42%,
+    rgba(255, 236, 170, 0.6),
+    rgba(230, 193, 90, 0.26) 32%,
+    rgba(230, 160, 60, 0.08) 50%,
+    transparent 66%
+  );
 }
 
 .cabin-wall-hotspot-map .cabin-coming-label {
@@ -762,9 +769,9 @@ body.pirate-page {
 .cabin-wall-hotspot-map:hover,
 .cabin-wall-hotspot-map:focus-visible {
   filter:
-    brightness(1.12)
-    drop-shadow(0 0 14px rgba(255, 220, 120, 0.85))
-    drop-shadow(0 0 28px rgba(230, 193, 90, 0.7));
+    brightness(1.08)
+    drop-shadow(0 0 6px rgba(255, 220, 120, 0.65))
+    drop-shadow(0 0 12px rgba(230, 193, 90, 0.4));
 }
 
 /* Rum bottle — separate prop sitting on the desk */

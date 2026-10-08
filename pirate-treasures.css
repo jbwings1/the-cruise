@@ -642,10 +642,12 @@ body.pirate-page {
   height: 100%;
 }
 
-/* Rolled map on the desk — glow a bit larger than the tight scroll hit area */
+/* Rolled map — glow sits a little left and toward the stern, and a bit larger */
 .cabin-desk-hotspot-map .cabin-coming-glow {
-  width: 175%;
-  height: 165%;
+  left: 38%;
+  top: 30%;
+  width: 215%;
+  height: 205%;
 }
 
 /* Quill pen — glow a bit larger around the feather and nib */

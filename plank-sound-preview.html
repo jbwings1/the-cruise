@@ -89,6 +89,10 @@
           <button type="button" id="play-arr">Play</button>
         </div>
         <div class="sound-row">
+          <span>Wrong answer — “YAARGH”</span>
+          <button type="button" id="play-yaargh">Play</button>
+        </div>
+        <div class="sound-row">
           <span>Splash out — “WALK THE PLANK”</span>
           <button type="button" id="play-walk">Play</button>
         </div>
@@ -115,6 +119,13 @@
           >
           ·
           <a
+            href="https://freesound.org/s/846328/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“YAARGH”</a
+          >
+          ·
+          <a
             href="https://freesound.org/s/846327/"
             target="_blank"
             rel="noopener noreferrer"
@@ -126,9 +137,8 @@
       <section class="sound-group">
         <h2>Still needed</h2>
         <p class="note">
-          Send more pirate-voice clips for: gem reward, and (optional)
-          wrong-answer reaction. Until then those use short tones only — no
-          robot voice.
+          Send a pirate-voice clip for the gem reward if you want one. Until
+          then that cue uses short tones only — no robot voice.
         </p>
       </section>
     </div>
@@ -140,6 +150,9 @@
       document
         .getElementById("play-arr")
         .addEventListener("click", () => play("sounds/plank/arr-matey.mp3"));
+      document
+        .getElementById("play-yaargh")
+        .addEventListener("click", () => play("sounds/plank/yaargh.mp3"));
       document
         .getElementById("play-walk")
         .addEventListener("click", () =>

@@ -7,6 +7,7 @@
   const SFX = {
     walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
     arrMatey: "sounds/plank/arr-matey.mp3",
+    yaargh: "sounds/plank/yaargh.mp3",
   };
 
   const startPanel = document.getElementById("start-panel");
@@ -128,10 +129,9 @@
     });
   }
 
-  function playCreak() {
-    noiseBurst(0.85, 380, 0.28);
-    beep(110, 0.55, "sawtooth", 0.08);
-    setTimeout(() => beep(90, 0.45, "sawtooth", 0.06), 180);
+  async function playCreak() {
+    // Pirate sailor voice: "YAARGH" (wrong answer)
+    await playSfx(SFX.yaargh, 1);
   }
 
   async function playSplash() {
@@ -516,12 +516,12 @@
     feedbackEl.classList.remove("is-reveal");
     state.misses += 1;
     try {
-      playCreak();
+      await playCreak();
     } catch {
       /* ignore */
     }
     setStep(state.misses);
-    await wait(2400);
+    await wait(900);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();

@@ -865,9 +865,16 @@ body.pirate-page {
 }
 
 .cabin-prop-chest .cabin-coming-label {
+  z-index: 3;
   bottom: auto;
-  top: -8%;
+  top: 0;
+  transform: translateX(-50%) translateZ(60px);
   font-size: clamp(1.5rem, 3.4vmin, 2.3rem);
+}
+
+.cabin-prop-chest:hover .cabin-coming-label,
+.cabin-prop-chest:focus-visible .cabin-coming-label {
+  transform: translateX(-50%) translateY(-0.15rem) translateZ(60px);
 }
 
 .cabin-prop-chest:hover img,

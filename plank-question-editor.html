@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Walk the Plank · Question Editor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="plank-question-editor.css?v=1" />
+  </head>
+  <body class="page-inner qe-page">
+    <div class="inner-shell qe-shell">
+      <header class="inner-header">
+        <a class="chat-back" href="index.html">← Main page</a>
+        <h1>Walk the Plank Questions</h1>
+        <p>
+          Draft bank from
+          <a
+            href="https://www.theknot.com/us/elaina-beltran-and-regan-roberts-2027-09-20"
+            target="_blank"
+            rel="noopener noreferrer"
+            >The Knot wedding site</a
+          >.
+          Review, edit, delete, add — then save into the game.
+        </p>
+      </header>
+
+      <div class="qe-toolbar" role="toolbar" aria-label="Question tools">
+        <div class="qe-filters">
+          <label>
+            Status
+            <select id="qe-filter-status">
+              <option value="all">All</option>
+              <option value="draft">Draft</option>
+              <option value="keep">Keep</option>
+              <option value="cut">Cut</option>
+            </select>
+          </label>
+          <label>
+            Source
+            <select id="qe-filter-source">
+              <option value="all">All</option>
+            </select>
+          </label>
+          <label class="qe-search-label">
+            Search
+            <input
+              id="qe-search"
+              type="search"
+              placeholder="Find a question…"
+              autocomplete="off"
+            />
+          </label>
+        </div>
+        <div class="qe-actions">
+          <button type="button" class="qe-btn" id="qe-new">+ New question</button>
+          <button type="button" class="qe-btn" id="qe-save-draft">
+            Save progress
+          </button>
+          <button type="button" class="qe-btn qe-btn-primary" id="qe-save-game">
+            Save Keep → game file
+          </button>
+          <button type="button" class="qe-btn qe-btn-ghost" id="qe-export-bank">
+            Download full bank JSON
+          </button>
+          <button type="button" class="qe-btn qe-btn-ghost" id="qe-reset">
+            Reset to original bank
+          </button>
+        </div>
+        <p class="qe-status" id="qe-status" aria-live="polite"></p>
+        <p class="qe-counts" id="qe-counts"></p>
+      </div>
+
+      <div class="qe-list" id="qe-list"></div>
+    </div>
+
+    <dialog class="qe-dialog" id="qe-dialog">
+      <form method="dialog" id="qe-form" class="qe-form">
+        <h2 id="qe-dialog-title">Edit question</h2>
+        <input type="hidden" id="qe-edit-id" />
+
+        <label>
+          Status
+          <select id="qe-edit-status" required>
+            <option value="draft">Draft</option>
+            <option value="keep">Keep (include in game)</option>
+            <option value="cut">Cut (exclude)</option>
+          </select>
+        </label>
+
+        <label>
+          Source / topic
+          <input id="qe-edit-source" type="text" required maxlength="80" />
+        </label>
+
+        <label>
+          Type
+          <select id="qe-edit-type" required>
+            <option value="tf">True / False</option>
+            <option value="mc">Multiple choice (3 answers)</option>
+          </select>
+        </label>
+
+        <label>
+          Question
+          <textarea id="qe-edit-prompt" rows="3" required></textarea>
+        </label>
+
+        <fieldset class="qe-tf-fields" id="qe-tf-fields">
+          <legend>Correct answer</legend>
+          <label class="qe-inline">
+            <input type="radio" name="qe-tf-answer" value="true" checked />
+            True
+          </label>
+          <label class="qe-inline">
+            <input type="radio" name="qe-tf-answer" value="false" />
+            False
+          </label>
+        </fieldset>
+
+        <fieldset class="qe-mc-fields" id="qe-mc-fields" hidden>
+          <legend>Choices (mark the correct one)</legend>
+          <label class="qe-choice-row">
+            <input type="radio" name="qe-mc-correct" value="0" checked />
+            <input id="qe-edit-c0" type="text" required />
+          </label>
+          <label class="qe-choice-row">
+            <input type="radio" name="qe-mc-correct" value="1" />
+            <input id="qe-edit-c1" type="text" required />
+          </label>
+          <label class="qe-choice-row">
+            <input type="radio" name="qe-mc-correct" value="2" />
+            <input id="qe-edit-c2" type="text" required />
+          </label>
+        </fieldset>
+
+        <div class="qe-dialog-actions">
+          <button type="submit" class="qe-btn qe-btn-primary" value="save">
+            Save question
+          </button>
+          <button type="submit" class="qe-btn" value="cancel">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="plank-question-editor.js?v=1"></script>
+  </body>
+</html>

@@ -1,0 +1,764 @@
+{
+  "version": 1,
+  "source": "https://www.theknot.com/us/elaina-beltran-and-regan-roberts-2027-09-20",
+  "notes": "Draft bank for Walk the Plank. Review in plank-question-editor.html — edit, delete, add, then Save to game.",
+  "questions": [
+    {
+      "id": "os-01",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "Where did Elaina and Regan first meet?",
+      "choices": [
+        "University of North Dakota",
+        "University of Texas",
+        "University of Arizona"
+      ],
+      "answer": "University of North Dakota"
+    },
+    {
+      "id": "os-02",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "What class were they in when they first met?",
+      "choices": ["Physics", "Chemistry", "History"],
+      "answer": "Physics"
+    },
+    {
+      "id": "os-03",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Their physics class was held at a local air force base.",
+      "answer": true
+    },
+    {
+      "id": "os-04",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "Who missed the first few days of physics class?",
+      "choices": ["Regan", "Elaina", "Jeannette"],
+      "answer": "Regan"
+    },
+    {
+      "id": "os-05",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Elaina offered Regan her class notes after he missed the first few days.",
+      "answer": true
+    },
+    {
+      "id": "os-06",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "Which friend spent most of their two college years with them?",
+      "choices": ["Jeannette", "Jordan", "Payton"],
+      "answer": "Jeannette"
+    },
+    {
+      "id": "os-07",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Elaina and Regan spent most of their two years at the university together.",
+      "answer": true
+    },
+    {
+      "id": "os-08",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "Where did Elaina and Jeannette get jobs after college?",
+      "choices": [
+        "Lockheed Martin Flight Service in Prescott, AZ",
+        "NASA in Houston, TX",
+        "Delta Airlines in Atlanta, GA"
+      ],
+      "answer": "Lockheed Martin Flight Service in Prescott, AZ"
+    },
+    {
+      "id": "os-09",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Elaina was heartbroken to leave Regan behind when she moved to Prescott.",
+      "answer": true
+    },
+    {
+      "id": "os-10",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Not long after moving, they were able to get Regan a job with them.",
+      "answer": true
+    },
+    {
+      "id": "os-11",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Elaina and Regan started dating after Regan joined them in Prescott.",
+      "answer": true
+    },
+    {
+      "id": "os-12",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "They went on their first cruise together after they started dating.",
+      "answer": true
+    },
+    {
+      "id": "os-13",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "Where did the couple move after Prescott?",
+      "choices": ["Fort Worth, Texas", "Miami, Florida", "Denver, Colorado"],
+      "answer": "Fort Worth, Texas"
+    },
+    {
+      "id": "os-14",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "In Fort Worth, what path did Elaina move into?",
+      "choices": ["Law enforcement", "Flight service", "Teaching"],
+      "answer": "Law enforcement"
+    },
+    {
+      "id": "os-15",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "In Fort Worth, Regan continued with flight service.",
+      "answer": true
+    },
+    {
+      "id": "os-16",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "What is still their favorite thing to do together?",
+      "choices": ["Cruising", "Skydiving", "Road trips"],
+      "answer": "Cruising"
+    },
+    {
+      "id": "os-17",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "Elaina and Regan got engaged while on a cruise.",
+      "answer": true
+    },
+    {
+      "id": "os-18",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "tf",
+      "prompt": "They will be married on a cruise surrounded by family and friends.",
+      "answer": true
+    },
+    {
+      "id": "os-19",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "What is the bride’s last name?",
+      "choices": ["Beltran", "Roberts", "Matthews"],
+      "answer": "Beltran"
+    },
+    {
+      "id": "os-20",
+      "status": "draft",
+      "source": "Our Story",
+      "type": "mc",
+      "prompt": "What is the groom’s last name?",
+      "choices": ["Roberts", "Beltran", "Black"],
+      "answer": "Roberts"
+    },
+    {
+      "id": "wp-01",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "mc",
+      "prompt": "Who is the Maid of Honor?",
+      "choices": ["Jordan Matthews", "Jeannette Votava", "Dana Atkins"],
+      "answer": "Jordan Matthews"
+    },
+    {
+      "id": "wp-02",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "mc",
+      "prompt": "Who is the Best Man?",
+      "choices": ["Jim Black", "Ben Roberts", "Jeff Barben"],
+      "answer": "Jim Black"
+    },
+    {
+      "id": "wp-03",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "tf",
+      "prompt": "Jeannette Votava is a bridesmaid.",
+      "answer": true
+    },
+    {
+      "id": "wp-04",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "mc",
+      "prompt": "Which of these is a bridesmaid?",
+      "choices": ["Payton Rosteck", "Ryan Roberts", "Jim Black"],
+      "answer": "Payton Rosteck"
+    },
+    {
+      "id": "wp-05",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "mc",
+      "prompt": "Which of these is a bridesmaid?",
+      "choices": ["Dana Atkins", "Mike Roberts", "Jeff Barben"],
+      "answer": "Dana Atkins"
+    },
+    {
+      "id": "wp-06",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "tf",
+      "prompt": "Ben Roberts is a groomsman.",
+      "answer": true
+    },
+    {
+      "id": "wp-07",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "tf",
+      "prompt": "Mike Roberts is a groomsman.",
+      "answer": true
+    },
+    {
+      "id": "wp-08",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "mc",
+      "prompt": "Which of these is a groomsman?",
+      "choices": ["Jeff Barben", "Jordan Matthews", "Dana Atkins"],
+      "answer": "Jeff Barben"
+    },
+    {
+      "id": "wp-09",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "mc",
+      "prompt": "Which of these is a groomsman?",
+      "choices": ["Ryan Roberts", "Payton Rosteck", "Jeannette Votava"],
+      "answer": "Ryan Roberts"
+    },
+    {
+      "id": "wp-10",
+      "status": "draft",
+      "source": "Wedding Party",
+      "type": "tf",
+      "prompt": "Jordan Matthews is the Best Man.",
+      "answer": false
+    },
+    {
+      "id": "qa-01",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "Who is the couple’s travel agent for the wedding cruise?",
+      "choices": ["Julia Wile", "Royal Caribbean Direct", "Expedia"],
+      "answer": "Julia Wile"
+    },
+    {
+      "id": "qa-02",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Guests must book through travel agent Julia Wile to be part of the wedding group.",
+      "answer": true
+    },
+    {
+      "id": "qa-03",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "What is the booking site linked for Julia Wile?",
+      "choices": [
+        "comesailaway2027.fun",
+        "royalcaribbean.com/group",
+        "theknot.com/book"
+      ],
+      "answer": "comesailaway2027.fun"
+    },
+    {
+      "id": "qa-04",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "What is the wedding color theme?",
+      "choices": ["Soft pastel colors", "Navy and gold", "Black and red"],
+      "answer": "Soft pastel colors"
+    },
+    {
+      "id": "qa-05",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Matching the pastel color scheme is required for every guest.",
+      "answer": false
+    },
+    {
+      "id": "qa-06",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "A plus-one is allowed only if it is specified on your invitation.",
+      "answer": true
+    },
+    {
+      "id": "qa-07",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Additional guests may still join the cruise even if they are not invited to the ceremony.",
+      "answer": true
+    },
+    {
+      "id": "qa-08",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Elaina and Regan chose not to register for gifts.",
+      "answer": true
+    },
+    {
+      "id": "qa-09",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "What do they say is the best gift?",
+      "choices": [
+        "Your company on this adventure",
+        "A toaster",
+        "Cash only"
+      ],
+      "answer": "Your company on this adventure"
+    },
+    {
+      "id": "qa-10",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "They recommend arriving in Fort Lauderdale the day before departure.",
+      "answer": true
+    },
+    {
+      "id": "qa-11",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Children are permitted at the wedding ceremony even if they are not in the wedding party.",
+      "answer": false
+    },
+    {
+      "id": "qa-12",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Children may still come on the cruise even if they cannot attend the ceremony.",
+      "answer": true
+    },
+    {
+      "id": "qa-13",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "A passport is recommended even though a certified birth certificate can work.",
+      "answer": true
+    },
+    {
+      "id": "qa-14",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "You must be onboard the cruise to attend the wedding.",
+      "answer": true
+    },
+    {
+      "id": "qa-15",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "On what date does the wedding take place?",
+      "choices": ["September 20, 2027", "September 19, 2027", "June 1, 2027"],
+      "answer": "September 20, 2027"
+    },
+    {
+      "id": "qa-16",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "When will the exact wedding time and place be announced?",
+      "choices": [
+        "2 weeks before sailing",
+        "The morning of the cruise",
+        "One year before"
+      ],
+      "answer": "2 weeks before sailing"
+    },
+    {
+      "id": "qa-17",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "By when does everyone need to be booked at the latest?",
+      "choices": ["June 1, 2027", "September 1, 2027", "January 1, 2026"],
+      "answer": "June 1, 2027"
+    },
+    {
+      "id": "qa-18",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Rooms for the group rate are first come, first serve.",
+      "answer": true
+    },
+    {
+      "id": "qa-19",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "If you don’t RSVP ASAP, you risk not getting into the ceremony because seating is limited to RSVPs.",
+      "answer": true
+    },
+    {
+      "id": "qa-20",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "The full cruise fare is due at the time of booking.",
+      "answer": false
+    },
+    {
+      "id": "qa-21",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Only a deposit is due at booking; payment plans can be set up.",
+      "answer": true
+    },
+    {
+      "id": "qa-22",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "Which of these is included in the cruise price?",
+      "choices": [
+        "Main dining & Windjammer food",
+        "Alcoholic drinks",
+        "Shore excursions"
+      ],
+      "answer": "Main dining & Windjammer food"
+    },
+    {
+      "id": "qa-23",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "mc",
+      "prompt": "Which of these is NOT included in the cruise price?",
+      "choices": ["WIFI", "Kids club", "Gym"],
+      "answer": "WIFI"
+    },
+    {
+      "id": "qa-24",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Specialty dining is included in the base cruise price.",
+      "answer": false
+    },
+    {
+      "id": "qa-25",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Friends not on the invite can still join the cruise if arranged with Julia.",
+      "answer": true
+    },
+    {
+      "id": "qa-26",
+      "status": "draft",
+      "source": "Q + A",
+      "type": "tf",
+      "prompt": "Guests not on the invite should find somewhere else on the ship during the ceremony/reception.",
+      "answer": true
+    },
+    {
+      "id": "tr-01",
+      "status": "draft",
+      "source": "Travel",
+      "type": "mc",
+      "prompt": "Which city do guests fly into for the cruise?",
+      "choices": ["Fort Lauderdale", "Miami", "Tampa"],
+      "answer": "Fort Lauderdale"
+    },
+    {
+      "id": "tr-02",
+      "status": "draft",
+      "source": "Travel",
+      "type": "tf",
+      "prompt": "Listed hotels near the port are about 1.3 to 1.5 miles away.",
+      "answer": true
+    },
+    {
+      "id": "tr-03",
+      "status": "draft",
+      "source": "Travel",
+      "type": "mc",
+      "prompt": "About how much is a typical rideshare from the listed hotels to the port?",
+      "choices": ["$12–$18", "$40–$50", "$2–$5"],
+      "answer": "$12–$18"
+    },
+    {
+      "id": "tr-04",
+      "status": "draft",
+      "source": "Travel",
+      "type": "tf",
+      "prompt": "Guests should book their hotel with travel agent Julia Wile for the best price.",
+      "answer": true
+    },
+    {
+      "id": "tr-05",
+      "status": "draft",
+      "source": "Travel",
+      "type": "mc",
+      "prompt": "Which hotel is listed near the cruise port?",
+      "choices": [
+        "Embassy Suites by Hilton Fort Lauderdale 17th Street",
+        "The Plaza Hotel New York",
+        "Bellagio Las Vegas"
+      ],
+      "answer": "Embassy Suites by Hilton Fort Lauderdale 17th Street"
+    },
+    {
+      "id": "tr-06",
+      "status": "draft",
+      "source": "Travel",
+      "type": "mc",
+      "prompt": "Which hotel is listed near the cruise port?",
+      "choices": [
+        "Crowne Plaza Ft. Lauderdale Airport/Cruise",
+        "Disney’s Grand Floridian",
+        "Marriott Waikiki"
+      ],
+      "answer": "Crowne Plaza Ft. Lauderdale Airport/Cruise"
+    },
+    {
+      "id": "td-01",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "mc",
+      "prompt": "What are the Perfect Storm waterslides named?",
+      "choices": [
+        "Cyclone, Typhoon, and Supercell",
+        "Splash, Dash, and Crash",
+        "Red, Blue, and Green"
+      ],
+      "answer": "Cyclone, Typhoon, and Supercell"
+    },
+    {
+      "id": "td-02",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "tf",
+      "prompt": "Symphony of the Seas has FlowRider surf simulators.",
+      "answer": true
+    },
+    {
+      "id": "td-03",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "tf",
+      "prompt": "There is a zip line and a rock climbing wall on the ship.",
+      "answer": true
+    },
+    {
+      "id": "td-04",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "mc",
+      "prompt": "What ages does Club Kids Chillan cover?",
+      "choices": ["3–17", "1–5 only", "18+ only"],
+      "answer": "3–17"
+    },
+    {
+      "id": "td-05",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "mc",
+      "prompt": "What is the kid-friendly water playground called?",
+      "choices": ["Splashaway Bay", "Pirate Lagoon", "Tiny Tides"],
+      "answer": "Splashaway Bay"
+    },
+    {
+      "id": "td-06",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "tf",
+      "prompt": "The Solarium is an adults-only retreat with pools and whirlpools.",
+      "answer": true
+    },
+    {
+      "id": "td-07",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "mc",
+      "prompt": "Central Park on the ship features about how many tropical plants?",
+      "choices": ["Over 12,000", "About 100", "Exactly 50"],
+      "answer": "Over 12,000"
+    },
+    {
+      "id": "td-08",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "mc",
+      "prompt": "Which complimentary dining spot is listed for the ship?",
+      "choices": ["Windjammer", "Wonderland", "Vitality Spa Café"],
+      "answer": "Windjammer"
+    },
+    {
+      "id": "td-09",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "tf",
+      "prompt": "Wonderland is listed as specialty dining (extra cost).",
+      "answer": true
+    },
+    {
+      "id": "td-10",
+      "status": "draft",
+      "source": "Things to Do",
+      "type": "tf",
+      "prompt": "AquaTheater performances include high-diving stunts and water acrobatics.",
+      "answer": true
+    },
+    {
+      "id": "hub-01",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "Which ship is the wedding cruise on?",
+      "choices": [
+        "Symphony of the Seas",
+        "Oasis of the Seas",
+        "Wonder of the Seas"
+      ],
+      "answer": "Symphony of the Seas"
+    },
+    {
+      "id": "hub-02",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "What are the cruise dates?",
+      "choices": [
+        "September 19–25, 2027",
+        "September 20–26, 2026",
+        "June 19–25, 2027"
+      ],
+      "answer": "September 19–25, 2027"
+    },
+    {
+      "id": "hub-03",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "How many nights is the cruise?",
+      "choices": ["6 nights", "3 nights", "10 nights"],
+      "answer": "6 nights"
+    },
+    {
+      "id": "hub-04",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "tf",
+      "prompt": "Perfect Day at CocoCay is part of the planned itinerary.",
+      "answer": true
+    },
+    {
+      "id": "hub-05",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "Which Caribbean stop is listed with Costa Maya and CocoCay?",
+      "choices": ["Cozumel", "Juneau", "Barcelona"],
+      "answer": "Cozumel"
+    },
+    {
+      "id": "hub-06",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "What is the couple’s first-name pairing?",
+      "choices": ["Regan & Elaina", "Ryan & Elena", "Roger & Elaine"],
+      "answer": "Regan & Elaina"
+    },
+    {
+      "id": "hub-07",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "tf",
+      "prompt": "Guests should fly into Fort Lauderdale (FLL).",
+      "answer": true
+    },
+    {
+      "id": "hub-08",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "tf",
+      "prompt": "The cruise hub recommends downloading the Royal Caribbean app.",
+      "answer": true
+    },
+    {
+      "id": "hub-09",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "Online check-in opens about how many days before sailing?",
+      "choices": ["45 days", "2 days", "1 year"],
+      "answer": "45 days"
+    },
+    {
+      "id": "hub-10",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "tf",
+      "prompt": "Passports should be valid at least 6 months after the cruise ends.",
+      "answer": true
+    },
+    {
+      "id": "hub-11",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "tf",
+      "prompt": "The cruise leaves from Miami.",
+      "answer": false
+    },
+    {
+      "id": "hub-12",
+      "status": "draft",
+      "source": "Cruise Hub",
+      "type": "mc",
+      "prompt": "Where does the ship depart from?",
+      "choices": ["Fort Lauderdale", "Tampa", "Orlando"],
+      "answer": "Fort Lauderdale"
+    }
+  ]
+}

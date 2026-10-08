@@ -89,8 +89,12 @@
           <button type="button" id="play-arr">Play</button>
         </div>
         <div class="sound-row">
-          <span>Wrong answer — “YAARGH”</span>
+          <span>Wrong answer — “YAARGH” (switches with Scallywag)</span>
           <button type="button" id="play-yaargh">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Wrong answer — “SCALLYWAG” (switches with Yaargh)</span>
+          <button type="button" id="play-scallywag">Play</button>
         </div>
         <div class="sound-row">
           <span>Splash out — “WALK THE PLANK”</span>
@@ -126,6 +130,13 @@
           >
           ·
           <a
+            href="https://freesound.org/s/846326/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“SCALLYWAG”</a
+          >
+          ·
+          <a
             href="https://freesound.org/s/846327/"
             target="_blank"
             rel="noopener noreferrer"
@@ -153,6 +164,9 @@
       document
         .getElementById("play-yaargh")
         .addEventListener("click", () => play("sounds/plank/yaargh.mp3"));
+      document
+        .getElementById("play-scallywag")
+        .addEventListener("click", () => play("sounds/plank/scallywag.mp3"));
       document
         .getElementById("play-walk")
         .addEventListener("click", () =>

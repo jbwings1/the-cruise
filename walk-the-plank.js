@@ -8,7 +8,9 @@
     walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
     arrMatey: "sounds/plank/arr-matey.mp3",
     yaargh: "sounds/plank/yaargh.mp3",
+    scallywag: "sounds/plank/scallywag.mp3",
   };
+  const WRONG_VOICES = [SFX.yaargh, SFX.scallywag];
 
   const startPanel = document.getElementById("start-panel");
   const questionPanel = document.getElementById("question-panel");
@@ -45,6 +47,7 @@
     pool: [],
     answeringLocked: false,
     audioCtx: null,
+    wrongVoiceIndex: 0,
   };
 
   function ensureAudio() {
@@ -130,8 +133,10 @@
   }
 
   async function playCreak() {
-    // Pirate sailor voice: "YAARGH" (wrong answer)
-    await playSfx(SFX.yaargh, 1);
+    // Alternate wrong-answer voices: "YAARGH" / "SCALLYWAG"
+    const url = WRONG_VOICES[state.wrongVoiceIndex % WRONG_VOICES.length];
+    state.wrongVoiceIndex += 1;
+    await playSfx(url, 1);
   }
 
   async function playSplash() {

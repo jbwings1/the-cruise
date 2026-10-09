@@ -30,12 +30,12 @@
     });
     const t = frame / (FRAME_COUNT - 1);
     if (glow) {
-      // Start spreading almost immediately; near-full by mid-open
-      const glowT = Math.min(1, Math.max(0, (t - 0.02) / 0.45));
+      // Glow ramps with the open from the first frame
+      const glowT = Math.min(1, Math.max(0, t / 0.55));
       const ease = Math.sqrt(glowT);
-      glow.style.opacity = String(ease * 0.95);
+      glow.style.opacity = String(0.35 + ease * 0.65);
       glow.style.transform =
-        "translateX(-50%) scale(" + (0.65 + ease * 1.35).toFixed(3) + ")";
+        "translateX(-50%) scale(" + (0.85 + ease * 1.25).toFixed(3) + ")";
     }
   }
 
@@ -47,28 +47,36 @@
     }
   }
 
-  function goToCabin() {
+  function startGlowAndFade() {
+    if (glow) {
+      glow.style.opacity = "0.45";
+      glow.style.transform = "translateX(-50%) scale(1.05)";
+    }
     if (veil) {
       veil.hidden = false;
       // force reflow so transition runs
       void veil.offsetWidth;
       veil.classList.add("is-on");
     }
-    window.setTimeout(() => {
-      window.location.href = "pirates-cabin.html";
-    }, 900);
+  }
+
+  function goToCabin() {
+    window.location.href = "pirates-cabin.html";
   }
 
   function playOpen() {
     if (playing || root.classList.contains("is-opening")) return;
     root.classList.add("is-opening");
     playing = true;
+    // Glow + page fade begin with the open, not after it finishes
+    startGlowAndFade();
     show(0);
     const step = () => {
       if (!playing) return;
       if (frame >= FRAME_COUNT - 1) {
         playing = false;
-        goToCabin();
+        // Short beat after last frame while the veil finishes filling
+        window.setTimeout(goToCabin, 350);
         return;
       }
       timer = window.setTimeout(() => {
@@ -92,4 +100,9 @@
   });
 
   show(0);
+  // Idle closed frame should not hold a residual glow
+  if (glow) {
+    glow.style.opacity = "0";
+    glow.style.transform = "translateX(-50%) scale(0.65)";
+  }
 })();

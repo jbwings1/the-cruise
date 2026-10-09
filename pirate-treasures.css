@@ -643,11 +643,89 @@ body.pirate-page {
 }
 
 /* Rolled map — glow sits a little left/up on the scroll, and a bit larger */
+.cabin-desk-hotspot-map {
+  cursor: pointer;
+}
+
 .cabin-desk-hotspot-map .cabin-coming-glow {
   left: 26%;
   top: 16%;
   width: 215%;
   height: 205%;
+}
+
+/* Desk map itinerary lightbox */
+.cabin-lightbox {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  max-width: min(96vw, 1100px);
+  max-height: 94vh;
+  color: #fff6e4;
+}
+
+.cabin-lightbox::backdrop {
+  background: rgba(8, 5, 3, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+.cabin-lightbox-panel {
+  position: relative;
+  margin: 0 auto;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem)
+    clamp(1.1rem, 2.5vw, 1.6rem)
+    clamp(0.9rem, 2vw, 1.25rem);
+  border: 1px solid rgba(230, 193, 90, 0.45);
+  border-radius: 10px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(80, 48, 20, 0.55), transparent 55%),
+    rgba(18, 11, 7, 0.96);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.65);
+}
+
+.cabin-lightbox-title {
+  margin: 0 2.2rem 0.75rem 0;
+  font-family: var(--pt-font-display);
+  font-size: clamp(1.45rem, 3.2vw, 2rem);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  color: #fff6e4;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
+}
+
+.cabin-lightbox-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(78vh, 820px);
+  object-fit: contain;
+  border-radius: 4px;
+  background: #1a120c;
+}
+
+.cabin-lightbox-close {
+  appearance: none;
+  position: absolute;
+  top: 0.55rem;
+  right: 0.65rem;
+  z-index: 2;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 1px solid rgba(230, 193, 90, 0.4);
+  border-radius: 999px;
+  background: rgba(20, 12, 8, 0.9);
+  color: #fff6e4;
+  font-size: 1.55rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cabin-lightbox-close:hover,
+.cabin-lightbox-close:focus-visible {
+  border-color: rgba(255, 214, 110, 0.75);
+  color: #ffe7a8;
+  outline: none;
 }
 
 /* Quill pen — glow a bit larger around the feather and nib */

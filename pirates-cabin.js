@@ -197,5 +197,34 @@
       });
     });
 
+  /* Desk map → cruise itinerary lightbox */
+  const deskMapBtn = document.getElementById("cabin-desk-map");
+  const deskMapLightbox = document.getElementById("cabin-desk-map-lightbox");
+  if (deskMapBtn && deskMapLightbox) {
+    const closeDeskMapLightbox = () => {
+      if (deskMapLightbox.open) deskMapLightbox.close();
+    };
+
+    deskMapBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof deskMapLightbox.showModal === "function") {
+        deskMapLightbox.showModal();
+      }
+    });
+
+    const closeBtn = deskMapLightbox.querySelector(".cabin-lightbox-close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        closeDeskMapLightbox();
+      });
+    }
+
+    deskMapLightbox.addEventListener("click", (e) => {
+      if (e.target === deskMapLightbox) closeDeskMapLightbox();
+    });
+  }
+
   syncLanternRoomLight();
 })();

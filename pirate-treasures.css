@@ -866,22 +866,29 @@ body.pirate-page {
   filter: drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65));
 }
 
-/* Half-size Coming soon oval on the lid (normal blend — screen vanishes on gold) */
+/* Coming soon oval on the lid — large enough to read over the gold art */
 .cabin-prop-chest .cabin-coming-glow {
   z-index: 2;
   left: 50%;
-  top: 22%;
-  width: 50%;
-  height: 48%;
-  transform: translate(-50%, -50%) translateZ(40px);
+  top: 28%;
+  width: 95%;
+  height: 85%;
+  transform: translate(-50%, -50%) translateZ(50px);
   mix-blend-mode: normal;
   background: radial-gradient(
-    ellipse 42% 50% at 50% 42%,
-    rgba(255, 236, 170, 0.72),
-    rgba(230, 193, 90, 0.34) 30%,
-    rgba(230, 160, 60, 0.12) 50%,
-    transparent 68%
+    ellipse 55% 60% at 50% 45%,
+    rgba(255, 236, 170, 0.95),
+    rgba(255, 214, 110, 0.7) 28%,
+    rgba(230, 193, 90, 0.35) 48%,
+    transparent 70%
   );
+  filter: blur(0.5px);
+}
+
+.cabin-prop-chest:hover .cabin-coming-glow,
+.cabin-prop-chest:focus-visible .cabin-coming-glow {
+  opacity: 1;
+  filter: blur(0.2px) drop-shadow(0 0 22px rgba(255, 214, 110, 0.95));
 }
 
 .cabin-prop-chest .cabin-coming-label {

@@ -197,10 +197,69 @@
       });
     });
 
-  /* Desk map → cruise itinerary lightbox */
+  /* Desk map → cruise itinerary lightbox (zoom + pan) */
   const deskMapBtn = document.getElementById("cabin-desk-map");
   const deskMapLightbox = document.getElementById("cabin-desk-map-lightbox");
   if (deskMapBtn && deskMapLightbox) {
+    const viewport = document.getElementById("cabin-desk-map-viewport");
+    const mapImg = document.getElementById("cabin-desk-map-img");
+    const MIN_ZOOM = 1;
+    const MAX_ZOOM = 4;
+    const ZOOM_STEP = 0.25;
+    let scale = 1;
+    let tx = 0;
+    let ty = 0;
+    let dragging = false;
+    let dragX = 0;
+    let dragY = 0;
+    let pointers = new Map();
+    let pinchStartDist = 0;
+    let pinchStartScale = 1;
+
+    const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+
+    function applyTransform() {
+      if (!mapImg || !viewport) return;
+      mapImg.style.transform =
+        "translate(" + tx.toFixed(2) + "px," + ty.toFixed(2) + "px) scale(" +
+        scale.toFixed(3) + ")";
+      viewport.classList.toggle("is-zoomed", scale > 1.01);
+    }
+
+    function resetZoom() {
+      scale = 1;
+      tx = 0;
+      ty = 0;
+      applyTransform();
+    }
+
+    function zoomAt(nextScale, originX, originY) {
+      if (!viewport) return;
+      const rect = viewport.getBoundingClientRect();
+      const ox = originX - rect.left;
+      const oy = originY - rect.top;
+      const prev = scale;
+      scale = clamp(nextScale, MIN_ZOOM, MAX_ZOOM);
+      if (scale === prev) return;
+      // Keep the point under the cursor stable while zooming
+      tx = ox - ((ox - tx) * scale) / prev;
+      ty = oy - ((oy - ty) * scale) / prev;
+      if (scale <= 1.01) {
+        scale = 1;
+        tx = 0;
+        ty = 0;
+      }
+      applyTransform();
+    }
+
+    function bumpZoom(dir, clientX, clientY) {
+      if (!viewport) return;
+      const rect = viewport.getBoundingClientRect();
+      const cx = clientX == null ? rect.left + rect.width / 2 : clientX;
+      const cy = clientY == null ? rect.top + rect.height / 2 : clientY;
+      zoomAt(scale + dir * ZOOM_STEP, cx, cy);
+    }
+
     const closeDeskMapLightbox = () => {
       if (deskMapLightbox.open) deskMapLightbox.close();
     };
@@ -208,10 +267,13 @@
     deskMapBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
+      resetZoom();
       if (typeof deskMapLightbox.showModal === "function") {
         deskMapLightbox.showModal();
       }
     });
+
+    deskMapLightbox.addEventListener("close", resetZoom);
 
     const closeBtn = deskMapLightbox.querySelector(".cabin-lightbox-close");
     if (closeBtn) {
@@ -224,6 +286,91 @@
     deskMapLightbox.addEventListener("click", (e) => {
       if (e.target === deskMapLightbox) closeDeskMapLightbox();
     });
+
+    deskMapLightbox.querySelectorAll("[data-zoom]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const mode = btn.getAttribute("data-zoom");
+        if (mode === "in") bumpZoom(1);
+        else if (mode === "out") bumpZoom(-1);
+        else resetZoom();
+      });
+    });
+
+    if (viewport) {
+      viewport.addEventListener(
+        "wheel",
+        (e) => {
+          e.preventDefault();
+          const dir = e.deltaY < 0 ? 1 : -1;
+          bumpZoom(dir, e.clientX, e.clientY);
+        },
+        { passive: false }
+      );
+
+      viewport.addEventListener("dblclick", (e) => {
+        e.preventDefault();
+        if (scale > 1.01) resetZoom();
+        else zoomAt(2, e.clientX, e.clientY);
+      });
+
+      viewport.addEventListener("pointerdown", (e) => {
+        viewport.setPointerCapture(e.pointerId);
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 1) {
+          dragging = true;
+          dragX = e.clientX - tx;
+          dragY = e.clientY - ty;
+          viewport.classList.add("is-dragging");
+        } else if (pointers.size === 2) {
+          dragging = false;
+          const pts = [...pointers.values()];
+          const dx = pts[0].x - pts[1].x;
+          const dy = pts[0].y - pts[1].y;
+          pinchStartDist = Math.hypot(dx, dy) || 1;
+          pinchStartScale = scale;
+        }
+      });
+
+      viewport.addEventListener("pointermove", (e) => {
+        if (!pointers.has(e.pointerId)) return;
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (pointers.size === 2) {
+          const pts = [...pointers.values()];
+          const dx = pts[0].x - pts[1].x;
+          const dy = pts[0].y - pts[1].y;
+          const dist = Math.hypot(dx, dy) || 1;
+          const midX = (pts[0].x + pts[1].x) / 2;
+          const midY = (pts[0].y + pts[1].y) / 2;
+          zoomAt(pinchStartScale * (dist / pinchStartDist), midX, midY);
+          return;
+        }
+        if (!dragging || scale <= 1.01) return;
+        tx = e.clientX - dragX;
+        ty = e.clientY - dragY;
+        applyTransform();
+      });
+
+      const endPointer = (e) => {
+        pointers.delete(e.pointerId);
+        if (pointers.size < 2) {
+          pinchStartDist = 0;
+        }
+        if (pointers.size === 0) {
+          dragging = false;
+          viewport.classList.remove("is-dragging");
+        } else if (pointers.size === 1) {
+          const only = [...pointers.values()][0];
+          dragging = true;
+          dragX = only.x - tx;
+          dragY = only.y - ty;
+        }
+      };
+      viewport.addEventListener("pointerup", endPointer);
+      viewport.addEventListener("pointercancel", endPointer);
+      viewport.addEventListener("lostpointercapture", endPointer);
+    }
   }
 
   syncLanternRoomLight();

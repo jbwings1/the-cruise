@@ -644,8 +644,8 @@ body.pirate-page {
 
 /* Rolled map — glow sits a little left/up on the scroll, and a bit larger */
 .cabin-desk-hotspot-map .cabin-coming-glow {
-  left: 32%;
-  top: 22%;
+  left: 26%;
+  top: 16%;
   width: 215%;
   height: 205%;
 }
@@ -868,8 +868,8 @@ body.pirate-page {
 }
 
 .cabin-prop-chest .cabin-coming-glow {
-  width: 95%;
-  height: 78%;
+  width: 48%;
+  height: 40%;
   top: 52%;
 }
 

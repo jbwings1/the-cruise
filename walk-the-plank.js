@@ -3,12 +3,14 @@
   const MAX_MISSES = 3;
   const NAME_MAX = 8;
   const GEM_COLORS = ["emerald", "ruby", "gold"];
-  const YAY_LINES = ["Yay!", "Arr!", "Aye!", "Yo ho!"];
-  const GEM_LINES = [
-    "Arrr, here's yer gem!",
-    "A fine gem for ye!",
-    "Treasure earned, matey!",
-  ];
+  /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
+  const SFX = {
+    splash: "sounds/plank/splash.mp3",
+    arrMatey: "sounds/plank/arr-matey.mp3",
+    yaargh: "sounds/plank/yaargh.mp3",
+    scallywag: "sounds/plank/scallywag.mp3",
+  };
+  const WRONG_VOICES = [SFX.yaargh, SFX.scallywag];
 
   const startPanel = document.getElementById("start-panel");
   const questionPanel = document.getElementById("question-panel");
@@ -45,6 +47,7 @@
     pool: [],
     answeringLocked: false,
     audioCtx: null,
+    wrongVoiceIndex: 0,
   };
 
   function ensureAudio() {
@@ -107,58 +110,51 @@
     src.stop(now + duration + 0.02);
   }
 
-  function playCreak() {
-    noiseBurst(0.85, 380, 0.28);
-    beep(110, 0.55, "sawtooth", 0.08);
-    setTimeout(() => beep(90, 0.45, "sawtooth", 0.06), 180);
-  }
-
-  function playSplash() {
-    noiseBurst(1.35, 620, 0.32);
-    noiseBurst(1.1, 280, 0.2);
-    beep(70, 0.8, "sine", 0.12);
-    setTimeout(() => beep(55, 0.7, "sine", 0.08), 220);
-  }
-
-  function speak(line, pitch = 0.7, rate = 0.92) {
+  function playSfx(url, volume = 1) {
     return new Promise((resolve) => {
-      if (!window.speechSynthesis) {
+      try {
+        ensureAudio();
+        const audio = new Audio(url);
+        audio.volume = Math.max(0, Math.min(1, volume));
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          resolve();
+        };
+        audio.addEventListener("ended", finish);
+        audio.addEventListener("error", finish);
+        audio.play().then(null, finish);
+        setTimeout(finish, 6000);
+      } catch {
         resolve();
-        return;
       }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(line);
-      utter.pitch = pitch;
-      utter.rate = rate;
-      utter.volume = 1;
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        resolve();
-      };
-      utter.onend = finish;
-      utter.onerror = finish;
-      window.speechSynthesis.speak(utter);
-      // Safety so gameplay never stalls if speech events fail.
-      setTimeout(finish, Math.max(2200, line.length * 140));
     });
   }
 
+  async function playCreak() {
+    // Alternate wrong-answer voices: "YAARGH" / "SCALLYWAG"
+    const url = WRONG_VOICES[state.wrongVoiceIndex % WRONG_VOICES.length];
+    state.wrongVoiceIndex += 1;
+    await playSfx(url, 1);
+  }
+
+  async function playSplash() {
+    // PirateMatt voice clip for splash-out
+    await playSfx(SFX.splash, 1);
+  }
+
   async function playYay() {
-    const line = YAY_LINES[Math.floor(Math.random() * YAY_LINES.length)];
-    beep(440, 0.22, "triangle", 0.09);
-    setTimeout(() => beep(560, 0.24, "triangle", 0.09), 160);
-    setTimeout(() => beep(700, 0.32, "triangle", 0.1), 340);
-    await speak(line, 0.65 + Math.random() * 0.3, 0.9);
+    // Pirate sailor voice: "ARR MATEY"
+    await playSfx(SFX.arrMatey, 1);
   }
 
   async function playGemLine() {
-    const line = GEM_LINES[Math.floor(Math.random() * GEM_LINES.length)];
+    // Placeholder tones until we have more pirate voice clips
     beep(520, 0.28, "triangle", 0.1);
     setTimeout(() => beep(660, 0.3, "triangle", 0.1), 200);
     setTimeout(() => beep(880, 0.42, "triangle", 0.11), 420);
-    await speak(line, 0.6, 0.88);
+    await wait(750);
   }
 
   function sanitizeName(raw) {
@@ -381,6 +377,7 @@
       if (i === FALL_SPLASH_INDEX) {
         splashEl.classList.add("is-active");
         try {
+          // Fire-and-forget so the fall frames keep moving while the voice plays
           playSplash();
         } catch {
           /* ignore */
@@ -522,12 +519,12 @@
     feedbackEl.classList.remove("is-reveal");
     state.misses += 1;
     try {
-      playCreak();
+      await playCreak();
     } catch {
       /* ignore */
     }
     setStep(state.misses);
-    await wait(2400);
+    await wait(900);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();

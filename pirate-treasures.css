@@ -203,7 +203,7 @@ body.pirate-page {
   font: inherit;
   border: 0;
   background: transparent;
-  cursor: default;
+  cursor: pointer;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
 }

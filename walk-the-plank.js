@@ -5,7 +5,9 @@
   const GEM_COLORS = ["emerald", "ruby", "gold"];
   /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
   const SFX = {
-    splash: "sounds/plank/splash.mp3",
+    splashVoice: "sounds/plank/splash.mp3",
+    waterSplash: "sounds/plank/water-splash.mp3",
+    walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
     arrMatey: "sounds/plank/arr-matey.mp3",
     yaargh: "sounds/plank/yaargh.mp3",
     scallywag: "sounds/plank/scallywag.mp3",
@@ -140,8 +142,13 @@
   }
 
   async function playSplash() {
-    // PirateMatt voice clip for splash-out
-    await playSfx(SFX.splash, 1);
+    // Water splash + Shiver me timbers when they fall off the plank
+    playSfx(SFX.waterSplash, 1);
+    await playSfx(SFX.splashVoice, 1);
+  }
+
+  function playWalkThePlankVoice() {
+    return playSfx(SFX.walkThePlank, 1);
   }
 
   async function playYay() {
@@ -607,6 +614,8 @@
     }
     rebuildPool();
     resetVisitGems();
+    // Start-of-game pirate call
+    playWalkThePlankVoice();
     startRound();
   }
 
@@ -639,6 +648,18 @@
     const open = leaderboard.classList.toggle("is-open");
     lbTab.setAttribute("aria-expanded", open ? "true" : "false");
   });
+
+  // Lead-in / transition screen: play once on first interaction (autoplay blocked otherwise)
+  let leadInVoicePlayed = false;
+  function playLeadInVoiceOnce(event) {
+    if (leadInVoicePlayed || startPanel.hidden) return;
+    // Play button has its own start-of-game cue in beginGame
+    if (event.target.closest("#play-btn")) return;
+    leadInVoicePlayed = true;
+    ensureAudio();
+    playWalkThePlankVoice();
+  }
+  startPanel.addEventListener("pointerdown", playLeadInVoiceOnce);
 
   buildPiratePicker();
   updatePlayEnabled();

@@ -867,10 +867,10 @@ body.pirate-page {
   transition: filter 160ms ease;
 }
 
-/* Match wall-map glow screen size (~23%×21% of cabin), not % of the prop */
+/* Visually match wall-map Coming soon glow (chest is nearer in perspective) */
 .cabin-prop-chest .cabin-coming-glow {
-  width: 112%;
-  height: 145%;
+  width: 68%;
+  height: 82%;
   top: 52%;
   background: radial-gradient(
     ellipse 40% 48% at 50% 42%,

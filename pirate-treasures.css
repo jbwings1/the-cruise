@@ -1008,7 +1008,7 @@ body.pirate-page {
   z-index: 2;
   left: 50%;
   top: 24%;
-  width: 52%;
+  width: 104%;
   height: auto;
   aspect-ratio: 1.1 / 1;
   transform: translate(-50%, -50%) translateZ(50px);

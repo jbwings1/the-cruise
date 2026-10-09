@@ -651,8 +651,10 @@
 
   // Lead-in / transition screen: play once on first interaction (autoplay blocked otherwise)
   let leadInVoicePlayed = false;
-  function playLeadInVoiceOnce() {
+  function playLeadInVoiceOnce(event) {
     if (leadInVoicePlayed || startPanel.hidden) return;
+    // Play button has its own start-of-game cue in beginGame
+    if (event.target.closest("#play-btn")) return;
     leadInVoicePlayed = true;
     ensureAudio();
     playWalkThePlankVoice();

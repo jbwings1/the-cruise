@@ -5,7 +5,8 @@
   const GEM_COLORS = ["emerald", "ruby", "gold"];
   /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
   const SFX = {
-    splash: "sounds/plank/splash.mp3",
+    splashVoice: "sounds/plank/splash.mp3",
+    waterSplash: "sounds/plank/water-splash.mp3",
     arrMatey: "sounds/plank/arr-matey.mp3",
     yaargh: "sounds/plank/yaargh.mp3",
     scallywag: "sounds/plank/scallywag.mp3",

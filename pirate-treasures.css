@@ -942,33 +942,34 @@ body.pirate-page {
   position: relative;
   z-index: 1;
   filter: drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65));
-  transition: filter 160ms ease;
 }
 
 /*
- * Behind the PNG, oversized so the soft edge clears the art onto the floor.
- * (A box only ~chest-sized stays hidden under opaque pixels.)
+ * Soft Coming soon oval on the lid (~half the chest), like wall map / quill.
+ * Use aspect-ratio — % height collapses on this content-sized prop.
  */
 .cabin-prop-chest .cabin-coming-glow {
-  z-index: 0;
-  width: 220%;
-  height: 240%;
-  top: 50%;
-  transform: translate(-50%, -50%) translateZ(20px);
+  z-index: 2;
+  left: 50%;
+  top: 24%;
+  width: 52%;
+  height: auto;
+  aspect-ratio: 1.1 / 1;
+  transform: translate(-50%, -50%) translateZ(50px);
+  mix-blend-mode: normal;
   background: radial-gradient(
-    ellipse 48% 54% at 50% 48%,
-    rgba(255, 236, 170, 0.7),
-    rgba(230, 193, 90, 0.34) 32%,
-    rgba(230, 160, 60, 0.14) 52%,
-    transparent 72%
+    ellipse 40% 48% at 50% 42%,
+    rgba(255, 236, 170, 0.65),
+    rgba(230, 193, 90, 0.28) 32%,
+    rgba(230, 160, 60, 0.1) 50%,
+    transparent 66%
   );
-  filter: blur(1.4px);
 }
 
 .cabin-prop-chest:hover .cabin-coming-glow,
 .cabin-prop-chest:focus-visible .cabin-coming-glow {
   opacity: 1;
-  filter: blur(0.4px) drop-shadow(0 0 18px rgba(255, 214, 110, 0.9));
+  filter: blur(0.2px) drop-shadow(0 0 22px rgba(255, 214, 110, 0.95));
 }
 
 .cabin-prop-chest .cabin-coming-label {
@@ -982,15 +983,6 @@ body.pirate-page {
 .cabin-prop-chest:hover .cabin-coming-label,
 .cabin-prop-chest:focus-visible .cabin-coming-label {
   transform: translateX(-50%) translateY(-0.15rem) translateZ(60px);
-}
-
-.cabin-prop-chest:hover img,
-.cabin-prop-chest:focus-visible img {
-  filter:
-    drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65))
-    brightness(1.14)
-    drop-shadow(0 0 12px rgba(255, 220, 120, 0.85))
-    drop-shadow(0 0 22px rgba(230, 193, 90, 0.65));
 }
 
 .cabin-hud {

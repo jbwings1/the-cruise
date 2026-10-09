@@ -4,6 +4,8 @@
 
   const FRAME_COUNT = 10;
   const FRAME_MS = 220;
+  // Start the page fade when the lid is about halfway open
+  const FADE_AT_FRAME = Math.floor((FRAME_COUNT - 1) / 2);
   const stage = root.querySelector(".hub-chest-stage");
   const glow = root.querySelector(".hub-chest-glow");
   const veil = document.getElementById("hub-chest-veil");
@@ -11,6 +13,7 @@
   let frame = 0;
   let playing = false;
   let timer = 0;
+  let fadeStarted = false;
 
   for (let i = 0; i < FRAME_COUNT; i += 1) {
     const img = document.createElement("img");
@@ -30,34 +33,22 @@
     });
     const t = frame / (FRAME_COUNT - 1);
     if (glow) {
-      // Glow ramps with the open from the first frame
+      // Local chest glow ramps with the open
       const glowT = Math.min(1, Math.max(0, t / 0.55));
       const ease = Math.sqrt(glowT);
-      glow.style.opacity = String(0.35 + ease * 0.65);
+      glow.style.opacity = String(ease * 0.95);
       glow.style.transform =
-        "translateX(-50%) scale(" + (0.85 + ease * 1.25).toFixed(3) + ")";
+        "translateX(-50%) scale(" + (0.65 + ease * 1.35).toFixed(3) + ")";
     }
   }
 
-  function stop() {
-    playing = false;
-    if (timer) {
-      clearTimeout(timer);
-      timer = 0;
-    }
-  }
-
-  function startGlowAndFade() {
-    if (glow) {
-      glow.style.opacity = "0.45";
-      glow.style.transform = "translateX(-50%) scale(1.05)";
-    }
-    if (veil) {
-      veil.hidden = false;
-      // force reflow so transition runs
-      void veil.offsetWidth;
-      veil.classList.add("is-on");
-    }
+  function startFade() {
+    if (fadeStarted || !veil) return;
+    fadeStarted = true;
+    veil.hidden = false;
+    // force reflow so transition runs
+    void veil.offsetWidth;
+    veil.classList.add("is-on");
   }
 
   function goToCabin() {
@@ -68,15 +59,15 @@
     if (playing || root.classList.contains("is-opening")) return;
     root.classList.add("is-opening");
     playing = true;
-    // Glow + page fade begin with the open, not after it finishes
-    startGlowAndFade();
+    fadeStarted = false;
     show(0);
     const step = () => {
       if (!playing) return;
+      if (frame >= FADE_AT_FRAME) startFade();
       if (frame >= FRAME_COUNT - 1) {
         playing = false;
-        // Short beat after last frame while the veil finishes filling
-        window.setTimeout(goToCabin, 350);
+        startFade();
+        window.setTimeout(goToCabin, 450);
         return;
       }
       timer = window.setTimeout(() => {
@@ -100,7 +91,6 @@
   });
 
   show(0);
-  // Idle closed frame should not hold a residual glow
   if (glow) {
     glow.style.opacity = "0";
     glow.style.transform = "translateX(-50%) scale(0.65)";

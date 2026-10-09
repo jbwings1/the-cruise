@@ -867,20 +867,24 @@ body.pirate-page {
   transition: filter 160ms ease;
 }
 
-/* Above the chest art (img is z-index 1); size matched to wall-map halo */
+/*
+ * Glow sits behind the PNG but larger than the art so the halo shows on the
+ * dark floor around it (same idea as the wall map over dark wood).
+ */
 .cabin-prop-chest .cabin-coming-glow {
-  z-index: 2;
-  width: 78%;
-  height: 88%;
+  z-index: 0;
+  width: 155%;
+  height: 170%;
   top: 48%;
-  transform: translate(-50%, -50%) translateZ(40px);
+  transform: translate(-50%, -50%) translateZ(20px);
   background: radial-gradient(
-    ellipse 42% 50% at 50% 42%,
-    rgba(255, 236, 170, 0.7),
-    rgba(230, 193, 90, 0.32) 30%,
-    rgba(230, 160, 60, 0.12) 48%,
-    transparent 66%
+    ellipse 44% 52% at 50% 45%,
+    rgba(255, 236, 170, 0.75),
+    rgba(230, 193, 90, 0.36) 28%,
+    rgba(230, 160, 60, 0.14) 46%,
+    transparent 64%
   );
+  filter: blur(1.2px);
 }
 
 .cabin-prop-chest .cabin-coming-label {
@@ -896,12 +900,12 @@ body.pirate-page {
   transform: translateX(-50%) translateY(-0.15rem) translateZ(60px);
 }
 
-/* Mild image lift only — size comes from .cabin-coming-glow (like the wall map) */
 .cabin-prop-chest:hover img,
 .cabin-prop-chest:focus-visible img {
   filter:
     drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65))
-    brightness(1.08);
+    brightness(1.1)
+    drop-shadow(0 0 8px rgba(255, 220, 120, 0.55));
 }
 
 .cabin-hud {

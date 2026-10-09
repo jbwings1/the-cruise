@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Walk the Plank · Sound Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .sound-preview {
+        max-width: 36rem;
+        margin: 0 auto;
+        padding-bottom: 3rem;
+      }
+      .sound-preview .lead {
+        margin: 0 0 1.25rem;
+        color: #4a3828;
+      }
+      .sound-group {
+        margin: 0 0 1.25rem;
+        padding: 1rem 1.1rem;
+        border: 1px solid rgba(40, 28, 18, 0.14);
+        border-radius: 12px;
+        background: rgba(255, 252, 246, 0.96);
+      }
+      .sound-group h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1.35rem;
+        font-family: "Cormorant Garamond", Georgia, serif;
+      }
+      .sound-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 0.45rem 0;
+      }
+      .sound-row span {
+        flex: 1 1 10rem;
+        font-weight: 500;
+      }
+      .sound-row button {
+        appearance: none;
+        border: 1px solid rgba(40, 28, 18, 0.28);
+        background: #2f5d4a;
+        color: #f7fff9;
+        font: inherit;
+        font-weight: 600;
+        padding: 0.45rem 0.8rem;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .sound-row button:hover {
+        background: #274f3f;
+      }
+      .note {
+        font-size: 0.9rem;
+        color: #5a4634;
+        margin: 0.35rem 0 0;
+      }
+      .credit {
+        font-size: 0.85rem;
+        color: #5a4634;
+      }
+      .credit a {
+        color: #2f5d4a;
+      }
+    </style>
+  </head>
+  <body class="page-inner">
+    <div class="inner-shell sound-preview">
+      <header class="inner-header">
+        <a class="chat-back" href="walk-the-plank.html">← Walk the Plank</a>
+        <h1>Sound preview</h1>
+        <p class="lead">
+          Real pirate voice clips for the game. Click Play to hear each one.
+        </p>
+      </header>
+
+      <section class="sound-group">
+        <h2>In the game now</h2>
+        <div class="sound-row">
+          <span>Correct answer — “ARR MATEY”</span>
+          <button type="button" id="play-arr">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Wrong answer — “YAARGH” (switches with Scallywag)</span>
+          <button type="button" id="play-yaargh">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Wrong answer — “SCALLYWAG” (switches with Yaargh)</span>
+          <button type="button" id="play-scallywag">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Lead-in / game start — “WALK THE PLANK”</span>
+          <button type="button" id="play-walk">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Fall off plank — water splash</span>
+          <button type="button" id="play-water">Play</button>
+        </div>
+        <div class="sound-row">
+          <span>Fall off plank — “Shiver me timbers”</span>
+          <button type="button" id="play-splash">Play</button>
+        </div>
+        <p class="credit">
+          FPG voices (AshdenWicka) ·
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >CC BY 4.0</a
+          >:
+          <a
+            href="https://freesound.org/s/846323/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“ARR MATEY”</a
+          >,
+          <a
+            href="https://freesound.org/s/846328/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“YAARGH”</a
+          >,
+          <a
+            href="https://freesound.org/s/846326/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“SCALLYWAG”</a
+          >,
+          <a
+            href="https://freesound.org/s/846327/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“WALK THE PLANK”</a
+          ><br />
+          Fall voice:
+          <a
+            href="https://freesound.org/s/401931/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >PirateMatt (1) by qalba4j</a
+          >
+          · CC0<br />
+          Water splash: soumages big water splash
+        </p>
+      </section>
+
+      <section class="sound-group">
+        <h2>Still needed</h2>
+        <p class="note">
+          Send a pirate-voice clip for the gem reward if you want one. Until
+          then that cue uses short tones only — no robot voice.
+        </p>
+      </section>
+    </div>
+
+    <script>
+      function play(src) {
+        new Audio(src).play();
+      }
+      document
+        .getElementById("play-arr")
+        .addEventListener("click", () => play("sounds/plank/arr-matey.mp3"));
+      document
+        .getElementById("play-yaargh")
+        .addEventListener("click", () => play("sounds/plank/yaargh.mp3"));
+      document
+        .getElementById("play-scallywag")
+        .addEventListener("click", () => play("sounds/plank/scallywag.mp3"));
+      document
+        .getElementById("play-walk")
+        .addEventListener("click", () =>
+          play("sounds/plank/walk-the-plank-voice.mp3")
+        );
+      document
+        .getElementById("play-water")
+        .addEventListener("click", () => play("sounds/plank/water-splash.mp3"));
+      document
+        .getElementById("play-splash")
+        .addEventListener("click", () => play("sounds/plank/splash.mp3"));
+    </script>
+  </body>
+</html>

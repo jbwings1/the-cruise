@@ -3,12 +3,16 @@
   const MAX_MISSES = 3;
   const NAME_MAX = 8;
   const GEM_COLORS = ["emerald", "ruby", "gold"];
-  const YAY_LINES = ["Yay!", "Arr!", "Aye!", "Yo ho!"];
-  const GEM_LINES = [
-    "Arrr, here's yer gem!",
-    "A fine gem for ye!",
-    "Treasure earned, matey!",
-  ];
+  /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
+  const SFX = {
+    splashVoice: "sounds/plank/splash.mp3",
+    waterSplash: "sounds/plank/water-splash.mp3",
+    walkThePlank: "sounds/plank/walk-the-plank-voice.mp3",
+    arrMatey: "sounds/plank/arr-matey.mp3",
+    yaargh: "sounds/plank/yaargh.mp3",
+    scallywag: "sounds/plank/scallywag.mp3",
+  };
+  const WRONG_VOICES = [SFX.yaargh, SFX.scallywag];
 
   const startPanel = document.getElementById("start-panel");
   const questionPanel = document.getElementById("question-panel");
@@ -45,6 +49,7 @@
     pool: [],
     answeringLocked: false,
     audioCtx: null,
+    wrongVoiceIndex: 0,
   };
 
   function ensureAudio() {
@@ -58,27 +63,31 @@
     return state.audioCtx;
   }
 
-  function beep(freq, duration, type = "square", gainValue = 0.04) {
+  function beep(freq, duration, type = "square", gainValue = 0.1) {
     const ctx = ensureAudio();
     if (!ctx) return;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = type;
     osc.frequency.value = freq;
-    gain.gain.value = gainValue;
     osc.connect(gain);
     gain.connect(ctx.destination);
     const now = ctx.currentTime;
-    gain.gain.setValueAtTime(gainValue, now);
+    const peak = Math.max(0.0001, gainValue);
+    // Hold most of the note, then ease out so it is easy to hear.
+    const hold = Math.max(0.05, duration * 0.72);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(peak, now + 0.02);
+    gain.gain.setValueAtTime(peak, now + hold);
     gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
     osc.start(now);
-    osc.stop(now + duration);
+    osc.stop(now + duration + 0.02);
   }
 
-  function noiseBurst(duration, filterFreq) {
+  function noiseBurst(duration, filterFreq, gainValue = 0.22) {
     const ctx = ensureAudio();
     if (!ctx) return;
-    const length = Math.floor(ctx.sampleRate * duration);
+    const length = Math.max(1, Math.floor(ctx.sampleRate * duration));
     const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < length; i += 1) {
@@ -89,46 +98,70 @@
     const filter = ctx.createBiquadFilter();
     filter.type = "bandpass";
     filter.frequency.value = filterFreq;
+    filter.Q.value = 0.9;
     const gain = ctx.createGain();
-    gain.gain.value = 0.12;
+    const now = ctx.currentTime;
+    const peak = Math.max(0.0001, gainValue);
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(peak, now + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
     src.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
-    src.start();
+    src.start(now);
+    src.stop(now + duration + 0.02);
   }
 
-  function playCreak() {
-    noiseBurst(0.35, 420);
-    beep(120, 0.18, "sawtooth", 0.03);
+  function playSfx(url, volume = 1) {
+    return new Promise((resolve) => {
+      try {
+        ensureAudio();
+        const audio = new Audio(url);
+        audio.volume = Math.max(0, Math.min(1, volume));
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          resolve();
+        };
+        audio.addEventListener("ended", finish);
+        audio.addEventListener("error", finish);
+        audio.play().then(null, finish);
+        setTimeout(finish, 6000);
+      } catch {
+        resolve();
+      }
+    });
   }
 
-  function playSplash() {
-    noiseBurst(0.7, 700);
-    beep(80, 0.35, "sine", 0.05);
+  async function playCreak() {
+    // Alternate wrong-answer voices: "YAARGH" / "SCALLYWAG"
+    const url = WRONG_VOICES[state.wrongVoiceIndex % WRONG_VOICES.length];
+    state.wrongVoiceIndex += 1;
+    await playSfx(url, 1);
   }
 
-  function speak(line, pitch = 0.7, rate = 1) {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(line);
-    utter.pitch = pitch;
-    utter.rate = rate;
-    utter.volume = 1;
-    window.speechSynthesis.speak(utter);
+  async function playSplash() {
+    // Water splash + Shiver me timbers when they fall off the plank
+    playSfx(SFX.waterSplash, 1);
+    await playSfx(SFX.splashVoice, 1);
   }
 
-  function playYay() {
-    const line = YAY_LINES[Math.floor(Math.random() * YAY_LINES.length)];
-    speak(line, 0.6 + Math.random() * 0.4, 1.05);
-    beep(440, 0.08, "triangle", 0.03);
-    setTimeout(() => beep(660, 0.1, "triangle", 0.03), 80);
+  function playWalkThePlankVoice() {
+    return playSfx(SFX.walkThePlank, 1);
   }
 
-  function playGemLine() {
-    const line = GEM_LINES[Math.floor(Math.random() * GEM_LINES.length)];
-    speak(line, 0.55, 0.95);
-    beep(520, 0.1, "triangle", 0.04);
-    setTimeout(() => beep(780, 0.14, "triangle", 0.04), 100);
+  async function playYay() {
+    // Pirate sailor voice: "ARR MATEY"
+    await playSfx(SFX.arrMatey, 1);
+  }
+
+  async function playGemLine() {
+    // Placeholder tones until we have more pirate voice clips
+    beep(520, 0.28, "triangle", 0.1);
+    setTimeout(() => beep(660, 0.3, "triangle", 0.1), 200);
+    setTimeout(() => beep(880, 0.42, "triangle", 0.11), 420);
+    await wait(750);
   }
 
   function sanitizeName(raw) {
@@ -165,11 +198,11 @@
     });
   }
 
-  function addGem() {
+  async function addGem() {
     const color = GEM_COLORS[Math.floor(Math.random() * GEM_COLORS.length)];
     if (state.gemColors.length < 3) state.gemColors.push(color);
     setGems(state.gems + 1);
-    playGemLine();
+    await playGemLine();
   }
 
   function resetVisitGems() {
@@ -351,6 +384,7 @@
       if (i === FALL_SPLASH_INDEX) {
         splashEl.classList.add("is-active");
         try {
+          // Fire-and-forget so the fall frames keep moving while the voice plays
           playSplash();
         } catch {
           /* ignore */
@@ -358,7 +392,7 @@
       }
       await wait(FALL_FRAME_MS);
     }
-    await wait(450);
+    await wait(900);
     playerPirate.style.opacity = "0";
   }
 
@@ -457,12 +491,12 @@
       feedbackEl.textContent = "Safe!";
       feedbackEl.classList.add("is-reveal");
       try {
-        playYay();
+        await playYay();
       } catch {
         /* ignore */
       }
       removeCorrectFromPool(question);
-      await wait(700);
+      await wait(250);
       state.roundIndex += 1;
       if (state.roundIndex >= state.roundQuestions.length) {
         await onRoundWin();
@@ -492,12 +526,12 @@
     feedbackEl.classList.remove("is-reveal");
     state.misses += 1;
     try {
-      playCreak();
+      await playCreak();
     } catch {
       /* ignore */
     }
     setStep(state.misses);
-    await wait(2000);
+    await wait(900);
 
     if (state.misses >= MAX_MISSES) {
       await onSplash();
@@ -517,7 +551,7 @@
     progressChip.hidden = true;
     endTitle.textContent = "You survived!";
     endMessage.textContent = "A gem drops into your treasure.";
-    addGem();
+    await addGem();
     await window.PlankLeaderboard.submitScore(
       state.name,
       state.pirateId,
@@ -580,6 +614,8 @@
     }
     rebuildPool();
     resetVisitGems();
+    // Start-of-game pirate call
+    playWalkThePlankVoice();
     startRound();
   }
 
@@ -612,6 +648,18 @@
     const open = leaderboard.classList.toggle("is-open");
     lbTab.setAttribute("aria-expanded", open ? "true" : "false");
   });
+
+  // Lead-in / transition screen: play once on first interaction (autoplay blocked otherwise)
+  let leadInVoicePlayed = false;
+  function playLeadInVoiceOnce(event) {
+    if (leadInVoicePlayed || startPanel.hidden) return;
+    // Play button has its own start-of-game cue in beginGame
+    if (event.target.closest("#play-btn")) return;
+    leadInVoicePlayed = true;
+    ensureAudio();
+    playWalkThePlankVoice();
+  }
+  startPanel.addEventListener("pointerdown", playLeadInVoiceOnce);
 
   buildPiratePicker();
   updatePlayEnabled();

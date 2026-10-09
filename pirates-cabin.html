@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=146" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=147" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -250,14 +250,45 @@
         <h2 id="cabin-desk-map-title" class="cabin-lightbox-title">
           Cruise itinerary
         </h2>
-        <img
-          class="cabin-lightbox-img"
-          src="images/cruise-itinerary-map.jpg?v=1"
-          alt="7-day West Indies cruise itinerary: Fort Lauderdale, Costa Maya, Cozumel, Coco Cay"
-        />
+        <div class="cabin-lightbox-zoombar" role="group" aria-label="Zoom map">
+          <button
+            type="button"
+            class="cabin-lightbox-zoom-btn"
+            data-zoom="out"
+            aria-label="Zoom out"
+          >
+            −
+          </button>
+          <button
+            type="button"
+            class="cabin-lightbox-zoom-btn"
+            data-zoom="reset"
+            aria-label="Reset zoom"
+          >
+            Reset
+          </button>
+          <button
+            type="button"
+            class="cabin-lightbox-zoom-btn"
+            data-zoom="in"
+            aria-label="Zoom in"
+          >
+            +
+          </button>
+        </div>
+        <div class="cabin-lightbox-viewport" id="cabin-desk-map-viewport">
+          <img
+            class="cabin-lightbox-img"
+            id="cabin-desk-map-img"
+            src="images/cruise-itinerary-map.jpg?v=1"
+            alt="7-day West Indies cruise itinerary: Fort Lauderdale, Costa Maya, Cozumel, Coco Cay"
+            draggable="false"
+          />
+        </div>
+        <p class="cabin-lightbox-hint">Scroll or pinch to zoom · drag to pan</p>
       </div>
     </dialog>
 
-    <script src="pirates-cabin.js?v=61"></script>
+    <script src="pirates-cabin.js?v=62"></script>
   </body>
 </html>

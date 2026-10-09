@@ -684,7 +684,7 @@ body.pirate-page {
 }
 
 .cabin-lightbox-title {
-  margin: 0 2.2rem 0.75rem 0;
+  margin: 0 2.2rem 0.55rem 0;
   font-family: var(--pt-font-display);
   font-size: clamp(1.45rem, 3.2vw, 2rem);
   font-weight: 400;
@@ -693,14 +693,70 @@ body.pirate-page {
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.75);
 }
 
+.cabin-lightbox-zoombar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.55rem;
+}
+
+.cabin-lightbox-zoom-btn {
+  appearance: none;
+  min-width: 2.2rem;
+  height: 2rem;
+  padding: 0 0.65rem;
+  border: 1px solid rgba(230, 193, 90, 0.4);
+  border-radius: 6px;
+  background: rgba(20, 12, 8, 0.9);
+  color: #fff6e4;
+  font-family: var(--pt-font-ui);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cabin-lightbox-zoom-btn:hover,
+.cabin-lightbox-zoom-btn:focus-visible {
+  border-color: rgba(255, 214, 110, 0.75);
+  color: #ffe7a8;
+  outline: none;
+}
+
+.cabin-lightbox-viewport {
+  overflow: hidden;
+  border-radius: 4px;
+  background: #1a120c;
+  touch-action: none;
+  cursor: grab;
+  max-height: min(72vh, 780px);
+}
+
+.cabin-lightbox-viewport.is-dragging {
+  cursor: grabbing;
+}
+
+.cabin-lightbox-viewport.is-zoomed {
+  cursor: grab;
+}
+
 .cabin-lightbox-img {
   display: block;
   width: 100%;
   height: auto;
-  max-height: min(78vh, 820px);
+  max-height: min(72vh, 780px);
   object-fit: contain;
-  border-radius: 4px;
-  background: #1a120c;
+  transform-origin: 0 0;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.cabin-lightbox-hint {
+  margin: 0.55rem 0 0;
+  font-family: var(--pt-font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: rgba(244, 232, 212, 0.7);
 }
 
 .cabin-lightbox-close {

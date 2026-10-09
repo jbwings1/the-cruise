@@ -97,6 +97,10 @@
           <button type="button" id="play-scallywag">Play</button>
         </div>
         <div class="sound-row">
+          <span>Lead-in / game start — “WALK THE PLANK”</span>
+          <button type="button" id="play-walk">Play</button>
+        </div>
+        <div class="sound-row">
           <span>Fall off plank — water splash</span>
           <button type="button" id="play-water">Play</button>
         </div>
@@ -129,6 +133,12 @@
             target="_blank"
             rel="noopener noreferrer"
             >“SCALLYWAG”</a
+          >,
+          <a
+            href="https://freesound.org/s/846327/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >“WALK THE PLANK”</a
           ><br />
           Fall voice:
           <a
@@ -164,6 +174,14 @@
       document
         .getElementById("play-scallywag")
         .addEventListener("click", () => play("sounds/plank/scallywag.mp3"));
+      document
+        .getElementById("play-walk")
+        .addEventListener("click", () =>
+          play("sounds/plank/walk-the-plank-voice.mp3")
+        );
+      document
+        .getElementById("play-water")
+        .addEventListener("click", () => play("sounds/plank/water-splash.mp3"));
       document
         .getElementById("play-splash")
         .addEventListener("click", () => play("sounds/plank/splash.mp3"));

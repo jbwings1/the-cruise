@@ -868,23 +868,29 @@ body.pirate-page {
 }
 
 /*
- * Glow sits behind the PNG but larger than the art so the halo shows on the
- * dark floor around it (same idea as the wall map over dark wood).
+ * Behind the PNG, oversized so the soft edge clears the art onto the floor.
+ * (A box only ~chest-sized stays hidden under opaque pixels.)
  */
 .cabin-prop-chest .cabin-coming-glow {
   z-index: 0;
-  width: 155%;
-  height: 170%;
-  top: 48%;
+  width: 220%;
+  height: 240%;
+  top: 50%;
   transform: translate(-50%, -50%) translateZ(20px);
   background: radial-gradient(
-    ellipse 44% 52% at 50% 45%,
-    rgba(255, 236, 170, 0.75),
-    rgba(230, 193, 90, 0.36) 28%,
-    rgba(230, 160, 60, 0.14) 46%,
-    transparent 64%
+    ellipse 48% 54% at 50% 48%,
+    rgba(255, 236, 170, 0.7),
+    rgba(230, 193, 90, 0.34) 32%,
+    rgba(230, 160, 60, 0.14) 52%,
+    transparent 72%
   );
-  filter: blur(1.2px);
+  filter: blur(1.4px);
+}
+
+.cabin-prop-chest:hover .cabin-coming-glow,
+.cabin-prop-chest:focus-visible .cabin-coming-glow {
+  opacity: 1;
+  filter: blur(0.4px) drop-shadow(0 0 18px rgba(255, 214, 110, 0.9));
 }
 
 .cabin-prop-chest .cabin-coming-label {
@@ -904,8 +910,9 @@ body.pirate-page {
 .cabin-prop-chest:focus-visible img {
   filter:
     drop-shadow(4px 10px 12px rgba(0, 0, 0, 0.65))
-    brightness(1.1)
-    drop-shadow(0 0 8px rgba(255, 220, 120, 0.55));
+    brightness(1.14)
+    drop-shadow(0 0 12px rgba(255, 220, 120, 0.85))
+    drop-shadow(0 0 22px rgba(230, 193, 90, 0.65));
 }
 
 .cabin-hud {

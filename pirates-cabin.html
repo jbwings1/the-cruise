@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=141" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=145" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -141,10 +141,13 @@
             <button
               type="button"
               class="cabin-desk-hotspot cabin-desk-hotspot-map"
-              aria-label="Desk map — coming soon"
+              id="cabin-desk-map"
+              aria-label="Cruise itinerary map"
+              aria-haspopup="dialog"
+              aria-controls="cabin-desk-map-lightbox"
             >
               <span class="cabin-coming-glow" aria-hidden="true"></span>
-              <span class="cabin-coming-label">Coming soon</span>
+              <span class="cabin-coming-label">Itinerary</span>
             </button>
             <button
               type="button"
@@ -231,6 +234,30 @@
       </button>
     </div>
 
-    <script src="pirates-cabin.js?v=60"></script>
+    <dialog
+      class="cabin-lightbox"
+      id="cabin-desk-map-lightbox"
+      aria-labelledby="cabin-desk-map-title"
+    >
+      <div class="cabin-lightbox-panel">
+        <button
+          type="button"
+          class="cabin-lightbox-close"
+          aria-label="Close itinerary map"
+        >
+          ×
+        </button>
+        <h2 id="cabin-desk-map-title" class="cabin-lightbox-title">
+          Cruise itinerary
+        </h2>
+        <img
+          class="cabin-lightbox-img"
+          src="images/cruise-itinerary-map.jpg?v=1"
+          alt="7-day West Indies cruise itinerary: Fort Lauderdale, Costa Maya, Cozumel, Coco Cay"
+        />
+      </div>
+    </dialog>
+
+    <script src="pirates-cabin.js?v=61"></script>
   </body>
 </html>

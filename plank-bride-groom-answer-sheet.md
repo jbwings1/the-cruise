@@ -154,4 +154,14 @@ For each item, write:
 
 ---
 
+## Final question
+
+### 41. List all the places you have lived — start at birth and end with now
+City / state (or country), in order from birthplace to where you live today. Approximate years are helpful if you remember them.
+
+- Elaina:
+- Regan:
+
+---
+
 *Thank you! Reply with answers inline, or copy into an email.*

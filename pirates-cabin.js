@@ -183,7 +183,7 @@
     btn.addEventListener("pointerdown", (e) => e.stopPropagation());
   });
 
-  /* Coming-soon hotspots: hover-only for now; don't start a look-drag */
+  /* Coming-soon / interactive props: don't start a look-drag */
   document
     .querySelectorAll(
       ".cabin-coming-hotspot, .cabin-desk-hotspot, .cabin-wall-hotspot, .cabin-sword-hotspot, .cabin-hat-hotspot"
@@ -192,7 +192,13 @@
       btn.addEventListener("pointerdown", (e) => e.stopPropagation());
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
-        if (btn.getAttribute("href")) return;
+        const href = btn.getAttribute("href");
+        if (href) {
+          // Ensure stealth coat/hat link navigates even if drag handlers interfere
+          e.preventDefault();
+          window.location.href = href;
+          return;
+        }
         e.preventDefault();
       });
     });

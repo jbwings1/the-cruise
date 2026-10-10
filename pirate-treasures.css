@@ -164,15 +164,28 @@ body.pirate-page {
   transform: rotateY(0deg) translateZ(calc(var(--cabin-half-d) * -1));
 }
 
-/* Captain coat + hat on a skeleton hand — port side of stern windows */
+/* Captain coat + hat — whole prop is a stealth link (no glow / no label) */
 .cabin-coat-hang {
   position: absolute;
   left: 3.8%;
   top: 11.6%;
   width: 15.5%;
   height: 62%;
-  z-index: 2;
-  pointer-events: none;
+  z-index: 3;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: none;
+  color: inherit;
+  cursor: default;
+  pointer-events: auto;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-coat-hang:focus-visible {
+  outline: none;
 }
 
 .cabin-coat-hang img {
@@ -185,28 +198,6 @@ body.pirate-page {
   -webkit-user-drag: none;
   pointer-events: none;
   filter: drop-shadow(4px 8px 10px rgba(0, 0, 0, 0.55));
-}
-
-/* Invisible hat hit target only — no glow, no label */
-.cabin-hat-hotspot {
-  position: absolute;
-  left: 5.2%;
-  top: 11.8%;
-  width: 12.5%;
-  height: 14%;
-  z-index: 3;
-  display: block;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: transparent;
-  text-decoration: none;
-  cursor: default;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.cabin-hat-hotspot:focus-visible {
-  outline: none;
 }
 
 /* Walk the Plank sword — coming soon (link removed for now) */

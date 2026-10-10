@@ -1816,3 +1816,118 @@ body.pirate-page {
     top: 72%;
   }
 }
+
+/* ——— The Pirate Song (quill in the captain’s cabin) ——— */
+a.cabin-desk-hotspot-quill {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.song-page {
+  background:
+    radial-gradient(ellipse at top, rgba(196, 92, 42, 0.28), transparent 46%),
+    linear-gradient(180deg, #1a100c 0%, #0b0705 55%, #140e0a 100%);
+}
+
+.song-sheet {
+  width: min(40rem, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 2.5rem) 0 3rem;
+}
+
+.song-back {
+  margin: 0 0 1rem;
+  font-family: var(--pt-font-ui);
+  font-size: 0.95rem;
+}
+
+.song-back a {
+  color: var(--pt-gold);
+  text-decoration: none;
+}
+
+.song-back a:hover,
+.song-back a:focus-visible {
+  text-decoration: underline;
+}
+
+.song-header h1,
+.song-stanza h2,
+.song-refrain h2 {
+  font-family: var(--pt-font-display);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+}
+
+.song-kicker {
+  margin: 0;
+  font-family: var(--pt-font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pt-gold);
+}
+
+.song-header h1 {
+  margin: 0.35rem 0 0;
+  font-size: clamp(3rem, 10vw, 4.75rem);
+  line-height: 0.95;
+  color: #fff6e4;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
+}
+
+.song-for {
+  margin: 0.55rem 0 0;
+  font-family: var(--pt-font-body);
+  font-style: italic;
+  font-size: 1.2rem;
+  color: var(--pt-ink);
+}
+
+.song-tune,
+.song-log {
+  margin: 1rem 0 0;
+  font-family: var(--pt-font-body);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--pt-ink-dim);
+}
+
+.song-tune cite {
+  font-style: italic;
+}
+
+.song-log {
+  padding: 0.9rem 1rem;
+  border-left: 3px solid rgba(230, 193, 90, 0.55);
+  background: rgba(92, 58, 34, 0.28);
+  color: var(--pt-ink);
+}
+
+.song-stanza,
+.song-refrain {
+  margin-top: 1.75rem;
+}
+
+.song-stanza h2,
+.song-refrain h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.65rem;
+  color: var(--pt-gold);
+}
+
+.song-stanza p,
+.song-refrain p {
+  margin: 0;
+  font-family: var(--pt-font-body);
+  font-size: clamp(1.05rem, 2.4vw, 1.2rem);
+  line-height: 1.7;
+  color: #fff8ee;
+}
+
+.song-refrain p {
+  color: #ffe7a8;
+  font-style: italic;
+}

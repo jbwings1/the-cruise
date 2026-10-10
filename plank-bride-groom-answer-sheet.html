@@ -152,10 +152,9 @@
     <main class="wrap">
       <h1>Walk the Plank — questions for Elaina &amp; Regan</h1>
       <p class="lede">
-        Type your answers in the boxes below. Your progress is saved
-        automatically in this browser. When you’re done, use
-        <strong>Copy answers</strong> or <strong>Download</strong> and send them
-        back.
+        Type your answers below. They save <strong>online automatically</strong>
+        so we can turn them into Walk the Plank questions. You can also
+        <strong>Copy</strong> or <strong>Download</strong> a backup.
       </p>
       <p class="note">
         Skip anything you’d rather not share. These topics avoid the current game
@@ -547,42 +546,113 @@
       </form>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
     <script>
       (() => {
-        const STORAGE_KEY = "plank-bride-groom-answers-v1";
+        const ROW_ID = "elaina-regan";
+        const LOCAL_KEY = "plank-bride-groom-answers-v1";
         const form = document.getElementById("answers-form");
         const statusEl = document.getElementById("save-status");
+        const cfg = window.CRUISE_SUPABASE || {};
         const fields = () =>
           Array.from(form.querySelectorAll("input, textarea"));
+
+        let supabase = null;
+        let saveTimer = 0;
+        let saving = false;
+
+        if (cfg.url && cfg.anonKey && window.supabase) {
+          supabase = window.supabase.createClient(cfg.url, cfg.anonKey);
+        }
 
         function setStatus(msg) {
           statusEl.textContent = msg;
         }
 
-        function save() {
+        function collectAnswers() {
           const data = {};
           fields().forEach((el) => {
             data[el.name] = el.value;
           });
+          return data;
+        }
+
+        function applyAnswers(data) {
+          if (!data || typeof data !== "object") return;
+          fields().forEach((el) => {
+            if (typeof data[el.name] === "string") el.value = data[el.name];
+          });
+        }
+
+        function saveLocal(data) {
           try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-            setStatus("Saved on this device");
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
           } catch (_) {
-            setStatus("Could not auto-save");
+            /* ignore */
           }
         }
 
-        function load() {
+        async function saveOnline(data) {
+          if (!supabase) {
+            setStatus("Offline backup only — cloud save unavailable");
+            return;
+          }
+          saving = true;
+          setStatus("Saving online…");
+          const { error } = await supabase.from("plank_couple_answers").upsert(
+            {
+              id: ROW_ID,
+              answers: data,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "id" }
+          );
+          saving = false;
+          if (error) {
+            console.error(error);
+            setStatus("Could not save online — kept on this device");
+            return;
+          }
+          setStatus("Saved online");
+        }
+
+        function scheduleSave() {
+          const data = collectAnswers();
+          saveLocal(data);
+          if (saveTimer) window.clearTimeout(saveTimer);
+          saveTimer = window.setTimeout(() => {
+            saveOnline(data);
+          }, 500);
+        }
+
+        async function load() {
+          if (supabase) {
+            setStatus("Loading…");
+            const { data, error } = await supabase
+              .from("plank_couple_answers")
+              .select("answers, updated_at")
+              .eq("id", ROW_ID)
+              .maybeSingle();
+            if (!error && data?.answers) {
+              applyAnswers(data.answers);
+              saveLocal(data.answers);
+              setStatus("Loaded saved answers");
+              return;
+            }
+            if (error) console.error(error);
+          }
           try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) return;
-            const data = JSON.parse(raw);
-            fields().forEach((el) => {
-              if (typeof data[el.name] === "string") el.value = data[el.name];
-            });
-            setStatus("Restored saved answers");
+            const raw = localStorage.getItem(LOCAL_KEY);
+            if (!raw) {
+              setStatus(supabase ? "Ready — answers save online" : "Ready");
+              return;
+            }
+            applyAnswers(JSON.parse(raw));
+            setStatus("Restored from this device");
+            if (supabase) scheduleSave();
           } catch (_) {
-            /* ignore */
+            setStatus("Ready");
           }
         }
 
@@ -607,7 +677,7 @@
         }
 
         form.addEventListener("input", () => {
-          save();
+          scheduleSave();
         });
 
         document.getElementById("btn-copy").addEventListener("click", async () => {
@@ -637,12 +707,21 @@
           window.print();
         });
 
-        document.getElementById("btn-clear").addEventListener("click", () => {
-          if (!window.confirm("Clear all answers saved on this device?")) return;
+        document.getElementById("btn-clear").addEventListener("click", async () => {
+          if (
+            !window.confirm(
+              "Clear all answers online and on this device? This cannot be undone."
+            )
+          ) {
+            return;
+          }
           fields().forEach((el) => {
             el.value = "";
           });
-          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(LOCAL_KEY);
+          if (supabase) {
+            await saveOnline({});
+          }
           setStatus("Form cleared");
         });
 

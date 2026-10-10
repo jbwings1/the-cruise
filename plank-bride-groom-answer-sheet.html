@@ -16,7 +16,7 @@
         --muted: #5c4a3a;
         --line: #d7c4a8;
         --paper: #f7f0e4;
-        --band: #2a1c14;
+        --focus: #8a6a32;
       }
       * {
         box-sizing: border-box;
@@ -34,7 +34,7 @@
       .wrap {
         width: min(720px, calc(100% - 2rem));
         margin: 0 auto;
-        padding: 2rem 0 3.5rem;
+        padding: 2rem 0 6rem;
       }
       h1 {
         margin: 0 0 0.4rem;
@@ -43,7 +43,7 @@
         font-weight: 700;
       }
       .lede {
-        margin: 0 0 1.5rem;
+        margin: 0 0 1rem;
         color: var(--muted);
         font-size: 1rem;
       }
@@ -56,22 +56,44 @@
       }
       .q {
         margin: 0 0 1.15rem;
-        padding: 0.85rem 0.95rem;
+        padding: 0.85rem 0.95rem 1rem;
         border: 1px solid var(--line);
         border-radius: 8px;
         background: rgba(255, 255, 255, 0.55);
       }
       .q h3 {
-        margin: 0 0 0.55rem;
+        margin: 0 0 0.65rem;
         font-size: 1rem;
         font-weight: 600;
       }
-      .blank {
-        margin: 0.35rem 0 0;
-        min-height: 1.6rem;
-        border-bottom: 1px solid #cbb89a;
+      .field {
+        display: grid;
+        gap: 0.25rem;
+        margin-top: 0.55rem;
+      }
+      .field label {
+        font-size: 0.85rem;
         color: var(--muted);
-        font-size: 0.92rem;
+        font-weight: 500;
+      }
+      input[type="text"],
+      textarea {
+        width: 100%;
+        border: 1px solid #cbb89a;
+        border-radius: 6px;
+        padding: 0.55rem 0.65rem;
+        font: inherit;
+        color: var(--ink);
+        background: #fffdf8;
+      }
+      textarea {
+        min-height: 4.5rem;
+        resize: vertical;
+      }
+      input[type="text"]:focus,
+      textarea:focus {
+        outline: 2px solid rgba(138, 106, 50, 0.35);
+        border-color: var(--focus);
       }
       .note {
         margin: 0 0 1.25rem;
@@ -81,9 +103,44 @@
         color: var(--muted);
         font-size: 0.95rem;
       }
+      .toolbar {
+        position: sticky;
+        bottom: 0;
+        z-index: 5;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 1.5rem;
+        padding: 0.75rem 0;
+        background: linear-gradient(180deg, transparent, var(--paper) 28%);
+      }
+      .toolbar button {
+        appearance: none;
+        border: 1px solid #b0894a;
+        border-radius: 8px;
+        background: #2a1c14;
+        color: #fff6e4;
+        font: inherit;
+        font-weight: 600;
+        padding: 0.55rem 0.9rem;
+        cursor: pointer;
+      }
+      .toolbar button.secondary {
+        background: #fffdf8;
+        color: var(--ink);
+      }
+      .status {
+        margin-left: auto;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
       @media print {
         body {
           background: #fff;
+        }
+        .toolbar {
+          display: none;
         }
         .q {
           break-inside: avoid;
@@ -95,215 +152,581 @@
     <main class="wrap">
       <h1>Walk the Plank — questions for Elaina &amp; Regan</h1>
       <p class="lede">
-        Please answer in your own words. Short answers are fine. We’ll turn these
-        into game questions later — no need for multiple-choice options.
+        Type your answers below. They save <strong>online automatically</strong>
+        so we can turn them into Walk the Plank questions. You can also
+        <strong>Copy</strong> or <strong>Download</strong> a backup.
       </p>
       <p class="note">
         Skip anything you’d rather not share. These topics avoid the current game
         bank (college physics, Prescott / Fort Worth jobs, wedding party names,
-        ship, date, and colors). Reply by email with your answers, or print and
-        fill the blanks.
+        ship, date, and colors).
       </p>
 
-      <h2>Early life &amp; family</h2>
-      <div class="q">
-        <h3>1. Where did each of you grow up?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>2. Do either of you have siblings? Names?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>3. Childhood nicknames (if any)?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>4. One family tradition each of you wants to keep?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
+      <form id="answers-form" autocomplete="on">
+        <h2>Early life &amp; family</h2>
+        <div class="q">
+          <h3>1. Where did each of you grow up?</h3>
+          <div class="field">
+            <label for="q1_elaina">Elaina</label>
+            <input id="q1_elaina" name="q1_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q1_regan">Regan</label>
+            <input id="q1_regan" name="q1_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>2. Do either of you have siblings? Names?</h3>
+          <div class="field">
+            <label for="q2_elaina">Elaina</label>
+            <input id="q2_elaina" name="q2_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q2_regan">Regan</label>
+            <input id="q2_regan" name="q2_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>3. Childhood nicknames (if any)?</h3>
+          <div class="field">
+            <label for="q3_elaina">Elaina</label>
+            <input id="q3_elaina" name="q3_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q3_regan">Regan</label>
+            <input id="q3_regan" name="q3_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>4. One family tradition each of you wants to keep?</h3>
+          <div class="field">
+            <label for="q4_elaina">Elaina</label>
+            <textarea id="q4_elaina" name="q4_elaina"></textarea>
+          </div>
+          <div class="field">
+            <label for="q4_regan">Regan</label>
+            <textarea id="q4_regan" name="q4_regan"></textarea>
+          </div>
+        </div>
 
-      <h2>You as a couple</h2>
-      <p class="note">
-        Please don’t retell the physics-class / class-notes story — that’s already
-        in the game.
-      </p>
-      <div class="q">
-        <h3>5. Who said “I love you” first?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>6. Who is usually ready first when you leave the house?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>7. Who is the better cook?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>8. Who plans the trips, and who packs last-minute?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>9. What is your shared “comfort” meal at home?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>10. What show or movie can you both rewatch anytime?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>You as a couple</h2>
+        <p class="note">
+          Please don’t retell the physics-class / class-notes story — that’s
+          already in the game.
+        </p>
+        <div class="q">
+          <h3>5. Who said “I love you” first?</h3>
+          <div class="field">
+            <label for="q5">Answer</label>
+            <input id="q5" name="q5" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>6. Who is usually ready first when you leave the house?</h3>
+          <div class="field">
+            <label for="q6">Answer</label>
+            <input id="q6" name="q6" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>7. Who is the better cook?</h3>
+          <div class="field">
+            <label for="q7">Answer</label>
+            <input id="q7" name="q7" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>8. Who plans the trips, and who packs last-minute?</h3>
+          <div class="field">
+            <label for="q8">Answer</label>
+            <textarea id="q8" name="q8"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>9. What is your shared “comfort” meal at home?</h3>
+          <div class="field">
+            <label for="q9">Answer</label>
+            <input id="q9" name="q9" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>10. What show or movie can you both rewatch anytime?</h3>
+          <div class="field">
+            <label for="q10">Answer</label>
+            <input id="q10" name="q10" type="text" />
+          </div>
+        </div>
 
-      <h2>Dates, proposal &amp; milestones</h2>
-      <p class="note">
-        We already know you got engaged on a cruise — go deeper here.
-      </p>
-      <div class="q">
-        <h3>11. Where was your first official date, and what did you do?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>12. On which cruise / ship / port did the proposal happen?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>13. How did the proposal go? (one or two sentences)</h3>
-        <p class="blank">&nbsp;</p>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>14. Who cried first — or did both of you?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>15. One small everyday habit that always makes you smile about the other?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>Dates, proposal &amp; milestones</h2>
+        <p class="note">
+          We already know you got engaged on a cruise — go deeper here.
+        </p>
+        <div class="q">
+          <h3>11. Where was your first official date, and what did you do?</h3>
+          <div class="field">
+            <label for="q11">Answer</label>
+            <textarea id="q11" name="q11"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>12. On which cruise / ship / port did the proposal happen?</h3>
+          <div class="field">
+            <label for="q12">Answer</label>
+            <input id="q12" name="q12" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>13. How did the proposal go? (one or two sentences)</h3>
+          <div class="field">
+            <label for="q13">Answer</label>
+            <textarea id="q13" name="q13"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>14. Who cried first — or did both of you?</h3>
+          <div class="field">
+            <label for="q14">Answer</label>
+            <input id="q14" name="q14" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>
+            15. One small everyday habit that always makes you smile about the
+            other?
+          </h3>
+          <div class="field">
+            <label for="q15">Answer</label>
+            <textarea id="q15" name="q15"></textarea>
+          </div>
+        </div>
 
-      <h2>Favorites</h2>
-      <div class="q">
-        <h3>16. Favorite cruise line or ship (besides this wedding cruise, if different)?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>17. Favorite port you’ve visited together?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>18. Favorite drink order each (coffee, cocktail, or soda)?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>19. Favorite dessert or treat to share?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>20. Favorite sport / team each of you roots for (or “none”)?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>21. Favorite hobby for each of you?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>22. One song that feels like “your song”?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>Favorites</h2>
+        <div class="q">
+          <h3>
+            16. Favorite cruise line or ship (besides this wedding cruise, if
+            different)?
+          </h3>
+          <div class="field">
+            <label for="q16">Answer</label>
+            <input id="q16" name="q16" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>17. Favorite port you’ve visited together?</h3>
+          <div class="field">
+            <label for="q17">Answer</label>
+            <input id="q17" name="q17" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>18. Favorite drink order each (coffee, cocktail, or soda)?</h3>
+          <div class="field">
+            <label for="q18_elaina">Elaina</label>
+            <input id="q18_elaina" name="q18_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q18_regan">Regan</label>
+            <input id="q18_regan" name="q18_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>19. Favorite dessert or treat to share?</h3>
+          <div class="field">
+            <label for="q19">Answer</label>
+            <input id="q19" name="q19" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>20. Favorite sport / team each of you roots for (or “none”)?</h3>
+          <div class="field">
+            <label for="q20_elaina">Elaina</label>
+            <input id="q20_elaina" name="q20_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q20_regan">Regan</label>
+            <input id="q20_regan" name="q20_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>21. Favorite hobby for each of you?</h3>
+          <div class="field">
+            <label for="q21_elaina">Elaina</label>
+            <input id="q21_elaina" name="q21_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q21_regan">Regan</label>
+            <input id="q21_regan" name="q21_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>22. One song that feels like “your song”?</h3>
+          <div class="field">
+            <label for="q22">Answer</label>
+            <input id="q22" name="q22" type="text" />
+          </div>
+        </div>
 
-      <h2>Pets &amp; home</h2>
-      <div class="q">
-        <h3>23. Do you have pets? Names / what kind?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>24. Who spoils the pet more? (if applicable)</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>25. Dream future home vibe (beach, mountains, city, suburbs, etc.)?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>Pets &amp; home</h2>
+        <div class="q">
+          <h3>23. Do you have pets? Names / what kind?</h3>
+          <div class="field">
+            <label for="q23">Answer</label>
+            <textarea id="q23" name="q23"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>24. Who spoils the pet more? (if applicable)</h3>
+          <div class="field">
+            <label for="q24">Answer</label>
+            <input id="q24" name="q24" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>
+            25. Dream future home vibe (beach, mountains, city, suburbs, etc.)?
+          </h3>
+          <div class="field">
+            <label for="q25">Answer</label>
+            <input id="q25" name="q25" type="text" />
+          </div>
+        </div>
 
-      <h2>Fun / party-game friendly</h2>
-      <div class="q">
-        <h3>26. Who is more likely to get seasick?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>27. Who is more likely to win at trivia?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>28. Who takes longer getting ready for dinner?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>29. One food one of you loves that the other refuses?</h3>
-        <p class="blank">Who loves it:</p>
-        <p class="blank">Who refuses it:</p>
-        <p class="blank">The food:</p>
-      </div>
-      <div class="q">
-        <h3>30. If you could only bring one snack on a cruise, what would it be?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>31. A funny or embarrassing travel moment you’ve shared?</h3>
-        <p class="blank">&nbsp;</p>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>32. Who is more competitive?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>33. Morning person or night owl?</h3>
-        <p class="blank">Elaina:</p>
-        <p class="blank">Regan:</p>
-      </div>
-      <div class="q">
-        <h3>34. One thing guests would be surprised to learn about you as a couple?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>Fun / party-game friendly</h2>
+        <div class="q">
+          <h3>26. Who is more likely to get seasick?</h3>
+          <div class="field">
+            <label for="q26">Answer</label>
+            <input id="q26" name="q26" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>27. Who is more likely to win at trivia?</h3>
+          <div class="field">
+            <label for="q27">Answer</label>
+            <input id="q27" name="q27" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>28. Who takes longer getting ready for dinner?</h3>
+          <div class="field">
+            <label for="q28">Answer</label>
+            <input id="q28" name="q28" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>29. One food one of you loves that the other refuses?</h3>
+          <div class="field">
+            <label for="q29_loves">Who loves it</label>
+            <input id="q29_loves" name="q29_loves" type="text" />
+          </div>
+          <div class="field">
+            <label for="q29_refuses">Who refuses it</label>
+            <input id="q29_refuses" name="q29_refuses" type="text" />
+          </div>
+          <div class="field">
+            <label for="q29_food">The food</label>
+            <input id="q29_food" name="q29_food" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>
+            30. If you could only bring one snack on a cruise, what would it be?
+          </h3>
+          <div class="field">
+            <label for="q30_elaina">Elaina</label>
+            <input id="q30_elaina" name="q30_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q30_regan">Regan</label>
+            <input id="q30_regan" name="q30_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>31. A funny or embarrassing travel moment you’ve shared?</h3>
+          <div class="field">
+            <label for="q31">Answer</label>
+            <textarea id="q31" name="q31"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>32. Who is more competitive?</h3>
+          <div class="field">
+            <label for="q32">Answer</label>
+            <input id="q32" name="q32" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>33. Morning person or night owl?</h3>
+          <div class="field">
+            <label for="q33_elaina">Elaina</label>
+            <input id="q33_elaina" name="q33_elaina" type="text" />
+          </div>
+          <div class="field">
+            <label for="q33_regan">Regan</label>
+            <input id="q33_regan" name="q33_regan" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>
+            34. One thing guests would be surprised to learn about you as a
+            couple?
+          </h3>
+          <div class="field">
+            <label for="q34">Answer</label>
+            <textarea id="q34" name="q34"></textarea>
+          </div>
+        </div>
 
-      <h2>This wedding cruise</h2>
-      <p class="note">
-        Skip wedding date, ship name, colors, Maid of Honor, and Best Man — already
-        in the game.
-      </p>
-      <div class="q">
-        <h3>35. What are you most looking forward to on this wedding cruise?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>36. Any must-do activity on board or in a port?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>37. What do you hope guests remember most from the trip?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>This wedding cruise</h2>
+        <p class="note">
+          Skip wedding date, ship name, colors, Maid of Honor, and Best Man —
+          already in the game.
+        </p>
+        <div class="q">
+          <h3>35. What are you most looking forward to on this wedding cruise?</h3>
+          <div class="field">
+            <label for="q35">Answer</label>
+            <textarea id="q35" name="q35"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>36. Any must-do activity on board or in a port?</h3>
+          <div class="field">
+            <label for="q36">Answer</label>
+            <textarea id="q36" name="q36"></textarea>
+          </div>
+        </div>
+        <div class="q">
+          <h3>37. What do you hope guests remember most from the trip?</h3>
+          <div class="field">
+            <label for="q37">Answer</label>
+            <textarea id="q37" name="q37"></textarea>
+          </div>
+        </div>
 
-      <h2>Optional extras</h2>
-      <div class="q">
-        <h3>38. Who is more likely to suggest “just one more” drink / dessert / ride?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>39. Favorite photo of the two of you — where was it taken?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
-      <div class="q">
-        <h3>40. If this cruise had a theme song for the week, what would it be?</h3>
-        <p class="blank">&nbsp;</p>
-      </div>
+        <h2>Optional extras</h2>
+        <div class="q">
+          <h3>
+            38. Who is more likely to suggest “just one more” drink / dessert /
+            ride?
+          </h3>
+          <div class="field">
+            <label for="q38">Answer</label>
+            <input id="q38" name="q38" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>39. Favorite photo of the two of you — where was it taken?</h3>
+          <div class="field">
+            <label for="q39">Answer</label>
+            <input id="q39" name="q39" type="text" />
+          </div>
+        </div>
+        <div class="q">
+          <h3>
+            40. If this cruise had a theme song for the week, what would it be?
+          </h3>
+          <div class="field">
+            <label for="q40">Answer</label>
+            <input id="q40" name="q40" type="text" />
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button type="button" id="btn-copy">Copy answers</button>
+          <button type="button" id="btn-download" class="secondary">
+            Download
+          </button>
+          <button type="button" id="btn-print" class="secondary">Print</button>
+          <button type="button" id="btn-clear" class="secondary">
+            Clear form
+          </button>
+          <span class="status" id="save-status" aria-live="polite"></span>
+        </div>
+      </form>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+      (() => {
+        const ROW_ID = "elaina-regan";
+        const LOCAL_KEY = "plank-bride-groom-answers-v1";
+        const form = document.getElementById("answers-form");
+        const statusEl = document.getElementById("save-status");
+        const cfg = window.CRUISE_SUPABASE || {};
+        const fields = () =>
+          Array.from(form.querySelectorAll("input, textarea"));
+
+        let supabase = null;
+        let saveTimer = 0;
+        let saving = false;
+
+        if (cfg.url && cfg.anonKey && window.supabase) {
+          supabase = window.supabase.createClient(cfg.url, cfg.anonKey);
+        }
+
+        function setStatus(msg) {
+          statusEl.textContent = msg;
+        }
+
+        function collectAnswers() {
+          const data = {};
+          fields().forEach((el) => {
+            data[el.name] = el.value;
+          });
+          return data;
+        }
+
+        function applyAnswers(data) {
+          if (!data || typeof data !== "object") return;
+          fields().forEach((el) => {
+            if (typeof data[el.name] === "string") el.value = data[el.name];
+          });
+        }
+
+        function saveLocal(data) {
+          try {
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+          } catch (_) {
+            /* ignore */
+          }
+        }
+
+        async function saveOnline(data) {
+          if (!supabase) {
+            setStatus("Offline backup only — cloud save unavailable");
+            return;
+          }
+          saving = true;
+          setStatus("Saving online…");
+          const { error } = await supabase.from("plank_couple_answers").upsert(
+            {
+              id: ROW_ID,
+              answers: data,
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "id" }
+          );
+          saving = false;
+          if (error) {
+            console.error(error);
+            setStatus("Could not save online — kept on this device");
+            return;
+          }
+          setStatus("Saved online");
+        }
+
+        function scheduleSave() {
+          const data = collectAnswers();
+          saveLocal(data);
+          if (saveTimer) window.clearTimeout(saveTimer);
+          saveTimer = window.setTimeout(() => {
+            saveOnline(data);
+          }, 500);
+        }
+
+        async function load() {
+          if (supabase) {
+            setStatus("Loading…");
+            const { data, error } = await supabase
+              .from("plank_couple_answers")
+              .select("answers, updated_at")
+              .eq("id", ROW_ID)
+              .maybeSingle();
+            if (!error && data?.answers) {
+              applyAnswers(data.answers);
+              saveLocal(data.answers);
+              setStatus("Loaded saved answers");
+              return;
+            }
+            if (error) console.error(error);
+          }
+          try {
+            const raw = localStorage.getItem(LOCAL_KEY);
+            if (!raw) {
+              setStatus(supabase ? "Ready — answers save online" : "Ready");
+              return;
+            }
+            applyAnswers(JSON.parse(raw));
+            setStatus("Restored from this device");
+            if (supabase) scheduleSave();
+          } catch (_) {
+            setStatus("Ready");
+          }
+        }
+
+        function buildText() {
+          const lines = [
+            "Walk the Plank — answers from Elaina & Regan",
+            "",
+          ];
+          document.querySelectorAll(".q").forEach((q) => {
+            const title = q.querySelector("h3")?.textContent?.trim() || "";
+            lines.push(title);
+            q.querySelectorAll(".field").forEach((field) => {
+              const label =
+                field.querySelector("label")?.textContent?.trim() || "Answer";
+              const input = field.querySelector("input, textarea");
+              const val = (input?.value || "").trim() || "(blank)";
+              lines.push("  " + label + ": " + val);
+            });
+            lines.push("");
+          });
+          return lines.join("\n");
+        }
+
+        form.addEventListener("input", () => {
+          scheduleSave();
+        });
+
+        document.getElementById("btn-copy").addEventListener("click", async () => {
+          const text = buildText();
+          try {
+            await navigator.clipboard.writeText(text);
+            setStatus("Copied — paste into an email");
+          } catch (_) {
+            window.prompt("Copy these answers:", text);
+          }
+        });
+
+        document.getElementById("btn-download").addEventListener("click", () => {
+          const blob = new Blob([buildText()], {
+            type: "text/plain;charset=utf-8",
+          });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "elaina-regan-plank-answers.txt";
+          a.click();
+          URL.revokeObjectURL(url);
+          setStatus("Download started");
+        });
+
+        document.getElementById("btn-print").addEventListener("click", () => {
+          window.print();
+        });
+
+        document.getElementById("btn-clear").addEventListener("click", async () => {
+          if (
+            !window.confirm(
+              "Clear all answers online and on this device? This cannot be undone."
+            )
+          ) {
+            return;
+          }
+          fields().forEach((el) => {
+            el.value = "";
+          });
+          localStorage.removeItem(LOCAL_KEY);
+          if (supabase) {
+            await saveOnline({});
+          }
+          setStatus("Form cleared");
+        });
+
+        load();
+      })();
+    </script>
   </body>
 </html>

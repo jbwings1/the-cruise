@@ -98,6 +98,7 @@ body.pirate-page {
 }
 
 .cabin-sword-hotspot,
+.cabin-hat-hotspot,
 .cabin-lantern,
 .cabin-door-exit,
 .cabin-coming-hotspot,
@@ -184,6 +185,28 @@ body.pirate-page {
   -webkit-user-drag: none;
   pointer-events: none;
   filter: drop-shadow(4px 8px 10px rgba(0, 0, 0, 0.55));
+}
+
+/* Invisible hat hit target only — no glow, no label */
+.cabin-hat-hotspot {
+  position: absolute;
+  left: 5.2%;
+  top: 11.8%;
+  width: 12.5%;
+  height: 14%;
+  z-index: 3;
+  display: block;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  text-decoration: none;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cabin-hat-hotspot:focus-visible {
+  outline: none;
 }
 
 /* Walk the Plank sword — coming soon (link removed for now) */

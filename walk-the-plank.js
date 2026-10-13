@@ -307,13 +307,15 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const SPLASH_AT = { x: 720, y: 630 };
-  // Plank midpoint (start→tip) — kept at the center of the phone screen.
+  // Plank midpoint (start→tip) — centered on phone screens.
   const SCENE_FOCUS = {
     x: (PLANK_FEET[0].x + PLANK_FEET[2].x) / 2,
     y: (PLANK_FEET[0].y + PLANK_FEET[2].y) / 2,
   };
-  // Extra zoom on tall phones so the plank isn't stuck under the question panel.
-  const PORTRAIT_PLANK_ZOOM = 1.45;
+  // Scene-px padding around the plank when fitting it to phone width.
+  const PORTRAIT_PLANK_PAD = 90;
+  // Sit the plank in the upper-middle so it clears the question panel.
+  const PORTRAIT_PLANK_STAGE_Y = 0.34;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
@@ -328,17 +330,43 @@
     const cw = rect.width;
     const ch = rect.height;
     const portrait = ch > cw * 1.05;
-    let scale = Math.max(cw / nw, ch / nh);
-    if (portrait) scale *= PORTRAIT_PLANK_ZOOM;
-    const dw = nw * scale;
-    const dh = nh * scale;
-    // Pin the plank focus to the center of the scene box.
-    let ox = cw / 2 - SCENE_FOCUS.x * scale;
-    let oy = ch / 2 - SCENE_FOCUS.y * scale;
-    // No empty letterbox — clamp to cover.
-    ox = Math.min(0, Math.max(cw - dw, ox));
-    oy = Math.min(0, Math.max(ch - dh, oy));
-    return { scale, ox, oy, dw, dh };
+
+    let scale;
+    let ox;
+    let oy;
+    if (portrait) {
+      // Fit the painted plank across the phone width and center it.
+      const plankWidth =
+        PLANK_FEET[2].x +
+        PORTRAIT_PLANK_PAD -
+        (PLANK_FEET[0].x - PORTRAIT_PLANK_PAD);
+      scale = cw / plankWidth;
+      const dw = nw * scale;
+      const dh = nh * scale;
+      ox = cw / 2 - SCENE_FOCUS.x * scale;
+      oy = ch * PORTRAIT_PLANK_STAGE_Y - SCENE_FOCUS.y * scale;
+      // Keep horizontal cover; allow a gap under the question panel.
+      ox = Math.min(0, Math.max(cw - dw, ox));
+      if (oy > 0) oy = 0;
+      if (oy + dh < ch) {
+        /* gap below is intentional on phones */
+      }
+      return { scale, ox, oy, dw, dh };
+    }
+
+    scale = Math.max(cw / nw, ch / nh);
+    ox = cw / 2 - SCENE_FOCUS.x * scale;
+    oy = ch / 2 - SCENE_FOCUS.y * scale;
+    ox = Math.min(0, Math.max(cw - nw * scale, ox));
+    oy = Math.min(0, Math.max(ch - nh * scale, oy));
+
+    return {
+      scale,
+      ox,
+      oy,
+      dw: nw * scale,
+      dh: nh * scale,
+    };
   }
 
   function applySceneArtLayout() {

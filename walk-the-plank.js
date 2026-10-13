@@ -307,6 +307,11 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const SPLASH_AT = { x: 720, y: 630 };
+  // Keep the plank centered when portrait cover crops the sides (match CSS
+  // object-position on .game-scene-art). Midpoint of start→tip feet.
+  const SCENE_FOCUS_X =
+    (PLANK_FEET[0].x + PLANK_FEET[2].x) / (2 * SCENE_W);
+  const SCENE_FOCUS_Y = 0.5;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
@@ -323,8 +328,9 @@
     const dh = nh * scale;
     return {
       scale,
-      ox: (rect.width - dw) / 2,
-      oy: (rect.height - dh) / 2,
+      // Same math as CSS object-position percentages with object-fit:cover.
+      ox: (rect.width - dw) * SCENE_FOCUS_X,
+      oy: (rect.height - dh) * SCENE_FOCUS_Y,
     };
   }
 

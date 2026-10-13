@@ -1,5 +1,5 @@
 (() => {
-  const ROUND_SIZE = 10;
+  const ROUND_SIZE = 5;
   const MAX_MISSES = 3;
   const NAME_MAX = 8;
   const GEM_COLORS = ["emerald", "ruby", "gold"];

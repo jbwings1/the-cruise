@@ -312,10 +312,10 @@
     x: (PLANK_FEET[0].x + PLANK_FEET[2].x) / 2,
     y: (PLANK_FEET[0].y + PLANK_FEET[2].y) / 2,
   };
-  // Scene-px padding around the plank when fitting it to phone width.
-  const PORTRAIT_PLANK_PAD = 90;
+  // On phones, size the plank to this fraction of the screen width.
+  const PORTRAIT_PLANK_WIDTH_FRAC = 0.78;
   // Sit the plank in the upper-middle so it clears the question panel.
-  const PORTRAIT_PLANK_STAGE_Y = 0.34;
+  const PORTRAIT_PLANK_STAGE_Y = 0.38;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
@@ -335,22 +335,15 @@
     let ox;
     let oy;
     if (portrait) {
-      // Fit the painted plank across the phone width and center it.
-      const plankWidth =
-        PLANK_FEET[2].x +
-        PORTRAIT_PLANK_PAD -
-        (PLANK_FEET[0].x - PORTRAIT_PLANK_PAD);
-      scale = cw / plankWidth;
+      // Scale so the painted plank spans most of the phone width, centered.
+      const plankLen = PLANK_FEET[2].x - PLANK_FEET[0].x;
+      scale = (cw * PORTRAIT_PLANK_WIDTH_FRAC) / plankLen;
       const dw = nw * scale;
       const dh = nh * scale;
       ox = cw / 2 - SCENE_FOCUS.x * scale;
       oy = ch * PORTRAIT_PLANK_STAGE_Y - SCENE_FOCUS.y * scale;
-      // Keep horizontal cover; allow a gap under the question panel.
       ox = Math.min(0, Math.max(cw - dw, ox));
       if (oy > 0) oy = 0;
-      if (oy + dh < ch) {
-        /* gap below is intentional on phones */
-      }
       return { scale, ox, oy, dw, dh };
     }
 

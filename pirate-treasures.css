@@ -200,7 +200,7 @@ body.pirate-page {
   filter: drop-shadow(4px 8px 10px rgba(0, 0, 0, 0.55));
 }
 
-/* Walk the Plank sword — coming soon (link removed for now) */
+/* Walk the Plank sword — stern wall link to the game */
 .cabin-sword-hotspot {
   appearance: none;
   position: absolute;
@@ -217,7 +217,7 @@ body.pirate-page {
   font: inherit;
   border: 0;
   background: transparent;
-  cursor: default;
+  cursor: pointer;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
 }

@@ -759,6 +759,228 @@
       "prompt": "Where does the ship depart from?",
       "choices": ["Fort Lauderdale", "Tampa", "Orlando"],
       "answer": "Fort Lauderdale"
+    },
+    {
+      "id": "couple-01",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Where did Elaina grow up?",
+      "choices": ["Billings, MT", "Boise, ID", "Spokane, WA"],
+      "answer": "Billings, MT"
+    },
+    {
+      "id": "couple-02",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Where did Regan grow up?",
+      "choices": ["Blanding, UT", "Flagstaff, AZ", "Casper, WY"],
+      "answer": "Blanding, UT"
+    },
+    {
+      "id": "couple-03",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who said “I love you” first?",
+      "choices": ["Elaina", "Regan", "They said it at the same time"],
+      "answer": "Elaina"
+    },
+    {
+      "id": "couple-04",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who is usually ready first when leaving the house?",
+      "choices": ["Elaina", "Regan", "They’re usually ready at the same time"],
+      "answer": "Elaina"
+    },
+    {
+      "id": "couple-05",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who is the better cook?",
+      "choices": ["Elaina", "Regan", "They take turns"],
+      "answer": "Elaina"
+    },
+    {
+      "id": "couple-06",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What is their shared comfort meal at home?",
+      "choices": ["McDonald’s & Andy’s", "Chick-fil-A & Sonic", "Wendy’s & Culver’s"],
+      "answer": "McDonald’s & Andy’s"
+    },
+    {
+      "id": "couple-07",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What show or movie can they both rewatch anytime?",
+      "choices": ["The Greatest Showman", "La La Land", "Mamma Mia!"],
+      "answer": "The Greatest Showman"
+    },
+    {
+      "id": "couple-08",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Where was their first official date?",
+      "choices": ["Phoenix, Arizona", "Austin, Texas", "San Diego, California"],
+      "answer": "Phoenix, Arizona"
+    },
+    {
+      "id": "couple-09",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What did they do on their first official date?",
+      "choices": [
+        "Buffalo Wild Wings and a movie",
+        "Italian dinner and dancing",
+        "Mini-golf and ice cream"
+      ],
+      "answer": "Buffalo Wild Wings and a movie"
+    },
+    {
+      "id": "couple-10",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "On which ship did Regan propose?",
+      "choices": ["Quantum of the Seas", "Freedom of the Seas", "Allure of the Seas"],
+      "answer": "Quantum of the Seas"
+    },
+    {
+      "id": "couple-11",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What is their favorite Royal Caribbean ship (besides the wedding cruise)?",
+      "choices": [
+        "Odyssey of the Seas",
+        "Navigator of the Seas",
+        "Independence of the Seas"
+      ],
+      "answer": "Odyssey of the Seas"
+    },
+    {
+      "id": "couple-12",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What is their favorite port they’ve visited together?",
+      "choices": ["Cozumel, Mexico", "Nassau, Bahamas", "St. Thomas, USVI"],
+      "answer": "Cozumel, Mexico"
+    },
+    {
+      "id": "couple-13",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What is their favorite dessert or treat to share?",
+      "choices": ["Nothing Bundt Cakes", "Baskin-Robbins", "Cinnabon"],
+      "answer": "Nothing Bundt Cakes"
+    },
+    {
+      "id": "couple-14",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What is “their song”?",
+      "choices": [
+        "Good Life (OneRepublic)",
+        "Count On Me (Bruno Mars)",
+        "Lucky (Jason Mraz)"
+      ],
+      "answer": "Good Life (OneRepublic)"
+    },
+    {
+      "id": "couple-15",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who is more likely to get seasick?",
+      "choices": ["Elaina", "Regan", "Neither of them"],
+      "answer": "Elaina"
+    },
+    {
+      "id": "couple-16",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who takes longer getting ready for dinner?",
+      "choices": ["Elaina", "Regan", "They’re usually tied"],
+      "answer": "Elaina"
+    },
+    {
+      "id": "couple-17",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who is more competitive?",
+      "choices": ["Elaina", "Regan", "They’re equally competitive"],
+      "answer": "Elaina"
+    },
+    {
+      "id": "couple-18",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Who loves chicken that the other refuses?",
+      "choices": [
+        "Regan loves it; Elaina refuses",
+        "Elaina loves it; Regan refuses",
+        "They both love chicken"
+      ],
+      "answer": "Regan loves it; Elaina refuses"
+    },
+    {
+      "id": "couple-19",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "If Elaina could only bring one snack on a cruise, what would it be?",
+      "choices": ["Gummy Bears or Nerd Juicy Clusters", "Sour Patch Kids", "Trail mix"],
+      "answer": "Gummy Bears or Nerd Juicy Clusters"
+    },
+    {
+      "id": "couple-20",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "If Regan could only bring one snack on a cruise, what would it be?",
+      "choices": ["Chocolate Payday", "Twix", "Pretzels"],
+      "answer": "Chocolate Payday"
+    },
+    {
+      "id": "couple-21",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "What is their dream future home vibe?",
+      "choices": [
+        "Beach and a swimming pool",
+        "Lake house in the woods",
+        "Desert ranch with a porch"
+      ],
+      "answer": "Beach and a swimming pool"
+    },
+    {
+      "id": "couple-22",
+      "status": "keep",
+      "source": "Couple questionnaire",
+      "type": "mc",
+      "prompt": "Where was their favorite photo of the two of them taken?",
+      "choices": [
+        "Gordon Ramsay’s Hell’s Kitchen in Las Vegas",
+        "Times Square in New York",
+        "The Golden Gate Bridge in San Francisco"
+      ],
+      "answer": "Gordon Ramsay’s Hell’s Kitchen in Las Vegas"
     }
   ]
 }

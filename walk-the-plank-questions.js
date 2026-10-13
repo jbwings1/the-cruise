@@ -227,5 +227,225 @@ window.WALK_THE_PLANK_QUESTIONS = [
       "Wonder of the Seas"
     ],
     "answer": "Symphony of the Seas"
+  },
+  {
+    "type": "mc",
+    "prompt": "Where did Elaina grow up?",
+    "choices": [
+      "Billings, MT",
+      "Boise, ID",
+      "Spokane, WA"
+    ],
+    "answer": "Billings, MT"
+  },
+  {
+    "type": "mc",
+    "prompt": "Where did Regan grow up?",
+    "choices": [
+      "Blanding, UT",
+      "Flagstaff, AZ",
+      "Casper, WY"
+    ],
+    "answer": "Blanding, UT"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who said “I love you” first?",
+    "choices": [
+      "Elaina",
+      "Regan",
+      "They said it at the same time"
+    ],
+    "answer": "Elaina"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who is usually ready first when leaving the house?",
+    "choices": [
+      "Elaina",
+      "Regan",
+      "They’re usually ready at the same time"
+    ],
+    "answer": "Elaina"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who is the better cook?",
+    "choices": [
+      "Elaina",
+      "Regan",
+      "They take turns"
+    ],
+    "answer": "Elaina"
+  },
+  {
+    "type": "mc",
+    "prompt": "What is their shared comfort meal at home?",
+    "choices": [
+      "McDonald’s & Andy’s",
+      "Chick-fil-A & Sonic",
+      "Wendy’s & Culver’s"
+    ],
+    "answer": "McDonald’s & Andy’s"
+  },
+  {
+    "type": "mc",
+    "prompt": "What show or movie can they both rewatch anytime?",
+    "choices": [
+      "The Greatest Showman",
+      "La La Land",
+      "Mamma Mia!"
+    ],
+    "answer": "The Greatest Showman"
+  },
+  {
+    "type": "mc",
+    "prompt": "Where was their first official date?",
+    "choices": [
+      "Phoenix, Arizona",
+      "Austin, Texas",
+      "San Diego, California"
+    ],
+    "answer": "Phoenix, Arizona"
+  },
+  {
+    "type": "mc",
+    "prompt": "What did they do on their first official date?",
+    "choices": [
+      "Buffalo Wild Wings and a movie",
+      "Italian dinner and dancing",
+      "Mini-golf and ice cream"
+    ],
+    "answer": "Buffalo Wild Wings and a movie"
+  },
+  {
+    "type": "mc",
+    "prompt": "On which ship did Regan propose?",
+    "choices": [
+      "Quantum of the Seas",
+      "Freedom of the Seas",
+      "Allure of the Seas"
+    ],
+    "answer": "Quantum of the Seas"
+  },
+  {
+    "type": "mc",
+    "prompt": "What is their favorite Royal Caribbean ship (besides the wedding cruise)?",
+    "choices": [
+      "Odyssey of the Seas",
+      "Navigator of the Seas",
+      "Independence of the Seas"
+    ],
+    "answer": "Odyssey of the Seas"
+  },
+  {
+    "type": "mc",
+    "prompt": "What is their favorite port they’ve visited together?",
+    "choices": [
+      "Cozumel, Mexico",
+      "Nassau, Bahamas",
+      "St. Thomas, USVI"
+    ],
+    "answer": "Cozumel, Mexico"
+  },
+  {
+    "type": "mc",
+    "prompt": "What is their favorite dessert or treat to share?",
+    "choices": [
+      "Nothing Bundt Cakes",
+      "Baskin-Robbins",
+      "Cinnabon"
+    ],
+    "answer": "Nothing Bundt Cakes"
+  },
+  {
+    "type": "mc",
+    "prompt": "What is “their song”?",
+    "choices": [
+      "Good Life (OneRepublic)",
+      "Count On Me (Bruno Mars)",
+      "Lucky (Jason Mraz)"
+    ],
+    "answer": "Good Life (OneRepublic)"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who is more likely to get seasick?",
+    "choices": [
+      "Elaina",
+      "Regan",
+      "Neither of them"
+    ],
+    "answer": "Elaina"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who takes longer getting ready for dinner?",
+    "choices": [
+      "Elaina",
+      "Regan",
+      "They’re usually tied"
+    ],
+    "answer": "Elaina"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who is more competitive?",
+    "choices": [
+      "Elaina",
+      "Regan",
+      "They’re equally competitive"
+    ],
+    "answer": "Elaina"
+  },
+  {
+    "type": "mc",
+    "prompt": "Who loves chicken that the other refuses?",
+    "choices": [
+      "Regan loves it; Elaina refuses",
+      "Elaina loves it; Regan refuses",
+      "They both love chicken"
+    ],
+    "answer": "Regan loves it; Elaina refuses"
+  },
+  {
+    "type": "mc",
+    "prompt": "If Elaina could only bring one snack on a cruise, what would it be?",
+    "choices": [
+      "Gummy Bears or Nerd Juicy Clusters",
+      "Sour Patch Kids",
+      "Trail mix"
+    ],
+    "answer": "Gummy Bears or Nerd Juicy Clusters"
+  },
+  {
+    "type": "mc",
+    "prompt": "If Regan could only bring one snack on a cruise, what would it be?",
+    "choices": [
+      "Chocolate Payday",
+      "Twix",
+      "Pretzels"
+    ],
+    "answer": "Chocolate Payday"
+  },
+  {
+    "type": "mc",
+    "prompt": "What is their dream future home vibe?",
+    "choices": [
+      "Beach and a swimming pool",
+      "Lake house in the woods",
+      "Desert ranch with a porch"
+    ],
+    "answer": "Beach and a swimming pool"
+  },
+  {
+    "type": "mc",
+    "prompt": "Where was their favorite photo of the two of them taken?",
+    "choices": [
+      "Gordon Ramsay’s Hell’s Kitchen in Las Vegas",
+      "Times Square in New York",
+      "The Golden Gate Bridge in San Francisco"
+    ],
+    "answer": "Gordon Ramsay’s Hell’s Kitchen in Las Vegas"
   }
 ];

@@ -307,31 +307,53 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const SPLASH_AT = { x: 720, y: 630 };
-  // Keep the plank centered when portrait cover crops the sides (match CSS
-  // object-position on .game-scene-art). Midpoint of start→tip feet.
-  const SCENE_FOCUS_X =
-    (PLANK_FEET[0].x + PLANK_FEET[2].x) / (2 * SCENE_W);
-  const SCENE_FOCUS_Y = 0.5;
+  // Plank midpoint (start→tip) — kept at the center of the phone screen.
+  const SCENE_FOCUS = {
+    x: (PLANK_FEET[0].x + PLANK_FEET[2].x) / 2,
+    y: (PLANK_FEET[0].y + PLANK_FEET[2].y) / 2,
+  };
+  // Extra zoom on tall phones so the plank isn't stuck under the question panel.
+  const PORTRAIT_PLANK_ZOOM = 1.45;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
   const FALL_ROTS = [0, 28, 58, 95, 130, 165, 195, 220];
 
   function coverLayout() {
-    const scene = playerPirate.parentElement;
-    const img = scene.querySelector(".game-scene-art");
+    const scene = document.querySelector(".game-scene");
+    const img = scene?.querySelector(".game-scene-art");
     const rect = scene.getBoundingClientRect();
     const nw = img?.naturalWidth || SCENE_W;
     const nh = img?.naturalHeight || SCENE_H;
-    const scale = Math.max(rect.width / nw, rect.height / nh);
+    const cw = rect.width;
+    const ch = rect.height;
+    const portrait = ch > cw * 1.05;
+    let scale = Math.max(cw / nw, ch / nh);
+    if (portrait) scale *= PORTRAIT_PLANK_ZOOM;
     const dw = nw * scale;
     const dh = nh * scale;
-    return {
-      scale,
-      // Same math as CSS object-position percentages with object-fit:cover.
-      ox: (rect.width - dw) * SCENE_FOCUS_X,
-      oy: (rect.height - dh) * SCENE_FOCUS_Y,
-    };
+    // Pin the plank focus to the center of the scene box.
+    let ox = cw / 2 - SCENE_FOCUS.x * scale;
+    let oy = ch / 2 - SCENE_FOCUS.y * scale;
+    // No empty letterbox — clamp to cover.
+    ox = Math.min(0, Math.max(cw - dw, ox));
+    oy = Math.min(0, Math.max(ch - dh, oy));
+    return { scale, ox, oy, dw, dh };
+  }
+
+  function applySceneArtLayout() {
+    const scene = document.querySelector(".game-scene");
+    const img = scene?.querySelector(".game-scene-art");
+    if (!scene || !img) return;
+    const { ox, oy, dw, dh } = coverLayout();
+    img.style.width = `${dw}px`;
+    img.style.height = `${dh}px`;
+    img.style.left = `${ox}px`;
+    img.style.top = `${oy}px`;
+    img.style.right = "auto";
+    img.style.bottom = "auto";
+    img.style.maxWidth = "none";
+    img.style.objectFit = "fill";
   }
 
   function placeAtFeet(feet) {
@@ -411,6 +433,7 @@
   }
 
   function syncPiratePlacement() {
+    applySceneArtLayout();
     if (playerPirate.classList.contains("is-falling")) return;
     const step = Number(playerPirate.dataset.step || 0);
     placeAtFeet(PLANK_FEET[Math.min(step, 2)]);
@@ -423,6 +446,7 @@
   // 2 = second miss, end of the plank
   // third miss triggers fall/splash (is-falling)
   function setStep(misses) {
+    applySceneArtLayout();
     const step = Math.min(misses, 2);
     playerPirate.dataset.step = String(step);
     // Standing positions only; 3rd miss falls from the tip via onSplash.
@@ -436,6 +460,7 @@
     if (sceneArt.complete) syncPiratePlacement();
     else sceneArt.addEventListener("load", syncPiratePlacement);
   }
+  applySceneArtLayout();
 
   function renderQuestion() {
     const q = state.roundQuestions[state.roundIndex];

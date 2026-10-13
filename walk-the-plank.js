@@ -547,10 +547,11 @@
   }
 
   async function onRoundWin() {
-    showPanel(endPanel);
     progressChip.hidden = true;
+    showPanel(endPanel);
     endTitle.textContent = "You survived!";
     endMessage.textContent = "A gem drops into your treasure.";
+    playAgainBtn.hidden = true;
     await addGem();
     await window.PlankLeaderboard.submitScore(
       state.name,
@@ -560,12 +561,16 @@
     await refreshLeaderboard();
 
     if (state.pool.length === 0) {
-      playAgainBtn.hidden = true;
       endMessage.textContent =
         "No more questions — come back later. Your gems are on the board if you made the top 10.";
-    } else {
-      playAgainBtn.hidden = false;
+      return;
     }
+
+    // Gem earned — back to the start of the plank with 3 misses again.
+    endMessage.textContent =
+      "A gem drops into your treasure. Back to the start — 3 more chances!";
+    await wait(1400);
+    startRound();
   }
 
   async function onSplash() {

@@ -307,15 +307,18 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const SPLASH_AT = { x: 720, y: 630 };
-  // Plank midpoint (start→tip) — centered on phone screens.
+  // Center the phone frame near the pirate on the plank; tip stays in view.
   const SCENE_FOCUS = {
-    x: (PLANK_FEET[0].x + PLANK_FEET[2].x) / 2,
-    y: (PLANK_FEET[0].y + PLANK_FEET[2].y) / 2,
+    x: PLANK_FEET[0].x * 0.85 + PLANK_FEET[1].x * 0.15,
+    y: (PLANK_FEET[0].y + PLANK_FEET[1].y) / 2,
   };
-  // On phones, size the plank to this fraction of the screen width.
-  const PORTRAIT_PLANK_WIDTH_FRAC = 0.78;
-  // Sit the plank in the upper-middle so it clears the question panel.
-  const PORTRAIT_PLANK_STAGE_Y = 0.44;
+  // On phones: show about this much of the art width (higher = more zoomed out).
+  // Old tight crop showed ~26%; ~0.5 reads ship + plank without a tiny letterbox strip.
+  const PORTRAIT_SCENE_VISIBLE_FRAC = 0.5;
+  // Fill this fraction of scene height so the art isn’t a thin band above the card.
+  const PORTRAIT_STAGE_HEIGHT_FRAC = 0.58;
+  // Vertical anchor for the plank within the phone frame.
+  const PORTRAIT_PLANK_STAGE_Y = 0.38;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
@@ -335,15 +338,23 @@
     let ox;
     let oy;
     if (portrait) {
-      // Scale so the painted plank spans most of the phone width, centered.
-      const plankLen = PLANK_FEET[2].x - PLANK_FEET[0].x;
-      scale = (cw * PORTRAIT_PLANK_WIDTH_FRAC) / plankLen;
+      // Zoom out from the old plank-tight crop, but still fill the play stage
+      // above the question card so the scene isn’t a thin letterboxed strip.
+      const scaleByWidth = cw / (nw * PORTRAIT_SCENE_VISIBLE_FRAC);
+      const scaleByStage = (ch * PORTRAIT_STAGE_HEIGHT_FRAC) / nh;
+      scale = Math.max(scaleByWidth, scaleByStage);
       const dw = nw * scale;
       const dh = nh * scale;
       ox = cw / 2 - SCENE_FOCUS.x * scale;
       oy = ch * PORTRAIT_PLANK_STAGE_Y - SCENE_FOCUS.y * scale;
-      ox = Math.min(0, Math.max(cw - dw, ox));
-      if (oy > 0) oy = 0;
+      if (dw <= cw) ox = (cw - dw) / 2;
+      else ox = Math.min(0, Math.max(cw - dw, ox));
+      if (dh <= ch) {
+        const staged = ch * PORTRAIT_PLANK_STAGE_Y - SCENE_FOCUS.y * scale;
+        oy = Math.max(0, Math.min(ch - dh, staged));
+      } else {
+        oy = Math.min(0, Math.max(ch - dh, oy));
+      }
       return { scale, ox, oy, dw, dh };
     }
 

@@ -1,5 +1,5 @@
 (() => {
-  const ROUND_SIZE = 10;
+  const ROUND_SIZE = 5;
   const MAX_MISSES = 3;
   const NAME_MAX = 8;
   const GEM_COLORS = ["emerald", "ruby", "gold"];
@@ -307,25 +307,74 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const SPLASH_AT = { x: 720, y: 630 };
+  // Plank midpoint (start→tip) — centered on phone screens.
+  const SCENE_FOCUS = {
+    x: (PLANK_FEET[0].x + PLANK_FEET[2].x) / 2,
+    y: (PLANK_FEET[0].y + PLANK_FEET[2].y) / 2,
+  };
+  // On phones, size the plank to this fraction of the screen width.
+  const PORTRAIT_PLANK_WIDTH_FRAC = 0.78;
+  // Sit the plank in the upper-middle so it clears the question panel.
+  const PORTRAIT_PLANK_STAGE_Y = 0.44;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)
   const FALL_ROTS = [0, 28, 58, 95, 130, 165, 195, 220];
 
   function coverLayout() {
-    const scene = playerPirate.parentElement;
-    const img = scene.querySelector(".game-scene-art");
+    const scene = document.querySelector(".game-scene");
+    const img = scene?.querySelector(".game-scene-art");
     const rect = scene.getBoundingClientRect();
     const nw = img?.naturalWidth || SCENE_W;
     const nh = img?.naturalHeight || SCENE_H;
-    const scale = Math.max(rect.width / nw, rect.height / nh);
-    const dw = nw * scale;
-    const dh = nh * scale;
+    const cw = rect.width;
+    const ch = rect.height;
+    const portrait = ch > cw * 1.05;
+
+    let scale;
+    let ox;
+    let oy;
+    if (portrait) {
+      // Scale so the painted plank spans most of the phone width, centered.
+      const plankLen = PLANK_FEET[2].x - PLANK_FEET[0].x;
+      scale = (cw * PORTRAIT_PLANK_WIDTH_FRAC) / plankLen;
+      const dw = nw * scale;
+      const dh = nh * scale;
+      ox = cw / 2 - SCENE_FOCUS.x * scale;
+      oy = ch * PORTRAIT_PLANK_STAGE_Y - SCENE_FOCUS.y * scale;
+      ox = Math.min(0, Math.max(cw - dw, ox));
+      if (oy > 0) oy = 0;
+      return { scale, ox, oy, dw, dh };
+    }
+
+    scale = Math.max(cw / nw, ch / nh);
+    ox = cw / 2 - SCENE_FOCUS.x * scale;
+    oy = ch / 2 - SCENE_FOCUS.y * scale;
+    ox = Math.min(0, Math.max(cw - nw * scale, ox));
+    oy = Math.min(0, Math.max(ch - nh * scale, oy));
+
     return {
       scale,
-      ox: (rect.width - dw) / 2,
-      oy: (rect.height - dh) / 2,
+      ox,
+      oy,
+      dw: nw * scale,
+      dh: nh * scale,
     };
+  }
+
+  function applySceneArtLayout() {
+    const scene = document.querySelector(".game-scene");
+    const img = scene?.querySelector(".game-scene-art");
+    if (!scene || !img) return;
+    const { ox, oy, dw, dh } = coverLayout();
+    img.style.width = `${dw}px`;
+    img.style.height = `${dh}px`;
+    img.style.left = `${ox}px`;
+    img.style.top = `${oy}px`;
+    img.style.right = "auto";
+    img.style.bottom = "auto";
+    img.style.maxWidth = "none";
+    img.style.objectFit = "fill";
   }
 
   function placeAtFeet(feet) {
@@ -405,6 +454,7 @@
   }
 
   function syncPiratePlacement() {
+    applySceneArtLayout();
     if (playerPirate.classList.contains("is-falling")) return;
     const step = Number(playerPirate.dataset.step || 0);
     placeAtFeet(PLANK_FEET[Math.min(step, 2)]);
@@ -417,6 +467,7 @@
   // 2 = second miss, end of the plank
   // third miss triggers fall/splash (is-falling)
   function setStep(misses) {
+    applySceneArtLayout();
     const step = Math.min(misses, 2);
     playerPirate.dataset.step = String(step);
     // Standing positions only; 3rd miss falls from the tip via onSplash.
@@ -430,6 +481,7 @@
     if (sceneArt.complete) syncPiratePlacement();
     else sceneArt.addEventListener("load", syncPiratePlacement);
   }
+  applySceneArtLayout();
 
   function renderQuestion() {
     const q = state.roundQuestions[state.roundIndex];
@@ -547,10 +599,11 @@
   }
 
   async function onRoundWin() {
-    showPanel(endPanel);
     progressChip.hidden = true;
+    showPanel(endPanel);
     endTitle.textContent = "You survived!";
     endMessage.textContent = "A gem drops into your treasure.";
+    playAgainBtn.hidden = true;
     await addGem();
     await window.PlankLeaderboard.submitScore(
       state.name,
@@ -560,12 +613,16 @@
     await refreshLeaderboard();
 
     if (state.pool.length === 0) {
-      playAgainBtn.hidden = true;
       endMessage.textContent =
         "No more questions — come back later. Your gems are on the board if you made the top 10.";
-    } else {
-      playAgainBtn.hidden = false;
+      return;
     }
+
+    // Gem earned — back to the start of the plank with 3 misses again.
+    endMessage.textContent =
+      "A gem drops into your treasure. Back to the start — 3 more chances!";
+    await wait(1400);
+    startRound();
   }
 
   async function onSplash() {

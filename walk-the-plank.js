@@ -315,7 +315,7 @@
   // On phones, size the plank to this fraction of the screen width.
   const PORTRAIT_PLANK_WIDTH_FRAC = 0.78;
   // Sit the plank in the upper-middle so it clears the question panel.
-  const PORTRAIT_PLANK_STAGE_Y = 0.38;
+  const PORTRAIT_PLANK_STAGE_Y = 0.44;
   // 8-frame fall: tip → forward flip → head-first into the water.
   const FALL_FRAME_MS = 150;
   const FALL_SPLASH_INDEX = 6; // 0-based (frame 7 of 8)

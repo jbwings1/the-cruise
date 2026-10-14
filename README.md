@@ -29,6 +29,7 @@ npx --yes serve .
 ## Pirate treasures (in progress)
 
 - Captain’s cabin (direct link while building): [`pirates-cabin.html`](pirates-cabin.html)
+- The Pirate Song (quill on the cabin desk): [`pirate-song.html`](pirate-song.html) — original words for Elaina & Regan, sung to the tune of *Come Sail Away*
 - Walk the Plank game: [`walk-the-plank.html`](walk-the-plank.html)
 - Live quiz file: [`walk-the-plank-questions.js`](walk-the-plank-questions.js)
 - Review / edit / add / export questions: [`plank-question-editor.html`](plank-question-editor.html) (draft bank: [`plank-questions-bank.json`](plank-questions-bank.json))

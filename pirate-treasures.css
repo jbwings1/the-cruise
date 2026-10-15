@@ -98,7 +98,6 @@ body.pirate-page {
 }
 
 .cabin-sword-hotspot,
-.cabin-hat-hotspot,
 .cabin-lantern,
 .cabin-door-exit,
 .cabin-coming-hotspot,
@@ -164,7 +163,7 @@ body.pirate-page {
   transform: rotateY(0deg) translateZ(calc(var(--cabin-half-d) * -1));
 }
 
-/* Captain coat + hat — whole prop is a stealth link (no glow / no label) */
+/* Captain coat + hat — decorative only (no link) */
 .cabin-coat-hang {
   position: absolute;
   left: 3.8%;
@@ -177,11 +176,8 @@ body.pirate-page {
   margin: 0;
   border: 0;
   background: transparent;
-  text-decoration: none;
   color: inherit;
-  cursor: default;
-  pointer-events: auto;
-  -webkit-tap-highlight-color: transparent;
+  pointer-events: none;
 }
 
 .cabin-coat-hang:focus-visible {

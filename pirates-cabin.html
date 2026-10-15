@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=162" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=163" />
   </head>
   <body class="pirate-page cabin-page">
     <header class="cabin-hud">
@@ -109,10 +109,13 @@
             <button
               type="button"
               class="cabin-wall-hotspot cabin-wall-hotspot-map"
-              aria-label="Wall treasure map — coming soon"
+              id="cabin-wall-map"
+              aria-label="Places map"
+              aria-haspopup="dialog"
+              aria-controls="cabin-wall-map-lightbox"
             >
               <span class="cabin-coming-glow" aria-hidden="true"></span>
-              <span class="cabin-coming-label">Coming soon</span>
+              <span class="cabin-coming-label">Places</span>
             </button>
             <button
               type="button"
@@ -289,6 +292,61 @@
       </div>
     </dialog>
 
-    <script src="pirates-cabin.js?v=65"></script>
+    <dialog
+      class="cabin-lightbox"
+      id="cabin-wall-map-lightbox"
+      aria-labelledby="cabin-wall-map-title"
+    >
+      <div class="cabin-lightbox-panel">
+        <button
+          type="button"
+          class="cabin-lightbox-close"
+          aria-label="Close places map"
+        >
+          ×
+        </button>
+        <h2 id="cabin-wall-map-title" class="cabin-lightbox-title">
+          Places map
+        </h2>
+        <div class="cabin-lightbox-zoombar" role="group" aria-label="Zoom map">
+          <button
+            type="button"
+            class="cabin-lightbox-zoom-btn"
+            data-zoom="out"
+            aria-label="Zoom out"
+          >
+            −
+          </button>
+          <button
+            type="button"
+            class="cabin-lightbox-zoom-btn"
+            data-zoom="reset"
+            aria-label="Reset zoom"
+          >
+            Reset
+          </button>
+          <button
+            type="button"
+            class="cabin-lightbox-zoom-btn"
+            data-zoom="in"
+            aria-label="Zoom in"
+          >
+            +
+          </button>
+        </div>
+        <div class="cabin-lightbox-viewport" id="cabin-wall-map-viewport">
+          <img
+            class="cabin-lightbox-img"
+            id="cabin-wall-map-img"
+            src="images/cabin-wall-places-map.jpg?v=1"
+            alt="Map of places across the United States"
+            draggable="false"
+          />
+        </div>
+        <p class="cabin-lightbox-hint">Scroll or pinch to zoom · drag to pan</p>
+      </div>
+    </dialog>
+
+    <script src="pirates-cabin.js?v=66"></script>
   </body>
 </html>

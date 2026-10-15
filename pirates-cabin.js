@@ -203,12 +203,14 @@
       });
     });
 
-  /* Desk map → cruise itinerary lightbox (zoom + pan) */
-  const deskMapBtn = document.getElementById("cabin-desk-map");
-  const deskMapLightbox = document.getElementById("cabin-desk-map-lightbox");
-  if (deskMapBtn && deskMapLightbox) {
-    const viewport = document.getElementById("cabin-desk-map-viewport");
-    const mapImg = document.getElementById("cabin-desk-map-img");
+  /* Map lightboxes (desk itinerary + wall places) — zoom + pan */
+  function setupMapLightbox({ btnId, dialogId, viewportId, imgId }) {
+    const mapBtn = document.getElementById(btnId);
+    const lightbox = document.getElementById(dialogId);
+    if (!mapBtn || !lightbox) return;
+
+    const viewport = document.getElementById(viewportId);
+    const mapImg = document.getElementById(imgId);
     const MIN_ZOOM = 1;
     const MAX_ZOOM = 4;
     const ZOOM_STEP = 0.25;
@@ -247,7 +249,6 @@
       const prev = scale;
       scale = clamp(nextScale, MIN_ZOOM, MAX_ZOOM);
       if (scale === prev) return;
-      // Keep the point under the cursor stable while zooming
       tx = ox - ((ox - tx) * scale) / prev;
       ty = oy - ((oy - ty) * scale) / prev;
       if (scale <= 1.01) {
@@ -266,34 +267,34 @@
       zoomAt(scale + dir * ZOOM_STEP, cx, cy);
     }
 
-    const closeDeskMapLightbox = () => {
-      if (deskMapLightbox.open) deskMapLightbox.close();
+    const closeLightbox = () => {
+      if (lightbox.open) lightbox.close();
     };
 
-    deskMapBtn.addEventListener("click", (e) => {
+    mapBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
       resetZoom();
-      if (typeof deskMapLightbox.showModal === "function") {
-        deskMapLightbox.showModal();
+      if (typeof lightbox.showModal === "function") {
+        lightbox.showModal();
       }
     });
 
-    deskMapLightbox.addEventListener("close", resetZoom);
+    lightbox.addEventListener("close", resetZoom);
 
-    const closeBtn = deskMapLightbox.querySelector(".cabin-lightbox-close");
+    const closeBtn = lightbox.querySelector(".cabin-lightbox-close");
     if (closeBtn) {
       closeBtn.addEventListener("click", (e) => {
         e.preventDefault();
-        closeDeskMapLightbox();
+        closeLightbox();
       });
     }
 
-    deskMapLightbox.addEventListener("click", (e) => {
-      if (e.target === deskMapLightbox) closeDeskMapLightbox();
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeLightbox();
     });
 
-    deskMapLightbox.querySelectorAll("[data-zoom]").forEach((btn) => {
+    lightbox.querySelectorAll("[data-zoom]").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -378,6 +379,20 @@
       viewport.addEventListener("lostpointercapture", endPointer);
     }
   }
+
+  setupMapLightbox({
+    btnId: "cabin-desk-map",
+    dialogId: "cabin-desk-map-lightbox",
+    viewportId: "cabin-desk-map-viewport",
+    imgId: "cabin-desk-map-img",
+  });
+
+  setupMapLightbox({
+    btnId: "cabin-wall-map",
+    dialogId: "cabin-wall-map-lightbox",
+    viewportId: "cabin-wall-map-viewport",
+    imgId: "cabin-wall-map-img",
+  });
 
   syncLanternRoomLight();
 })();

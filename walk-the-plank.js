@@ -185,7 +185,75 @@
     gemCountEl.textContent = String(count);
   }
 
+  function scenePointToClient(pt) {
+    const scene = document.querySelector(".game-scene");
+    if (!scene) return { x: 0, y: 0 };
+    const { scale, ox, oy } = coverLayout();
+    const sr = scene.getBoundingClientRect();
+    return {
+      x: sr.left + ox + pt.x * scale,
+      y: sr.top + oy + pt.y * scale,
+    };
+  }
+
+  async function playCoinBurst() {
+    const start = scenePointToClient(BOAT_PIRATE_LEFT);
+    const chest =
+      document.querySelector(".gem-chest-art") || gemCountEl.parentElement;
+    const cr = chest.getBoundingClientRect();
+    const end = {
+      x: cr.left + cr.width * 0.45,
+      y: cr.top + cr.height * 0.45,
+    };
+    const coins = [];
+
+    for (let i = 0; i < COIN_BURST_COUNT; i += 1) {
+      const el = document.createElement("span");
+      el.className = "coin-fly";
+      el.textContent = "🪙";
+      el.setAttribute("aria-hidden", "true");
+      el.style.left = `${start.x}px`;
+      el.style.top = `${start.y}px`;
+      document.body.appendChild(el);
+      coins.push(el);
+
+      const spread = (i - (COIN_BURST_COUNT - 1) / 2) * 18;
+      const lift = -28 - Math.random() * 22;
+      const dx = end.x - start.x + (Math.random() - 0.5) * 12;
+      const dy = end.y - start.y + (Math.random() - 0.5) * 10;
+      const delay = i * 42;
+
+      el.animate(
+        [
+          {
+            transform: "translate(-50%, -50%) scale(0.6)",
+            opacity: 0,
+          },
+          {
+            transform: `translate(calc(-50% + ${spread}px), calc(-50% + ${lift}px)) scale(1.15)`,
+            opacity: 1,
+            offset: 0.28,
+          },
+          {
+            transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.55)`,
+            opacity: 0.15,
+          },
+        ],
+        {
+          duration: COIN_BURST_MS,
+          delay,
+          easing: "cubic-bezier(0.22, 0.8, 0.28, 1)",
+          fill: "forwards",
+        }
+      );
+    }
+
+    await wait(COIN_BURST_MS + (COIN_BURST_COUNT - 1) * 42 + 40);
+    coins.forEach((el) => el.remove());
+  }
+
   async function addGem() {
+    await playCoinBurst();
     setGems(state.gems + 1);
     await playGemLine();
   }
@@ -298,6 +366,10 @@
     { x: 649, y: 490 }, // 2 misses — near tip
   ];
   const SPLASH_AT = { x: 720, y: 630 };
+  // Left deck pirate (woman in red) — coin burst origin on gem win.
+  const BOAT_PIRATE_LEFT = { x: 430, y: 285 };
+  const COIN_BURST_COUNT = 6;
+  const COIN_BURST_MS = 650;
   // Center the phone frame near the pirate on the plank; tip stays in view.
   const SCENE_FOCUS = {
     x: PLANK_FEET[0].x * 0.85 + PLANK_FEET[1].x * 0.15,

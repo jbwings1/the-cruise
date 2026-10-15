@@ -44,8 +44,8 @@
     gems: 0,
     gemColors: [],
     misses: 0,
-    roundIndex: 0,
-    roundQuestions: [],
+    corrects: 0,
+    currentQuestion: null,
     pool: [],
     answeringLocked: false,
     audioCtx: null,
@@ -279,13 +279,20 @@
     state.pool = bank.map((q, index) => ({ ...q, _id: index }));
   }
 
-  function drawRound() {
-    if (state.pool.length === 0) return false;
-    const take = Math.min(ROUND_SIZE, state.pool.length);
-    state.roundQuestions = shuffle(state.pool).slice(0, take);
-    state.roundIndex = 0;
+  function resetRoundCounters() {
+    state.corrects = 0;
     state.misses = 0;
-    return state.roundQuestions.length > 0;
+    state.currentQuestion = null;
+  }
+
+  /** Pick the next unanswered question from the pool. */
+  function drawNextQuestion() {
+    if (state.pool.length === 0) {
+      state.currentQuestion = null;
+      return false;
+    }
+    state.currentQuestion = shuffle(state.pool)[0];
+    return true;
   }
 
   function removeCorrectFromPool(question) {
@@ -494,13 +501,15 @@
   }
   applySceneArtLayout();
 
-  function renderQuestion() {
-    const q = state.roundQuestions[state.roundIndex];
-    if (!q) return;
+  function updateProgressChip() {
     progressChip.hidden = false;
-    progressChip.textContent = `${state.roundIndex + 1} / ${
-      state.roundQuestions.length
-    }`;
+    progressChip.textContent = `${state.corrects} / ${ROUND_SIZE} correct`;
+  }
+
+  function renderQuestion() {
+    const q = state.currentQuestion;
+    if (!q) return;
+    updateProgressChip();
     questionText.textContent = q.prompt;
     feedbackEl.textContent = "";
     feedbackEl.classList.remove("is-reveal");
@@ -525,6 +534,22 @@
       btn.addEventListener("click", () => onAnswer(choice.value, btn, q));
       answerGrid.appendChild(btn);
     });
+  }
+
+  async function advanceAfterAnswer() {
+    if (!drawNextQuestion()) {
+      // Pool empty before 5 correct — treat as end of available questions.
+      progressChip.hidden = true;
+      showPanel(endPanel);
+      endTitle.textContent = "No more questions";
+      endMessage.textContent =
+        state.corrects > 0
+          ? `No more questions — you had ${state.corrects} correct. Come back later.`
+          : "No more questions — come back later";
+      playAgainBtn.hidden = true;
+      return;
+    }
+    renderQuestion();
   }
 
   function lockAnswers() {
@@ -559,12 +584,13 @@
         /* ignore */
       }
       removeCorrectFromPool(question);
+      state.corrects += 1;
+      updateProgressChip();
       await wait(250);
-      state.roundIndex += 1;
-      if (state.roundIndex >= state.roundQuestions.length) {
+      if (state.corrects >= ROUND_SIZE) {
         await onRoundWin();
       } else {
-        renderQuestion();
+        await advanceAfterAnswer();
       }
       return;
     }
@@ -601,12 +627,8 @@
       return;
     }
 
-    state.roundIndex += 1;
-    if (state.roundIndex >= state.roundQuestions.length) {
-      await onRoundWin();
-    } else {
-      renderQuestion();
-    }
+    // Wrong answers do not count toward the gem — keep asking until 5 correct.
+    await advanceAfterAnswer();
   }
 
   async function onRoundWin() {
@@ -661,8 +683,9 @@
   function startRound() {
     splashEl.classList.remove("is-active");
     paintPlayer();
+    resetRoundCounters();
     setStep(0);
-    if (!drawRound()) {
+    if (!drawNextQuestion()) {
       showPanel(endPanel);
       endTitle.textContent = "No more questions";
       endMessage.textContent = "No more questions — come back later";

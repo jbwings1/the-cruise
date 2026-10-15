@@ -2,7 +2,6 @@
   const ROUND_SIZE = 5;
   const MAX_MISSES = 3;
   const NAME_MAX = 8;
-  const GEM_COLORS = ["emerald", "ruby", "gold"];
   /* Real pirate voice clips live in sounds/plank/ (CC BY 4.0 — see preview page). */
   const SFX = {
     splashVoice: "sounds/plank/splash.mp3",
@@ -29,7 +28,6 @@
   const feedbackEl = document.getElementById("feedback");
   const progressChip = document.getElementById("progress-chip");
   const gemCountEl = document.getElementById("gem-count");
-  const gemPips = Array.from(document.querySelectorAll("#gem-pips .gem-pip"));
   const splashEl = document.getElementById("splash");
   const endTitle = document.getElementById("end-title");
   const endMessage = document.getElementById("end-message");
@@ -42,7 +40,6 @@
     name: "",
     pirateId: window.PLANK_DEFAULT_PIRATE || "guy1",
     gems: 0,
-    gemColors: [],
     misses: 0,
     corrects: 0,
     currentQuestion: null,
@@ -186,27 +183,14 @@
   function setGems(count) {
     state.gems = count;
     gemCountEl.textContent = String(count);
-    gemPips.forEach((pip, index) => {
-      const color = state.gemColors[index];
-      if (color && index < Math.min(3, count)) {
-        pip.classList.add("is-filled");
-        pip.dataset.color = color;
-      } else {
-        pip.classList.remove("is-filled");
-        delete pip.dataset.color;
-      }
-    });
   }
 
   async function addGem() {
-    const color = GEM_COLORS[Math.floor(Math.random() * GEM_COLORS.length)];
-    if (state.gemColors.length < 3) state.gemColors.push(color);
     setGems(state.gems + 1);
     await playGemLine();
   }
 
   function resetVisitGems() {
-    state.gemColors = [];
     setGems(0);
   }
 

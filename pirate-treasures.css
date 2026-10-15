@@ -1331,67 +1331,14 @@ body.pirate-page {
   border-radius: 8px;
 }
 
-.gem-chest {
-  position: relative;
-  width: 54px;
-  height: 42px;
-}
-
-.gem-chest-body {
-  position: absolute;
-  inset: 12px 0 0;
-  background: linear-gradient(180deg, #8a5a32, #5c3a22);
-  border-radius: 4px;
-  border: 2px solid #2a1810;
-}
-
-.gem-chest-lid {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  height: 16px;
-  background: linear-gradient(180deg, #a06a38, #6a4228);
-  border: 2px solid #2a1810;
-  border-radius: 6px 6px 2px 2px;
-}
-
-.gem-chest-gems {
-  position: absolute;
-  left: 6px;
-  right: 6px;
-  bottom: 6px;
-  height: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 3px;
-}
-
-.gem-pip {
-  width: 10px;
-  height: 12px;
-  clip-path: polygon(50% 0, 100% 35%, 80% 100%, 20% 100%, 0 35%);
-  opacity: 0.2;
-  background: #888;
-  transition: opacity 300ms ease, transform 300ms ease;
-}
-
-.gem-pip.is-filled {
-  opacity: 1;
-  transform: translateY(-2px);
-}
-
-.gem-pip[data-color="emerald"] {
-  background: linear-gradient(180deg, #6fd9a4, var(--pt-emerald));
-}
-
-.gem-pip[data-color="ruby"] {
-  background: linear-gradient(180deg, #ef7a7a, var(--pt-ruby));
-}
-
-.gem-pip[data-color="gold"] {
-  background: linear-gradient(180deg, #ffe29a, var(--pt-gold));
+.gem-chest-art {
+  display: block;
+  width: 52px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+  user-select: none;
 }
 
 .gem-count {

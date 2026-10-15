@@ -10,7 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pirata+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="pirate-treasures.css?v=158" />
+    <link rel="stylesheet" href="pirate-treasures.css?v=159" />
   </head>
   <body class="pirate-page game-page">
     <header class="game-topbar">
@@ -38,15 +38,13 @@
 
       <div class="game-hud">
         <div class="gem-meter" aria-live="polite">
-          <div class="gem-chest" aria-hidden="true">
-            <div class="gem-chest-lid"></div>
-            <div class="gem-chest-body"></div>
-            <div class="gem-chest-gems" id="gem-pips">
-              <span class="gem-pip" data-slot="0"></span>
-              <span class="gem-pip" data-slot="1"></span>
-              <span class="gem-pip" data-slot="2"></span>
-            </div>
-          </div>
+          <img
+            class="gem-chest-art"
+            src="images/cabin-treasure-chest.png?v=2"
+            alt=""
+            draggable="false"
+            aria-hidden="true"
+          />
           <span class="gem-count" id="gem-count">0</span>
           <span class="pt-visually-hidden">gems</span>
         </div>
@@ -126,6 +124,6 @@
     <script src="plank-pirates.js"></script>
     <script src="plank-leaderboard.js"></script>
     <script src="walk-the-plank-questions.js?v=2"></script>
-    <script src="walk-the-plank.js?v=30"></script>
+    <script src="walk-the-plank.js?v=31"></script>
   </body>
 </html>

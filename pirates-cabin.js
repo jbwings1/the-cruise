@@ -186,7 +186,7 @@
   /* Coming-soon / interactive props: don't start a look-drag */
   document
     .querySelectorAll(
-      ".cabin-coming-hotspot, .cabin-desk-hotspot, .cabin-wall-hotspot, .cabin-sword-hotspot, .cabin-hat-hotspot"
+      ".cabin-coming-hotspot, .cabin-desk-hotspot, .cabin-wall-hotspot, .cabin-sword-hotspot"
     )
     .forEach((btn) => {
       btn.addEventListener("pointerdown", (e) => e.stopPropagation());
